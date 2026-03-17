@@ -16,3 +16,7 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+2026_03_17 
+깃, 깃허브 특강 실습용. 
+어디서부터 꼬인 건지 브랜치가 왜 두 개만 남은 건지 모르겠지만 추후 고칠 예정. 
