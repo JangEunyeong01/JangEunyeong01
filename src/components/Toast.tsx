@@ -4,8 +4,9 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, Easi
 import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToastStore } from '../store/useToastStore';
+import { motion, overlay, radius, spacing, white } from '../theme/tokens';
 
-// README: left/right 16, bottom 88, padding 13/15, r16, rgba(28,42,54,.9)+blur(10), 흰 글씨 12.5/700, fin, 1.9초 자동 소멸
+// README: left/right 16, bottom 88, padding 13/15, r16, 어두운 반투명+blur(10), 흰 글씨 12.5/700, fin, 1.9초 자동 소멸
 export default function Toast() {
   const { message, seq } = useToastStore();
   const insets = useSafeAreaInsets();
@@ -20,14 +21,14 @@ export default function Toast() {
     setText(message);
     setVisible(true);
     opacity.value = 0;
-    translateY.value = 10;
-    opacity.value = withTiming(1, { duration: 240, easing: Easing.out(Easing.ease) });
-    translateY.value = withTiming(0, { duration: 240, easing: Easing.out(Easing.ease) });
+    translateY.value = motion.fadeInOffsetY;
+    opacity.value = withTiming(1, { duration: motion.fadeIn, easing: Easing.out(Easing.ease) });
+    translateY.value = withTiming(0, { duration: motion.fadeIn, easing: Easing.out(Easing.ease) });
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 200 });
-      setTimeout(() => setVisible(false), 200);
-    }, 1900);
+      opacity.value = withTiming(0, { duration: motion.fadeOut });
+      setTimeout(() => setVisible(false), motion.fadeOut);
+    }, motion.toastVisible);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
@@ -52,21 +53,21 @@ export default function Toast() {
 const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
-    left: 16,
-    right: 16,
+    left: spacing.screenX,
+    right: spacing.screenX,
     zIndex: 999,
     alignItems: 'center',
   },
   blur: {
-    backgroundColor: 'rgba(28,42,54,.9)',
+    backgroundColor: overlay.toastBg,
     paddingVertical: 13,
     paddingHorizontal: 15,
-    borderRadius: 16,
+    borderRadius: radius.blockMid,
     overflow: 'hidden',
     alignSelf: 'stretch',
   },
   text: {
-    color: '#fff',
+    color: white,
     fontSize: 12.5,
     fontWeight: '700',
     textAlign: 'center',

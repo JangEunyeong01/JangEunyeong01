@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore, CardId } from '../../store/useAppStore';
 import PrimaryButton from '../../components/PrimaryButton';
+import { overlay } from '../../theme/tokens';
 
 interface CardOrderSheetProps {
   visible: boolean;
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(16,26,36,.5)',
+    backgroundColor: overlay.sheetBackdrop,
   },
   sheetWrap: {
     position: 'absolute',

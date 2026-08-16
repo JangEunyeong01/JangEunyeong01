@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import GlassCard from '../../../components/GlassCard';
 import { useTheme } from '../../../theme/useTheme';
+import { periodBadgeGradient, white } from '../../../theme/tokens';
 
 // 생리 주기 상세 화면은 다음 단계에서 구현 예정 — 카드는 예시 수치(3일차)를 보여준다.
 export default function PeriodCard() {
@@ -12,7 +13,7 @@ export default function PeriodCard() {
     <GlassCard>
       <View style={styles.row}>
         <LinearGradient
-          colors={['rgba(196,181,232,.9)', 'rgba(255,171,145,.75)']}
+          colors={periodBadgeGradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.badge}
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   badgeText: {
-    color: '#fff',
+    color: white,
     fontSize: 12,
     fontWeight: '700',
   },

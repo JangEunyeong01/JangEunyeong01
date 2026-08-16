@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/useTheme';
-import { timeSlots } from '../../theme/tokens';
+import { accentGradient, timeSlots } from '../../theme/tokens';
 import { getTimeSlot } from '../../utils/timeOfDay';
 
 export default function HomeHeader() {
@@ -15,7 +15,7 @@ export default function HomeHeader() {
   return (
     <View style={styles.row}>
       <View style={styles.left}>
-        <LinearGradient colors={['#89C4E1', '#A8D8B9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.logo} />
+        <LinearGradient colors={accentGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.logo} />
         <Text style={[styles.title, { color: colors.txt }]}>Fitto</Text>
       </View>
       <View style={styles.right}>

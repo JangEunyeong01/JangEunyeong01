@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
+import { accentGradient } from '../../theme/tokens';
 
 interface ProgressDotsProps {
   total: number;
@@ -15,7 +16,7 @@ export default function ProgressDots({ total, current }: ProgressDotsProps) {
     <View style={styles.row}>
       {Array.from({ length: total }).map((_, i) =>
         i <= current ? (
-          <LinearGradient key={i} colors={['#89C4E1', '#A8D8B9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.segment} />
+          <LinearGradient key={i} colors={accentGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.segment} />
         ) : (
           <View key={i} style={[styles.segment, { backgroundColor: colors.ink }]} />
         )

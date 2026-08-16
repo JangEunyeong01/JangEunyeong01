@@ -8,6 +8,7 @@ import { dateKey } from '../../../utils/timeOfDay';
 import { getKcalStatus, kcalStatusColor, kcalStatusLabel, sumMealKcal, getBurnedKcal } from '../../../utils/health';
 import { personaCopy } from '../../../copy/persona';
 import { FITTO_FACE } from '../../../theme/assets';
+import { alpha } from '../../../theme/tokens';
 
 export default function KcalCard() {
   const { colors } = useTheme();
@@ -30,7 +31,7 @@ export default function KcalCard() {
       <View pointerEvents="none" style={[styles.deco, { backgroundColor: colors.ink }]} />
 
       <View style={styles.topRow}>
-        <View style={[styles.ring, { borderColor: statusColor, shadowColor: statusColor, backgroundColor: statusColor + '22' }]}>
+        <View style={[styles.ring, { borderColor: statusColor, shadowColor: statusColor, backgroundColor: alpha(statusColor, 0.13) }]}>
           <Image source={FITTO_FACE} style={styles.face} resizeMode="contain" />
         </View>
         <View style={styles.numCol}>

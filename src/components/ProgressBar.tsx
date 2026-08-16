@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/useTheme';
+import { motion } from '../theme/tokens';
 
 interface ProgressBarProps {
   progress: number; // 0..1
@@ -18,7 +19,7 @@ export default function ProgressBar({ progress, height = 9, radius = 6, gradient
   const width = useSharedValue(0);
 
   useEffect(() => {
-    width.value = withTiming(clamped, { duration: 500, easing: Easing.bezier(0.2, 0.9, 0.3, 1) });
+    width.value = withTiming(clamped, { duration: motion.gaugeFill, easing: Easing.bezier(...motion.gaugeEasing) });
   }, [clamped]);
 
   const animatedStyle = useAnimatedStyle(() => ({

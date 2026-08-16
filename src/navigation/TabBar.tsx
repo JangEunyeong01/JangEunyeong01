@@ -6,6 +6,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/useTheme';
 import { useQuickLogSheetStore } from '../store/useQuickLogSheetStore';
+import { primaryButtonShadow, radius, tabBarShadowColor, white } from '../theme/tokens';
 
 const TAB_LABELS: Record<string, string> = {
   Home: '홈',
@@ -39,8 +40,8 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
       <Pressable key={route.key} onPress={onPress} style={styles.tabItem}>
         {focused ? (
           <LinearGradient colors={primaryGradient} style={styles.tabActiveBg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-            <View style={[styles.dot, { backgroundColor: '#fff' }]} />
-            <Text style={[styles.label, { color: '#fff', fontWeight: '700' }]}>{label}</Text>
+            <View style={[styles.dot, { backgroundColor: white }]} />
+            <Text style={[styles.label, { color: white, fontWeight: '700' }]}>{label}</Text>
           </LinearGradient>
         ) : (
           <View style={styles.tabInactiveBg}>
@@ -54,7 +55,7 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
 
   return (
     <View style={[styles.wrap, { bottom: 12 + Math.max(0, insets.bottom - 8) }]}>
-      <View style={[styles.shadowWrap, { shadowColor: 'rgba(44,62,80,.16)' }]}>
+      <View style={[styles.shadowWrap, { shadowColor: tabBarShadowColor }]}>
         <BlurView
           intensity={40}
           tint={mode === 'dark' ? 'dark' : 'light'}
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   shadowWrap: {
     width: '100%',
     height: 64,
-    borderRadius: 22,
+    borderRadius: radius.tabBar,
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 1,
     shadowRadius: 30,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     flex: 1,
-    borderRadius: 22,
+    borderRadius: radius.tabBar,
     borderWidth: 1,
     overflow: 'hidden',
   },
@@ -112,14 +113,14 @@ const styles = StyleSheet.create({
   },
   tabActiveBg: {
     flex: 1,
-    borderRadius: 16,
+    borderRadius: radius.tabItem,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 3,
   },
   tabInactiveBg: {
     flex: 1,
-    borderRadius: 16,
+    borderRadius: radius.tabItem,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 3,
@@ -144,17 +145,17 @@ const styles = StyleSheet.create({
   fab: {
     width: 56,
     height: 50,
-    borderRadius: 18,
+    borderRadius: radius.fab,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: 'rgba(137,196,225,.45)',
+    shadowColor: primaryButtonShadow,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 20,
     elevation: 6,
   },
   fabPlus: {
-    color: '#fff',
+    color: white,
     fontSize: 26,
     fontWeight: '700',
     lineHeight: 28,

@@ -44,9 +44,94 @@ export const semantic = {
   danger: '#C1674A',
 } as const;
 
+export const white = '#FFFFFF';
+
+/** #RGB 또는 #RRGGBB에 투명도를 입혀 rgba() 문자열을 만든다. 파생 색은 원본 토큰에서 계산해 쓴다. */
+export function alpha(color: string, a: number): string {
+  let hex = color.replace('#', '');
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
 export const primaryGradient = [brand.blue, brand.blueDeep] as const;
-export const primaryButtonShadow = 'rgba(137,196,225,.45)';
-export const primaryButtonShadowSmall = 'rgba(137,196,225,.4)';
+export const primaryButtonShadow = alpha(brand.blue, 0.45);
+export const primaryButtonShadowSmall = alpha(brand.blue, 0.4);
+
+/** 로고 사각형·온보딩 진행 점에 쓰는 블루→민트 그라데이션. */
+export const accentGradient = [brand.blue, brand.mint] as const;
+
+/** 생리 주기 배지 그라데이션 (README: lavender .9 → peach .75). */
+export const periodBadgeGradient = [alpha(brand.lavender, 0.9), alpha(brand.peach, 0.75)] as const;
+
+/** 선택 상태 (README 온보딩 옵션 행). */
+export const selection = {
+  border: alpha(brand.blue, 0.9),
+  bg: alpha(brand.blue, 0.16),
+  shadow: alpha(brand.blue, 0.24),
+} as const;
+
+const SCRIM_BASE = '#101A24';
+
+export const overlay = {
+  /** 토스트 배경 (README: rgba(28,42,54,.9) + blur(10)). */
+  toastBg: 'rgba(28,42,54,.9)',
+  /** 튜토리얼 딤 (README 명시값). */
+  tutorialDim: alpha(SCRIM_BASE, 0.62),
+  /** 바텀시트 배경 딤. README에 값이 없어 튜토리얼 딤과 같은 색을 옅게 썼다. */
+  sheetBackdrop: alpha(SCRIM_BASE, 0.5),
+} as const;
+
+/** 탭바 그림자 (README: 0 12px 30px rgba(44,62,80,.16)). */
+export const tabBarShadowColor = alpha(lightColors.txt, 0.16);
+
+/**
+ * 캐릭터 5단계 필터 근사용 오버레이 색.
+ * RN Image에 CSS filter를 걸 수 없어 반투명 레이어로 대체한다.
+ * 최종 5단계 일러스트가 준비되면 이미지 스왑으로 바뀌면서 함께 제거된다.
+ */
+export const characterOverlay = {
+  desaturate: '#8FA3B1',
+  vivid: brand.blue,
+  brighten: white,
+} as const;
+
+/**
+ * 애니메이션 (README 애니메이션 표).
+ * easing은 Easing.bezier(...)에 그대로 펼쳐 넣는 cubic-bezier 제어점이다.
+ */
+const EASE_OUT_SHEET: readonly [number, number, number, number] = [0.2, 0.9, 0.3, 1];
+
+export const motion = {
+  /** 물 단계 변화 시 채도·크기 전환 (README: filter .4s, transform .4s). */
+  characterState: 400,
+  characterFloatReset: 300,
+  /** fbob 부유 진폭. 단계별 주기는 utils/health.ts의 floatDurationMs. */
+  floatOffsetY: -7,
+  /** 게이지 채움 (README: .5s cubic-bezier(.2,.9,.3,1)). */
+  gaugeFill: 500,
+  gaugeEasing: EASE_OUT_SHEET,
+  /** fin — 토스트·모달 등장 (.24–.3s). */
+  fadeIn: 240,
+  fadeOut: 200,
+  /** fin의 시작 오프셋 (translateY 10px). */
+  fadeInOffsetY: 10,
+  /** fsheet — 바텀시트 (.28s). */
+  sheet: 280,
+  sheetEasing: EASE_OUT_SHEET,
+  /** 탭 전환·스위치 (.22s). */
+  tab: 220,
+  /** fpulse — 튜토리얼 하이라이트 (2.2s). */
+  pulse: 2200,
+  /** fwave — 컵 수면 물결 (2.6s). */
+  wave: 2600,
+  /** 토스트 자동 소멸까지 유지 시간. */
+  toastVisible: 1900,
+} as const;
 
 export type TimeSlot = 'dawn' | 'morning' | 'day' | 'after' | 'evening' | 'night';
 
@@ -88,6 +173,13 @@ export const radius = {
   button: 14,
   chip: 12,
   sheetTop: 26,
+  /** 하단 플로팅 탭바 (README: radius 22px). */
+  tabBar: 22,
+  /** 탭바 안 선택 항목·FAB. */
+  tabItem: 16,
+  fab: 18,
+  /** 온보딩 옵션 행. */
+  optionRow: 18,
 };
 
 export const gauge = {

@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { FITTO_FACE, FITTO_HELLO } from '../theme/assets';
 import { getWaterStageSpec } from '../utils/health';
-import { brand } from '../theme/tokens';
+import { brand, characterOverlay, motion } from '../theme/tokens';
 
 interface FittoCharacterProps {
   current: number;
@@ -30,7 +30,7 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
   const floatY = useSharedValue(0);
 
   useEffect(() => {
-    scale.value = withTiming(spec.scale, { duration: 400, easing: Easing.out(Easing.ease) });
+    scale.value = withTiming(spec.scale, { duration: motion.characterState, easing: Easing.out(Easing.ease) });
   }, [spec.scale]);
 
   useEffect(() => {
@@ -38,14 +38,14 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
     if (spec.floatDurationMs) {
       floatY.value = withRepeat(
         withSequence(
-          withTiming(-7, { duration: spec.floatDurationMs / 2, easing: Easing.inOut(Easing.sin) }),
+          withTiming(motion.floatOffsetY, { duration: spec.floatDurationMs / 2, easing: Easing.inOut(Easing.sin) }),
           withTiming(0, { duration: spec.floatDurationMs / 2, easing: Easing.inOut(Easing.sin) })
         ),
         -1,
         false
       );
     } else {
-      floatY.value = withTiming(0, { duration: 300 });
+      floatY.value = withTiming(0, { duration: motion.characterFloatReset });
     }
   }, [spec.floatDurationMs]);
 
@@ -79,15 +79,15 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
         <Image source={source} style={StyleSheet.absoluteFill} resizeMode="contain" />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: '#8FA3B1', opacity: grayOverlayOpacity, borderRadius: size / 2 }]}
+          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.desaturate, opacity: grayOverlayOpacity, borderRadius: size / 2 }]}
         />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: brand.blue, opacity: vividOverlayOpacity, borderRadius: size / 2 }]}
+          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.vivid, opacity: vividOverlayOpacity, borderRadius: size / 2 }]}
         />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: '#FFFFFF', opacity: brightOverlayOpacity, borderRadius: size / 2 }]}
+          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.brighten, opacity: brightOverlayOpacity, borderRadius: size / 2 }]}
         />
       </Animated.View>
     </View>

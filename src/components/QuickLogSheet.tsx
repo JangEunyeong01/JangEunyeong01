@@ -9,6 +9,7 @@ import { useToastStore } from '../store/useToastStore';
 import { dateKey } from '../utils/timeOfDay';
 import { getWaterStageSpec } from '../utils/health';
 import { waterStageNames } from '../copy/persona';
+import { overlay } from '../theme/tokens';
 
 const ACTIONS = [
   { key: 'water', label: '물 +250ml', icon: '💧' },
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(16,26,36,.5)',
+    backgroundColor: overlay.sheetBackdrop,
   },
   sheetWrap: {
     position: 'absolute',
