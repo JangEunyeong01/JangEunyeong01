@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+:root{--bg:#F4F8FA;--card:rgba(255,255,255,.62);--card2:rgba(255,255,255,.42);--solid:#fff;--stroke:rgba(255,255,255,.75);--txt:#2C3E50;--sub:#8FA3B1;--line:rgba(44,62,80,.09);--blue:#89C4E1;--mint:#A8D8B9;--lav:#C4B5E8;--yel:#FFE082;--peach:#FFAB91;--gray:#B0BEC5;--shadow:0 10px 30px rgba(44,62,80,.10);--ink:rgba(44,62,80,.06)}
+.dark{--bg:#0E151B;--card:rgba(255,255,255,.075);--card2:rgba(255,255,255,.05);--solid:#16202A;--stroke:rgba(255,255,255,.14);--txt:#E7F1F6;--sub:#8098A8;--line:rgba(255,255,255,.10);--shadow:0 10px 30px rgba(0,0,0,.35);--ink:rgba(255,255,255,.07)}
+body{margin:0;background:#E9EDF0;font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#5FA8CE;text-decoration:none}a:hover{color:#3E8CB6}
+@keyframes fbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes fwave{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+@keyframes fpulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes fin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fsheet{from{transform:translateY(100%)}to{transform:none}}
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<div style="min-height:100%;padding:26px 30px 48px;display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<div style="display:flex;align-items:baseline;gap:12px">
+<div style="font-size:19px;font-weight:700;letter-spacing:-.4px;color:#2C3E50">Fitto — 앱 프로토타입</div>
+<div style="font-size:12px;color:#7C8C99">물방울 요정 · 글래스모피즘 · Android 412×892</div>
+</div>
+<div style="display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:14px;width:240px">
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">화면</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ screenChips }}" as="ch" hint-placeholder-count="6"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">네비게이션 3안</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ navChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">테마</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ themeChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">피또 성격</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ personaChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">홈 카드 레이아웃 3안</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ layoutChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">물 카드 인터랙션 3안</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ waterChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">헤더 그라데이션 3안</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ headerChips }}" as="ch" hint-placeholder-count="3"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:10.5px;font-weight:700;letter-spacing:.8px;color:#8B9AA6">시간대 (헤더 색)</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ timeChips }}" as="ch" hint-placeholder-count="6"><button onClick="{{ ch.go }}" style="{{ ch.style }}">{{ ch.label }}</button></sc-for></div>
+</div>
+<div style="font-size:11px;line-height:1.6;color:#8B9AA6">캐릭터는 보내주신 손그림을 배경 제거해서 사용했어요. 표정 5단계(바싹마름 → 완전만족)와 성격별 포즈는 에셋이 오면 교체하면 됩니다.</div>
+</div>
+
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ isDark }}" hint-size="428px,908px">
+<div class="{{ themeClass }}" style="{{ appRoot }}">
+
+  <div style="{{ headerA }}"></div>
+  <div style="{{ headerB1 }}"></div>
+  <div style="{{ headerB2 }}"></div>
+
+  <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:26px 24px 30px;box-sizing:border-box">
+      <div style="display:flex;gap:6px;margin-bottom:26px"><sc-for list="{{ obDots }}" as="d" hint-placeholder-count="4"><div style="{{ d.style }}"></div></sc-for></div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:.4px;color:var(--sub)">{{ ob.step }}</div>
+      <div style="font-size:25px;font-weight:700;letter-spacing:-.7px;line-height:1.32;color:var(--txt);margin-top:8px;text-wrap:pretty">{{ ob.title }}</div>
+      <div style="font-size:13.5px;line-height:1.6;color:var(--sub);margin-top:9px;text-wrap:pretty">{{ ob.desc }}</div>
+
+      <sc-if value="{{ ob.showFitto }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative">
+          <div style="position:absolute;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(137,196,225,.45),rgba(137,196,225,0) 70%);filter:blur(6px)"></div>
+          <img src="assets/fitto-hello.png" alt="피또" style="width:172px;animation:fbob 4.5s ease-in-out infinite;filter:drop-shadow(0 16px 24px rgba(44,62,80,.16))">
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ ob.showChoices }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;gap:9px;margin-top:22px;overflow-y:auto">
+          <sc-for list="{{ ob.choices }}" as="c" hint-placeholder-count="4">
+            <button onClick="{{ c.pick }}" style="{{ c.style }}">
+              <div style="display:flex;flex-direction:column;gap:3px;text-align:left"><div style="font-size:14.5px;font-weight:600">{{ c.label }}</div><div style="font-size:11.5px;color:var(--sub)">{{ c.sub }}</div></div>
+              <div style="{{ c.mark }}"></div>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ ob.showResult }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
+          <div style="display:flex;gap:12px">
+            <div style="flex:1;background:var(--card);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--stroke);border-radius:22px;padding:18px;box-shadow:var(--shadow)">
+              <div style="font-size:11.5px;color:var(--sub);font-weight:600">목표 칼로리</div>
+              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">1,850</div>
+              <div style="font-size:11px;color:var(--sub)">kcal · BMR 기반</div>
+            </div>
+            <div style="flex:1;background:var(--card);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--stroke);border-radius:22px;padding:18px;box-shadow:var(--shadow)">
+              <div style="font-size:11.5px;color:var(--sub);font-weight:600">물 목표</div>
+              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">1,900</div>
+              <div style="font-size:11px;color:var(--sub)">ml · 체중×활동량</div>
+            </div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:18px;padding:14px 16px;font-size:11.5px;line-height:1.6;color:var(--sub)">알레르기(땅콩·아몬드)를 반영한 추천 식단이 준비됐어요. 의료 진단을 대체하지 않습니다.</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <sc-if value="{{ ob.canBack }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ obBack }}" style="height:52px;padding:0 22px;border-radius:16px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">이전</button>
+        </sc-if>
+        <button onClick="{{ obNext }}" style="flex:1;height:52px;border-radius:16px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 8px 20px rgba(137,196,225,.45)">{{ ob.cta }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;height:100%;overflow-y:auto;overflow-x:hidden;padding:14px 16px 108px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:7px;align-items:center">
+          <div style="width:26px;height:26px;border-radius:9px;background:linear-gradient(140deg,#89C4E1,#A8D8B9);box-shadow:0 4px 10px rgba(137,196,225,.5)"></div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">Fitto</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onClick="{{ cycleTime }}" style="height:34px;padding:0 12px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">{{ tod.label }}</button>
+          <button onClick="{{ goSettings }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--txt);font-size:14px;font-family:inherit;cursor:pointer">⚙</button>
+        </div>
+      </div>
+
+      <sc-if value="{{ profile.isBirthday }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ openBirthday }}" style="width:100%;margin-top:14px;display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:18px;border:1px solid var(--stroke);background:linear-gradient(120deg,rgba(196,181,232,.35),rgba(255,203,182,.35));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow);font-family:inherit;cursor:pointer;text-align:left">
+          <div style="width:34px;height:34px;border-radius:12px;background:linear-gradient(140deg,#C4B5E8,#FFCBB6);flex:none"></div>
+          <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;color:var(--txt)">오늘은 {{ profile.name }}님의 생일이에요</div><div style="font-size:11px;color:var(--sub);margin-top:2px">피또의 축하 메시지 열어보기</div></div>
+          <div style="color:var(--sub);font-size:14px">›</div>
+        </button>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:14px;margin:16px 2px 18px">
+        <div style="position:relative;flex:none">
+          <div style="position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(137,196,225,.4),rgba(137,196,225,0) 70%)"></div>
+          <img src="assets/fitto-hello.png" alt="피또" style="{{ heroImg }}">
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub)">{{ tod.greet }} · {{ personaName }}</div>
+          <div style="font-size:16.5px;font-weight:700;line-height:1.42;letter-spacing:-.4px;color:var(--txt);margin-top:4px;text-wrap:pretty">{{ msg.hello }}</div>
+        </div>
+      </div>
+
+      <div onPointerDown="{{ orderPress }}" onPointerUp="{{ orderRelease }}" onPointerLeave="{{ orderRelease }}" style="{{ homeGrid }}">
+        <div style="{{ cell.kcal }}">
+          <div id="tut-kcal" style="position:relative;background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:var(--ink)"></div>
+            <div style="position:relative;display:flex;align-items:center;gap:11px">
+              <div style="{{ kcalRing }}"><img src="assets/fitto-face.png" alt="" style="width:34px;filter:saturate(1.1)"></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:11.5px;font-weight:600;color:var(--sub)">오늘 칼로리 · {{ kcal.stateLabel }}</div>
+                <div style="display:flex;align-items:baseline;gap:5px;margin-top:2px">
+                  <div style="font-size:26px;font-weight:700;letter-spacing:-1px;color:var(--txt);font-variant-numeric:tabular-nums">{{ kcal.intake }}</div>
+                  <div style="font-size:12.5px;color:var(--sub);font-variant-numeric:tabular-nums">/ {{ kcal.goal }} kcal</div>
+                </div>
+              </div>
+            </div>
+            <div style="position:relative;height:9px;border-radius:6px;background:var(--ink);margin-top:13px;overflow:hidden"><div style="{{ kcal.barStyle }}"></div></div>
+            <div style="position:relative;display:flex;justify-content:space-between;margin-top:11px">
+              <div style="font-size:11px;color:var(--sub)">섭취 <span style="color:var(--txt);font-weight:600;font-variant-numeric:tabular-nums">{{ kcal.intake }}</span></div>
+              <div style="font-size:11px;color:var(--sub)">소모 <span style="color:var(--txt);font-weight:600;font-variant-numeric:tabular-nums">{{ kcal.burn }}</span></div>
+              <div style="font-size:11px;color:var(--sub)">남음 <span style="color:var(--txt);font-weight:600;font-variant-numeric:tabular-nums">{{ kcal.left }}</span></div>
+            </div>
+            <sc-if value="{{ heroKcal }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative;margin-top:13px;padding:11px 13px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke);font-size:12px;line-height:1.55;color:var(--txt)">{{ msg.kcal }}</div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="{{ cell.water }}">
+          <div id="tut-water" onPointerDown="{{ vDown }}" onPointerMove="{{ vMove }}" onPointerUp="{{ vUp }}" onPointerCancel="{{ vUp }}" style="position:relative;background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow);overflow:hidden;touch-action:none;flex:1;display:flex;flex-direction:column">
+            <div style="display:flex;align-items:baseline;justify-content:space-between">
+              <div style="font-size:11.5px;font-weight:600;color:var(--sub)">물 섭취</div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="font-size:11px;font-weight:600;color:var(--blue)">{{ water.stage }}</div>
+                <button onClick="{{ goWater }}" style="border:none;background:transparent;color:var(--sub);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer;padding:0">상세 ›</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:4px;margin-top:3px">
+              <div style="font-size:24px;font-weight:700;letter-spacing:-1px;color:var(--txt);font-variant-numeric:tabular-nums">{{ water.ml }}</div>
+              <div style="font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums">/ {{ water.goal }} ml</div>
+            </div>
+            <div style="font-size:10.5px;color:var(--sub);margin-top:4px">카드를 위로 끌면 늘고, 아래로 끌면 줄어요</div>
+
+            <sc-if value="{{ waterIsA }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:6px;margin-top:14px">
+                <sc-for list="{{ water.cells }}" as="c" hint-placeholder-count="5"><div style="{{ c.style }}"></div></sc-for>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:13px">
+                <button onClick="{{ addWater }}" style="flex:1;height:42px;border-radius:14px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 6px 14px rgba(137,196,225,.4)">{{ water.cupLabel }}</button>
+                <button onClick="{{ subWater }}" style="width:46px;height:42px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:16px;font-family:inherit;cursor:pointer">−</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ waterIsB }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:flex-end;gap:14px;margin-top:14px">
+                <button onClick="{{ addWater }}" style="position:relative;width:86px;height:112px;border:1px solid var(--stroke);border-radius:14px 14px 22px 22px;background:var(--card2);overflow:hidden;cursor:pointer;padding:0;flex:none;box-shadow:inset 0 2px 8px rgba(255,255,255,.4)">
+                  <div style="{{ water.fillStyle }}">
+                    <div style="position:absolute;top:-9px;left:0;width:200%;height:18px;background:radial-gradient(circle at 12px 9px,rgba(255,255,255,.75) 9px,transparent 10px) repeat-x;background-size:24px 18px;animation:fwave 2.6s linear infinite"></div>
+                  </div>
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--txt)">{{ water.pct }}%</div>
+                </button>
+                <div style="flex:1;display:flex;flex-direction:column;gap:7px">
+                  <div style="font-size:11.5px;line-height:1.5;color:var(--sub)">컵을 탭하면 {{ water.cup }}ml씩 채워져요.</div>
+                  <button onClick="{{ addWater }}" style="height:38px;border-radius:13px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">{{ water.cupLabel }}</button>
+                  <button onClick="{{ subWater }}" style="height:32px;border-radius:11px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:12px;font-family:inherit;cursor:pointer">되돌리기</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ waterIsC }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:14px;margin-top:16px">
+                <div onPointerDown="{{ dragWater }}" onPointerMove="{{ dragWaterMove }}" style="position:relative;flex:1;height:46px;border-radius:16px;border:1px solid var(--stroke);background:var(--card2);overflow:hidden;cursor:ew-resize;touch-action:none">
+                  <div style="{{ water.slideStyle }}"></div>
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:11px;font-weight:600;color:var(--txt)"><span>드래그해서 조절</span><span style="font-variant-numeric:tabular-nums">{{ water.ml }} ml</span></div>
+                </div>
+                <button onClick="{{ addWater }}" style="width:46px;height:46px;border-radius:16px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:18px;font-family:inherit;cursor:pointer;flex:none">+</button>
+              </div>
+              <div style="font-size:11px;color:var(--sub);margin-top:9px">한 번에 마신 양이 다를 때 슬라이드로 바로 맞춰요.</div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="{{ cell.act }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px">
+            <div style="{{ rings }}"><div style="position:absolute;inset:14px;border-radius:50%;background:var(--solid);display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:16px;font-weight:700;color:var(--txt);letter-spacing:-.5px;font-variant-numeric:tabular-nums">{{ act.pct }}%</div><div style="font-size:9px;color:var(--sub)">활동</div></div></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ act.rows }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:9px">
+                  <div style="{{ r.dot }}"></div>
+                  <div style="flex:1;font-size:11.5px;color:var(--sub)">{{ r.label }}</div>
+                  <div style="font-size:12.5px;font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums">{{ r.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="{{ cell.steps }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow);flex:1;display:flex;flex-direction:column">
+            <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11.5px;font-weight:600;color:var(--sub)">걸음수</div><button onClick="{{ goSteps }}" style="border:none;background:transparent;color:var(--sub);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer;padding:0">상세 ›</button></div>
+            <div style="display:flex;align-items:baseline;gap:4px;margin-top:3px"><div style="font-size:22px;font-weight:700;letter-spacing:-.8px;color:var(--txt);font-variant-numeric:tabular-nums">6,420</div><div style="font-size:11.5px;color:var(--sub)">/ {{ stepDetail.goal }}</div></div>
+            <div style="height:8px;border-radius:5px;background:var(--ink);margin-top:12px;overflow:hidden"><div style="{{ stepBar }}"></div></div>
+            <div style="display:flex;align-items:flex-end;gap:4px;height:34px;margin-top:auto;padding-top:12px">
+              <sc-for list="{{ stepSpark }}" as="s" hint-placeholder-count="7"><div style="{{ s.style }}"></div></sc-for>
+            </div>
+            <div style="font-size:10.5px;color:var(--sub);margin-top:6px">최근 7일 · 평균 7,789</div>
+          </div>
+        </div>
+
+        <div style="{{ cell.ex }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow)">
+            <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11.5px;font-weight:600;color:var(--sub)">오늘 운동</div><button onClick="{{ goHealth }}" style="border:none;background:transparent;color:var(--blue);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer;padding:0">헬스 탭 →</button></div>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:11px">
+              <sc-for list="{{ exercises }}" as="e" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke)">
+                  <div style="width:7px;height:7px;border-radius:50%;background:var(--mint)"></div>
+                  <div style="flex:1;font-size:12.5px;font-weight:600;color:var(--txt)">{{ e.name }}</div>
+                  <div style="font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums">{{ e.detail }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:11px;flex-wrap:wrap">
+              <sc-for list="{{ quickEx }}" as="q" hint-placeholder-count="3"><button onClick="{{ q.add }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--txt);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer">+ {{ q.name }}</button></sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="{{ cell.week }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow)">
+            <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11.5px;font-weight:600;color:var(--sub)">이번 주 요약</div><div style="display:flex;gap:10px"><div style="display:flex;align-items:center;gap:4px"><div style="width:7px;height:7px;border-radius:2px;background:var(--blue)"></div><span style="font-size:10.5px;color:var(--sub)">섭취</span></div><div style="display:flex;align-items:center;gap:4px"><div style="width:7px;height:7px;border-radius:2px;background:var(--mint)"></div><span style="font-size:10.5px;color:var(--sub)">소모</span></div></div></div>
+            <div style="display:flex;align-items:flex-end;gap:9px;height:88px;margin-top:14px">
+              <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+                  <div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px">
+                    <div style="{{ d.inStyle }}"></div><div style="{{ d.outStyle }}"></div>
+                  </div>
+                  <div style="{{ d.labelStyle }}">{{ d.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <sc-if value="{{ periodOn }}" hint-placeholder-val="{{ true }}">
+          <div style="{{ cell.period }}">
+            <button onClick="{{ goPeriod }}" style="width:100%;flex:1;text-align:left;background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:24px;padding:16px;box-shadow:var(--shadow);font-family:inherit;cursor:pointer;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:13px">
+                <div style="width:44px;height:44px;border-radius:15px;background:linear-gradient(140deg,rgba(196,181,232,.9),rgba(255,171,145,.75));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex:none">D+3</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:11.5px;font-weight:600;color:var(--sub)">생리 주기</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--txt);margin-top:2px">3일차 · 가임기까지 9일</div>
+                </div>
+                <div style="color:var(--sub);font-size:15px">›</div>
+              </div>
+              <div style="margin-top:auto">
+                <div style="display:flex;gap:2px;align-items:flex-end">
+                  <sc-for list="{{ cycleStrip }}" as="c" hint-placeholder-count="28"><div style="{{ c.style }}"></div></sc-for>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:7px">
+                  <div style="font-size:10.5px;color:var(--sub)">28일 주기</div>
+                  <div style="font-size:10.5px;color:var(--sub)">다음 예정 9월 10일</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </sc-if>
+      </div>
+
+      <button onClick="{{ openLie }}" style="width:100%;margin-top:14px;padding:12px;border-radius:16px;border:1px dashed var(--line);background:transparent;color:var(--sub);font-size:11.5px;font-family:inherit;cursor:pointer">이벤트성 피또 미리보기 (드러눕기)</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isMeal }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 108px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:20px;font-weight:700;letter-spacing:-.6px;color:var(--txt)">식단</div>
+        <button onClick="{{ openSearch }}" style="height:36px;padding:0 15px;border-radius:13px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 6px 14px rgba(137,196,225,.4)">+ 음식 기록</button>
+      </div>
+
+      <sc-if value="{{ mealsEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:44px 24px;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:24px;box-shadow:var(--shadow)">
+          <img src="assets/fitto-hello.png" alt="" style="width:96px;opacity:.72;filter:grayscale(.25)">
+          <div style="font-size:15px;font-weight:700;color:var(--txt);margin-top:14px">아직 기록이 없어요</div>
+          <div style="font-size:12.5px;line-height:1.6;color:var(--sub);margin-top:6px">먹은 음식을 한 개만 추가해도<br>피또가 오늘 상태를 알려줄 수 있어요.</div>
+          <button onClick="{{ openSearch }}" style="margin-top:16px;height:44px;padding:0 22px;border-radius:15px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer">첫 기록 시작하기</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mealsFilled }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ mealSlots }}" as="s" hint-placeholder-count="4">
+            <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:15px 16px;box-shadow:var(--shadow)">
+              <div style="display:flex;align-items:baseline;justify-content:space-between">
+                <div style="font-size:13px;font-weight:700;color:var(--txt)">{{ s.name }}</div>
+                <div style="font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums">{{ s.kcal }} kcal</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+                <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:13px;background:var(--card2);border:1px solid var(--stroke)">
+                    <div style="flex:1;font-size:12.5px;color:var(--txt)">{{ i.name }}</div>
+                    <div style="font-size:11px;color:var(--sub);font-variant-numeric:tabular-nums">{{ i.amount }}</div>
+                    <div style="font-size:11.5px;font-weight:600;color:var(--txt);font-variant-numeric:tabular-nums">{{ i.kcal }}</div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ s.empty }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ openSearch }}" style="padding:10px;border-radius:13px;border:1px dashed var(--line);background:transparent;color:var(--sub);font-size:12px;font-family:inherit;cursor:pointer">+ {{ s.name }} 추가</button>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+
+          <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+            <div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--txt)">퍼스널 추천 식단</div><div style="font-size:10px;font-weight:700;color:#8B6FB8;background:rgba(196,181,232,.28);border-radius:7px;padding:3px 7px">땅콩·아몬드 제외</div></div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+              <sc-for list="{{ recos }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;gap:11px;padding:11px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke)">
+                  <div style="{{ r.thumb }}"></div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:12.5px;font-weight:700;color:var(--txt)">{{ r.name }}</div>
+                    <div style="font-size:11px;line-height:1.5;color:var(--sub);margin-top:3px">{{ r.why }}</div>
+                  </div>
+                  <div style="font-size:11px;color:var(--sub);font-variant-numeric:tabular-nums;flex:none">{{ r.kcal }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px">
+            <button onClick="{{ goRecipe }}" style="flex:1;background:var(--card2);border:1px solid var(--stroke);border-radius:20px;padding:15px;text-align:left;font-family:inherit;cursor:pointer">
+              <div style="font-size:12.5px;font-weight:700;color:var(--txt)">나만의 레시피</div>
+              <div style="font-size:11px;color:var(--sub);margin-top:3px">재료·g 입력 → 자동 계산</div>
+            </button>
+            <button onClick="{{ goAnalysis }}" style="flex:1;background:var(--card2);border:1px solid var(--stroke);border-radius:20px;padding:15px;text-align:left;font-family:inherit;cursor:pointer">
+              <div style="font-size:12.5px;font-weight:700;color:var(--txt)">식단 분석</div>
+              <div style="font-size:11px;color:var(--sub);margin-top:3px">영양소 비율 · 보완점</div>
+            </button>
+          </div>
+          <button onClick="{{ clearMeals }}" style="padding:11px;border-radius:14px;border:1px dashed var(--line);background:transparent;color:var(--sub);font-size:11.5px;font-family:inherit;cursor:pointer">기록 비우기 (빈 상태 보기)</button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isHealth }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 108px;box-sizing:border-box">
+      <div style="font-size:20px;font-weight:700;letter-spacing:-.6px;color:var(--txt);margin-bottom:16px">헬스</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub)">움직임 현황</div>
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <sc-for list="{{ moveStats }}" as="m" hint-placeholder-count="3">
+              <div style="flex:1;padding:12px;border-radius:16px;background:var(--card2);border:1px solid var(--stroke)">
+                <div style="font-size:10.5px;color:var(--sub)">{{ m.label }}</div>
+                <div style="font-size:17px;font-weight:700;color:var(--txt);letter-spacing:-.5px;margin-top:3px;font-variant-numeric:tabular-nums">{{ m.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--txt)">오늘의 퍼스널 트레이닝</div><div style="font-size:10px;font-weight:700;color:#4E8CAF;background:rgba(137,196,225,.24);border-radius:7px;padding:3px 7px">룰 기반</div></div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--sub);margin-top:7px">{{ msg.train }}</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+            <sc-for list="{{ training }}" as="t" hint-placeholder-count="3">
+              <div style="padding:12px 13px;border-radius:16px;background:var(--card2);border:1px solid var(--stroke)">
+                <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:13px;font-weight:700;color:var(--txt)">{{ t.name }}</div><div style="font-size:11px;color:var(--sub)">{{ t.spec }}</div></div>
+                <div style="font-size:11px;line-height:1.5;color:var(--sub);margin-top:5px">{{ t.why }}</div>
+                <button onClick="{{ t.add }}" style="margin-top:9px;height:32px;padding:0 13px;border-radius:11px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">기록에 추가</button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:13px;font-weight:700;color:var(--txt)">운동 기록</div>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-top:11px">
+            <sc-for list="{{ exercises }}" as="e" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke)">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--mint)"></div>
+                <div style="flex:1;font-size:12.5px;font-weight:600;color:var(--txt)">{{ e.name }}</div>
+                <div style="font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums">{{ e.detail }}</div>
+                <button onClick="{{ e.remove }}" style="border:none;background:transparent;color:var(--sub);font-size:14px;font-family:inherit;cursor:pointer;padding:0 2px">×</button>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:11px;flex-wrap:wrap">
+            <sc-for list="{{ quickEx }}" as="q" hint-placeholder-count="3"><button onClick="{{ q.add }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--txt);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer">+ {{ q.name }}</button></sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ periodOn }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ goPeriod }}" style="width:100%;text-align:left;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow);font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:12px">
+            <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--txt)">생리 주기 상세</div><div style="font-size:11.5px;color:var(--sub);margin-top:3px">캘린더 · 컨디션 · 증상 기록</div></div>
+            <div style="color:var(--sub);font-size:15px">›</div>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPeriod }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">생리 주기</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:13.5px;font-weight:700;color:var(--txt)">2026년 8월</div>
+            <div style="display:flex;gap:11px">
+              <sc-for list="{{ calLegend }}" as="l" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:4px"><div style="{{ l.dot }}"></div><span style="font-size:10px;color:var(--sub)">{{ l.label }}</span></div></sc-for>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:13px">
+            <sc-for list="{{ dow }}" as="d" hint-placeholder-count="7"><div style="text-align:center;font-size:10px;color:var(--sub);padding-bottom:2px">{{ d.label }}</div></sc-for>
+            <sc-for list="{{ calDays }}" as="d" hint-placeholder-count="35"><button onClick="{{ d.pick }}" style="{{ d.style }}">{{ d.label }}</button></sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:13px;font-weight:700;color:var(--txt)">{{ selectedLabel }} 컨디션</div>
+          <div style="font-size:11.5px;color:var(--sub);margin-top:5px">입력하면 그날의 피또 표정과 운동 추천에 반영돼요.</div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <sc-for list="{{ condChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for>
+          </div>
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-top:16px">증상</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:9px">
+            <sc-for list="{{ symptomChips }}" as="s" hint-placeholder-count="6"><button onClick="{{ s.pick }}" style="{{ s.style }}">{{ s.label }}</button></sc-for>
+          </div>
+          <div style="margin-top:16px;padding:12px 13px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke);font-size:11.5px;color:var(--sub)">메모 · 복용약을 적어두면 다음 주기에서 비교할 수 있어요.</div>
+        </div>
+
+        <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:22px;padding:16px;display:flex;gap:12px;align-items:center">
+          <img src="assets/fitto-hello.png" alt="" style="width:52px;filter:hue-rotate(-18deg) saturate(1.15)">
+          <div style="flex:1;font-size:12px;line-height:1.55;color:var(--txt)">{{ msg.period }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">설정</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <button onClick="{{ goProfile }}" style="width:100%;text-align:left;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:13px;font-family:inherit;cursor:pointer">
+          <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(140deg,#89C4E1,#A8D8B9);flex:none"></div>
+          <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:700;color:var(--txt)">{{ profile.name }}</div><div style="font-size:11.5px;color:var(--sub);margin-top:2px">{{ profile.summary }}</div></div>
+          <div style="color:var(--sub);font-size:15px">›</div>
+        </button>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:12.5px;font-weight:700;color:var(--txt)">피또 성격</div>
+          <div style="display:flex;gap:7px;margin-top:11px"><sc-for list="{{ personaChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.appStyle }}">{{ c.label }}</button></sc-for></div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--sub);margin-top:10px">{{ msg.hello }}</div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:12.5px;font-weight:700;color:var(--txt)">화면 모드</div>
+          <div style="display:flex;gap:7px;margin-top:11px"><sc-for list="{{ themeChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.appStyle }}">{{ c.label }}</button></sc-for></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">글씨 크기 조절</div><div style="font-size:11px;color:var(--sub);margin-top:2px">엄마 모드 — 큰 글씨</div></div>
+            <div style="font-size:10px;font-weight:700;color:var(--sub);background:var(--ink);border-radius:7px;padding:4px 8px">V2</div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:6px 16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">생리 주기 기능</div><div style="font-size:11px;color:var(--sub);margin-top:2px">성별과 무관하게 켜고 끌 수 있어요</div></div>
+            <button onClick="{{ togglePeriod }}" style="{{ periodSwitch }}"><div style="{{ periodKnob }}"></div></button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line)">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">알림</div><div style="font-size:11px;color:var(--sub);margin-top:2px">물·식사·움직임 리마인더</div></div>
+            <button onClick="{{ goAlarm }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">설정</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line)">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">홈 카드 순서</div><div style="font-size:11px;color:var(--sub);margin-top:2px">홈에서 길게 눌러도 열려요</div></div>
+            <button onClick="{{ openOrder }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">변경</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line)">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">튜토리얼 다시 보기</div><div style="font-size:11px;color:var(--sub);margin-top:2px">홈 화면 하이라이트 안내</div></div>
+            <button onClick="{{ startTutorial }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">실행</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line)">
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--txt)">온보딩 다시 보기</div><div style="font-size:11px;color:var(--sub);margin-top:2px">정보·목표·성격 다시 설정</div></div>
+            <button onClick="{{ startOnboarding }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">실행</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAnalysis }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">식단 분석</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub)">이번 주 영양 밸런스</div>
+          <div style="display:flex;align-items:baseline;gap:5px;margin-top:4px">
+            <div style="font-size:26px;font-weight:700;letter-spacing:-1px;color:var(--txt);font-variant-numeric:tabular-nums">{{ analysis.avgKcal }}</div>
+            <div style="font-size:12px;color:var(--sub)">kcal · 하루 평균</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
+            <sc-for list="{{ analysis.ratioBars }}" as="b" hint-placeholder-count="3">
+              <div>
+                <div style="display:flex;align-items:baseline;gap:7px">
+                  <div style="flex:1;font-size:12px;font-weight:600;color:var(--txt)">{{ b.label }}</div>
+                  <div style="font-size:10.5px;color:var(--sub)">{{ b.idealLabel }}</div>
+                  <div style="{{ b.diffStyle }}">{{ b.diff }}</div>
+                  <div style="font-size:12px;font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums">{{ b.pct }}</div>
+                </div>
+                <div style="position:relative;height:11px;border-radius:6px;background:var(--ink);margin-top:6px;overflow:visible">
+                  <div style="position:absolute;inset:0;border-radius:6px;overflow:hidden"><div style="{{ b.barStyle }}"></div></div>
+                  <div style="{{ b.markStyle }}"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:12.5px;font-weight:700;color:var(--txt)">요일별 구성</div>
+            <div style="display:flex;gap:10px"><sc-for list="{{ analysis.legend }}" as="l" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:4px"><div style="{{ l.dot }}"></div><span style="font-size:10px;color:var(--sub)">{{ l.label }}</span></div></sc-for></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:14px">
+            <sc-for list="{{ analysis.days }}" as="d" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+                <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;border-radius:6px;overflow:hidden;height:104px">
+                  <sc-for list="{{ d.stack }}" as="s" hint-placeholder-count="3"><div style="{{ s.style }}"></div></sc-for>
+                </div>
+                <div style="font-size:10px;color:var(--sub)">{{ d.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <sc-for list="{{ analysis.cards }}" as="c" hint-placeholder-count="3">
+            <div style="flex:1;background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:20px;padding:14px;box-shadow:var(--shadow)">
+              <div style="font-size:10.5px;color:var(--sub)">{{ c.label }}</div>
+              <div style="font-size:17px;font-weight:700;letter-spacing:-.5px;color:var(--txt);margin-top:3px">{{ c.value }}</div>
+              <div style="font-size:10px;color:var(--sub);margin-top:3px">{{ c.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:12.5px;font-weight:700;color:var(--txt)">피또의 코멘트</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+            <sc-for list="{{ analysis.notes }}" as="n" hint-placeholder-count="3">
+              <div style="{{ n.style }}"><div style="{{ n.dot }}"></div><div>{{ n.text }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAlarm }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">알림</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:6px 16px;box-shadow:var(--shadow)">
+          <sc-for list="{{ alarm.rows }}" as="r" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)">
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--txt)">{{ r.title }}</div><div style="font-size:11px;color:var(--sub);margin-top:2px">{{ r.desc }}</div></div>
+              <button onClick="{{ r.go }}" style="{{ r.style }}"><div style="{{ r.knob }}"></div></button>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ alarm.waterOn }}" hint-placeholder-val="{{ true }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+            <div style="font-size:12.5px;font-weight:700;color:var(--txt)">물 알림 간격</div>
+            <div style="display:flex;gap:7px;margin-top:11px"><sc-for list="{{ alarm.everyChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ alarm.moveOn }}" hint-placeholder-val="{{ true }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+            <div style="font-size:12.5px;font-weight:700;color:var(--txt)">앉아 있는 시간 기준</div>
+            <div style="display:flex;gap:7px;margin-top:11px"><sc-for list="{{ alarm.afterChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          </div>
+        </sc-if>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="flex:1"><div style="font-size:12.5px;font-weight:700;color:var(--txt)">방해 금지 시간</div><div style="font-size:11px;color:var(--sub);margin-top:2px">이 시간에는 알림을 보내지 않아요</div></div>
+            <button onClick="{{ alarm.toggleQuiet }}" style="{{ alarm.quietStyle }}"><div style="{{ alarm.quietKnob }}"></div></button>
+          </div>
+          <sc-if value="{{ alarm.quiet }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-top:12px">
+              <input type="time" value="{{ alarm.quietFrom }}" onChange="{{ alarm.setFrom }}" style="flex:1;height:40px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12.5px;padding:0 11px">
+              <div style="color:var(--sub);font-size:12px">–</div>
+              <input type="time" value="{{ alarm.quietTo }}" onChange="{{ alarm.setTo }}" style="flex:1;height:40px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12.5px;padding:0 11px">
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:22px;padding:16px;display:flex;gap:12px;align-items:center">
+          <img src="assets/fitto-face.png" alt="" style="width:44px">
+          <div style="flex:1">
+            <div style="font-size:10.5px;font-weight:700;letter-spacing:.5px;color:var(--sub)">알림 미리보기</div>
+            <div style="font-size:12px;line-height:1.55;color:var(--txt);margin-top:5px">{{ alarm.preview }}</div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:12.5px;font-weight:700;color:var(--txt)">피또 표정 5단계</div>
+          <div style="font-size:11px;color:var(--sub);margin-top:4px">탭하면 그 단계의 물 섭취량으로 바뀌어요. 성격에 따라 말투도 달라져요.</div>
+          <div style="display:flex;gap:6px;margin-top:13px">
+            <sc-for list="{{ fittoStages }}" as="s" hint-placeholder-count="5">
+              <button onClick="{{ s.go }}" style="{{ s.style }}">
+                <img src="assets/fitto-face.png" alt="" style="{{ s.imgStyle }}">
+                <div style="{{ s.labelStyle }}">{{ s.label }}</div>
+              </button>
+            </sc-for>
+          </div>
+          <div style="margin-top:12px;padding:12px 13px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke);font-size:12px;line-height:1.55;color:var(--txt)">{{ stageMsg }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRecipe }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">나만의 레시피</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:13px">
+          <div style="height:150px;border-radius:18px;overflow:hidden;border:1px solid var(--stroke)">
+            <image-slot id="fitto-recipe-photo" shape="rect" placeholder="완성 사진을 여기에 놓아주세요"></image-slot>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px">레시피 이름</div>
+            <input value="{{ recipe.name }}" onChange="{{ recipe.setName }}" placeholder="예: 두부 스테이크 볼" style="width:100%;box-sizing:border-box;height:44px;border-radius:14px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13.5px;padding:0 12px;outline:none">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:7px">재료 선택</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ recipe.ingChips }}" as="c" hint-placeholder-count="12"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <input type="number" value="{{ recipe.gram }}" onChange="{{ recipe.setGram }}" style="width:96px;box-sizing:border-box;height:42px;border-radius:13px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13px;padding:0 12px;outline:none">
+              <button onClick="{{ recipe.add }}" style="flex:1;height:42px;border-radius:13px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 6px 14px rgba(137,196,225,.4)">재료 추가 (g)</button>
+            </div>
+          </div>
+          <sc-if value="{{ recipe.hasItems }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ recipe.items }}" as="i" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:13px;background:var(--card2);border:1px solid var(--stroke)">
+                  <div style="flex:1;font-size:12.5px;font-weight:600;color:var(--txt)">{{ i.name }}</div>
+                  <div style="font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums">{{ i.g }}</div>
+                  <div style="font-size:11.5px;font-weight:600;color:var(--txt);font-variant-numeric:tabular-nums">{{ i.kcal }}</div>
+                  <button onClick="{{ i.remove }}" style="border:none;background:transparent;color:var(--sub);font-size:14px;font-family:inherit;cursor:pointer;padding:0 2px">×</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;font-weight:700;color:var(--txt)">영양 분석</div><div style="font-size:10px;font-weight:700;color:#4E8CAF;background:rgba(137,196,225,.24);border-radius:7px;padding:3px 7px">룰 기반 · API 연동 예정</div></div>
+          <div style="display:flex;align-items:baseline;gap:5px;margin-top:10px">
+            <div style="font-size:28px;font-weight:700;letter-spacing:-1.1px;color:var(--txt);font-variant-numeric:tabular-nums">{{ recipe.kcal }}</div>
+            <div style="font-size:12.5px;color:var(--sub)">kcal · 1인분 기준</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <div style="flex:1;padding:11px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke)"><div style="font-size:10.5px;color:var(--sub)">탄수화물</div><div style="font-size:15px;font-weight:700;color:var(--txt);margin-top:2px">{{ recipe.carb }}</div></div>
+            <div style="flex:1;padding:11px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke)"><div style="font-size:10.5px;color:var(--sub)">단백질</div><div style="font-size:15px;font-weight:700;color:var(--txt);margin-top:2px">{{ recipe.protein }}</div></div>
+            <div style="flex:1;padding:11px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke)"><div style="font-size:10.5px;color:var(--sub)">지방</div><div style="font-size:15px;font-weight:700;color:var(--txt);margin-top:2px">{{ recipe.fat }}</div></div>
+          </div>
+          <div style="display:flex;height:12px;border-radius:7px;overflow:hidden;background:var(--ink);margin-top:14px">
+            <sc-for list="{{ recipe.bars }}" as="b" hint-placeholder-count="3"><div style="{{ b.style }}"></div></sc-for>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <sc-for list="{{ recipe.bars }}" as="b" hint-placeholder-count="3"><div style="font-size:10.5px;color:var(--sub)">{{ b.label }} {{ b.pct }}</div></sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)">
+            <sc-for list="{{ recipe.notes }}" as="n" hint-placeholder-count="2">
+              <div style="{{ n.style }}"><div style="{{ n.dot }}"></div><div>{{ n.text }}</div></div>
+            </sc-for>
+          </div>
+          <button onClick="{{ recipe.save }}" style="width:100%;height:48px;margin-top:16px;border-radius:15px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 8px 18px rgba(137,196,225,.4)">레시피 저장</button>
+        </div>
+
+        <sc-if value="{{ recipe.hasSaved }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+            <div style="font-size:13px;font-weight:700;color:var(--txt)">저장한 레시피</div>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:11px">
+              <sc-for list="{{ recipe.saved }}" as="r" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke)">
+                  <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;color:var(--txt)">{{ r.name }}</div><div style="font-size:11px;color:var(--sub);margin-top:2px">{{ r.meta }}</div></div>
+                  <button onClick="{{ r.add }}" style="height:32px;padding:0 12px;border-radius:11px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">식단에 추가</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">프로필</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:13px">
+          <div style="display:flex;gap:12px">
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px">이름</div>
+              <input value="{{ profile.name }}" onChange="{{ profile.setName }}" style="width:100%;box-sizing:border-box;height:44px;border-radius:14px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13.5px;padding:0 12px;outline:none">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px">생년월일</div>
+              <input type="date" value="{{ profile.birth }}" onChange="{{ profile.setBirth }}" style="width:100%;box-sizing:border-box;height:44px;border-radius:14px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13px;padding:0 12px;outline:none">
+            </div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px">키 (cm)</div>
+              <input type="number" value="{{ profile.height }}" onChange="{{ profile.setHeight }}" style="width:100%;box-sizing:border-box;height:44px;border-radius:14px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13.5px;padding:0 12px;outline:none">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px">체중 (kg)</div>
+              <input type="number" value="{{ profile.weight }}" onChange="{{ profile.setWeight }}" style="width:100%;box-sizing:border-box;height:44px;border-radius:14px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:13.5px;padding:0 12px;outline:none">
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:7px">성별</div>
+            <div style="display:flex;gap:7px"><sc-for list="{{ profile.sexChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:7px">활동량</div>
+            <div style="display:flex;gap:7px"><sc-for list="{{ profile.actChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--sub);margin-bottom:7px">목표</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap"><sc-for list="{{ profile.goalChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="font-size:13px;font-weight:700;color:var(--txt)">자동 계산</div>
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <div style="flex:1;padding:13px;border-radius:16px;background:var(--card2);border:1px solid var(--stroke)">
+              <div style="font-size:10.5px;color:var(--sub)">나이</div>
+              <div style="font-size:17px;font-weight:700;color:var(--txt);margin-top:3px">{{ profile.age }}</div>
+            </div>
+            <div style="flex:1;padding:13px;border-radius:16px;background:var(--card2);border:1px solid var(--stroke)">
+              <div style="font-size:10.5px;color:var(--sub)">BMR</div>
+              <div style="font-size:17px;font-weight:700;color:var(--txt);margin-top:3px;font-variant-numeric:tabular-nums">{{ profile.bmr }}</div>
+            </div>
+            <div style="flex:1;padding:13px;border-radius:16px;background:rgba(137,196,225,.16);border:1px solid var(--stroke)">
+              <div style="font-size:10.5px;color:var(--sub)">목표 칼로리</div>
+              <div style="font-size:17px;font-weight:700;color:var(--txt);margin-top:3px;font-variant-numeric:tabular-nums">{{ profile.target }}</div>
+            </div>
+          </div>
+          <div style="font-size:11px;line-height:1.55;color:var(--sub);margin-top:10px">키·체중·활동량·목표를 바꾸면 바로 다시 계산돼요. 언제든 수정할 수 있어요.</div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:7px"><div style="font-size:12.5px;font-weight:700;color:var(--txt)">생일 축하 메시지</div><div style="font-size:10px;font-weight:700;color:var(--sub);background:var(--ink);border-radius:7px;padding:3px 7px">V2</div></div>
+            <div style="font-size:11px;color:var(--sub);margin-top:3px">생일 당일 홈에서 피또가 깜짝 축하해요</div>
+          </div>
+          <button onClick="{{ openBirthday }}" style="height:34px;padding:0 13px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer">미리보기</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showBirthday }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(20,32,42,.44);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:26px">
+      <div style="position:relative;width:100%;background:var(--solid);border:1px solid var(--stroke);border-radius:26px;padding:26px 22px 22px;box-shadow:0 20px 50px rgba(20,32,42,.32);animation:fin .32s ease;text-align:center;overflow:hidden">
+        <div style="position:absolute;left:-40px;top:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(196,181,232,.55),rgba(196,181,232,0) 70%)"></div>
+        <div style="position:absolute;right:-50px;top:-30px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(255,203,182,.6),rgba(255,203,182,0) 70%)"></div>
+        <div style="position:relative;font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--lav)">HAPPY BIRTHDAY</div>
+        <img src="assets/fitto-hello.png" alt="축하하는 피또" style="position:relative;width:128px;margin-top:10px;animation:fbob 3.4s ease-in-out infinite;filter:drop-shadow(0 14px 20px rgba(44,62,80,.16))">
+        <div style="position:relative;font-size:12.5px;line-height:1.65;color:var(--txt);margin-top:12px;text-wrap:pretty">{{ birthdayMsg }}</div>
+        <button onClick="{{ closeBirthday }}" style="position:relative;width:100%;height:46px;margin-top:18px;border-radius:15px;border:none;background:linear-gradient(135deg,#C4B5E8,#89C4E1);color:#fff;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer">고마워, 피또</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isWaterDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">물 섭취</div>
+      </div>
+      <div style="display:flex;gap:7px;margin-bottom:12px"><sc-for list="{{ rangeChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+      <sc-if value="{{ monthBar.show }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <button onClick="{{ monthBar.prev }}" style="width:32px;height:32px;border-radius:11px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:14px;font-family:inherit;cursor:pointer">‹</button>
+            <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:var(--txt)">{{ monthBar.label }}</div>
+            <button onClick="{{ monthBar.next }}" style="width:32px;height:32px;border-radius:11px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:14px;font-family:inherit;cursor:pointer">›</button>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ monthBar.presets }}" as="p" hint-placeholder-count="4"><button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+          <sc-if value="{{ monthBar.isCustom }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+              <input type="month" value="{{ monthBar.start }}" onChange="{{ monthBar.setStart }}" style="flex:1;height:36px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12px;padding:0 10px">
+              <div style="color:var(--sub);font-size:12px">–</div>
+              <input type="month" value="{{ monthBar.end }}" onChange="{{ monthBar.setEnd }}" style="flex:1;height:36px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12px;padding:0 10px">
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:18px 16px;box-shadow:var(--shadow)">
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub)">{{ waterDetail.totalLabel }}</div>
+          <div style="display:flex;align-items:baseline;gap:5px;margin-top:3px">
+            <div style="font-size:30px;font-weight:700;letter-spacing:-1.2px;color:var(--txt);font-variant-numeric:tabular-nums">{{ waterDetail.total }}</div>
+            <div style="font-size:13px;color:var(--sub)">ml</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--sub);margin-top:4px">{{ waterDetail.sub }} · {{ waterDetail.stage }}</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:130px;margin-top:18px">
+            <sc-for list="{{ waterDetail.bars }}" as="b" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;height:100%">
+                <div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="{{ b.barStyle }}"></div></div>
+                <div style="{{ b.labelStyle }}">{{ b.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:13px;font-weight:700;color:var(--txt)">하루 목표</div>
+            <div style="font-size:13px;font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums">{{ waterDetail.goal }} ml</div>
+          </div>
+          <input type="range" min="500" max="4000" step="50" value="{{ waterDetail.goalValue }}" onChange="{{ waterDetail.setGoal }}" style="width:100%;margin-top:12px;accent-color:#89C4E1">
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ waterDetail.goalPresets }}" as="p" hint-placeholder-count="4"><button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+          <div style="font-size:11px;color:var(--sub);margin-top:9px">체중·활동량 기준 자동값은 1,900ml예요. 직접 조절하면 홈 카드에 바로 반영돼요.</div>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:13px;font-weight:700;color:var(--txt)">한 번에 마시는 양 (컵 용량)</div>
+            <div style="font-size:13px;font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums">{{ waterDetail.cupValue }} ml</div>
+          </div>
+          <input type="range" min="50" max="1000" step="10" value="{{ waterDetail.cupValue }}" onChange="{{ waterDetail.setCup }}" style="width:100%;margin-top:12px;accent-color:#89C4E1">
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ waterDetail.cupPresets }}" as="p" hint-placeholder-count="5"><button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+          <div style="font-size:11px;color:var(--sub);margin-top:9px">홈의 추가 버튼이 이 용량으로 바뀌어요.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isStepDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 40px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onClick="{{ back }}" style="width:34px;height:34px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--txt);font-size:15px;font-family:inherit;cursor:pointer">‹</button>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.5px;color:var(--txt)">걸음수</div>
+      </div>
+      <div style="display:flex;gap:7px;margin-bottom:12px"><sc-for list="{{ rangeChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+      <sc-if value="{{ monthBar.show }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <button onClick="{{ monthBar.prev }}" style="width:32px;height:32px;border-radius:11px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:14px;font-family:inherit;cursor:pointer">‹</button>
+            <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:var(--txt)">{{ monthBar.label }}</div>
+            <button onClick="{{ monthBar.next }}" style="width:32px;height:32px;border-radius:11px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:14px;font-family:inherit;cursor:pointer">›</button>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ monthBar.presets }}" as="p" hint-placeholder-count="4"><button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+          <sc-if value="{{ monthBar.isCustom }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+              <input type="month" value="{{ monthBar.start }}" onChange="{{ monthBar.setStart }}" style="flex:1;height:36px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12px;padding:0 10px">
+              <div style="color:var(--sub);font-size:12px">–</div>
+              <input type="month" value="{{ monthBar.end }}" onChange="{{ monthBar.setEnd }}" style="flex:1;height:36px;border-radius:12px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-family:inherit;font-size:12px;padding:0 10px">
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:18px 16px;box-shadow:var(--shadow)">
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub)">{{ stepDetail.totalLabel }}</div>
+          <div style="display:flex;align-items:baseline;gap:5px;margin-top:3px">
+            <div style="font-size:30px;font-weight:700;letter-spacing:-1.2px;color:var(--txt);font-variant-numeric:tabular-nums">{{ stepDetail.total }}</div>
+            <div style="font-size:13px;color:var(--sub)">걸음</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--sub);margin-top:4px">{{ stepDetail.sub }}</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:130px;margin-top:18px">
+            <sc-for list="{{ stepDetail.bars }}" as="b" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;height:100%">
+                <div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="{{ b.barStyle }}"></div></div>
+                <div style="{{ b.labelStyle }}">{{ b.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <sc-for list="{{ stepDetail.stats }}" as="s" hint-placeholder-count="3">
+            <div style="flex:1;background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:18px;padding:13px;box-shadow:var(--shadow)">
+              <div style="font-size:10.5px;color:var(--sub)">{{ s.label }}</div>
+              <div style="font-size:16px;font-weight:700;color:var(--txt);letter-spacing:-.4px;margin-top:3px;font-variant-numeric:tabular-nums">{{ s.value }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:13px;font-weight:700;color:var(--txt)">하루 목표 걸음수</div>
+            <div style="font-size:13px;font-weight:700;color:var(--mint);font-variant-numeric:tabular-nums">{{ stepDetail.goal }}</div>
+          </div>
+          <input type="range" min="2000" max="20000" step="500" value="{{ stepDetail.goalValue }}" onChange="{{ stepDetail.setGoal }}" style="width:100%;margin-top:12px;accent-color:#A8D8B9">
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ stepDetail.goalPresets }}" as="p" hint-placeholder-count="4"><button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:12px;right:12px;bottom:12px">
+      <sc-if value="{{ showQuick }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:7px;padding:9px;border-radius:22px;background:var(--card);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--stroke);box-shadow:0 14px 34px rgba(44,62,80,.2);animation:fin .22s ease">
+          <sc-for list="{{ quickActions }}" as="q" hint-placeholder-count="3">
+            <button onClick="{{ q.go }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:16px;border:1px solid var(--stroke);background:var(--card2);font-family:inherit;cursor:pointer;text-align:left">
+              <div style="{{ q.dot }}"></div>
+              <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:var(--txt)">{{ q.label }}</div><div style="font-size:11px;color:var(--sub);margin-top:2px">{{ q.sub }}</div></div>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ navIsB }}" hint-placeholder-val="{{ true }}">
+        <div style="height:64px;display:flex;align-items:stretch;gap:6px;padding:7px;box-sizing:border-box;background:var(--card);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--stroke);border-radius:22px;box-shadow:0 12px 30px rgba(44,62,80,.16)">
+          <sc-for list="{{ navLeft }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.go }}" style="{{ t.style }}"><div style="{{ t.dot }}"></div><div>{{ t.label }}</div></button>
+          </sc-for>
+          <button onClick="{{ toggleQuick }}" style="{{ fabStyle }}">＋</button>
+          <sc-for list="{{ navRight }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.go }}" style="{{ t.style }}"><div style="{{ t.dot }}"></div><div>{{ t.label }}</div></button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ navIsPlain }}" hint-placeholder-val="{{ false }}">
+        <div style="height:64px;display:flex;gap:6px;padding:7px;box-sizing:border-box;background:var(--card);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--stroke);border-radius:22px;box-shadow:0 12px 30px rgba(44,62,80,.16)">
+          <sc-for list="{{ navAll }}" as="t" hint-placeholder-count="4">
+            <button onClick="{{ t.go }}" style="{{ t.style }}"><div style="{{ t.dot }}"></div><div>{{ t.label }}</div></button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isReport }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;height:100%;overflow-y:auto;padding:16px 16px 108px;box-sizing:border-box">
+      <div style="font-size:20px;font-weight:700;letter-spacing:-.6px;color:var(--txt);margin-bottom:16px">리포트</div>
+      <div style="display:flex;gap:7px;margin-bottom:12px"><sc-for list="{{ rangeChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--card);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--stroke);border-radius:22px;padding:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:13px;font-weight:700;color:var(--txt)">섭취 · 소모</div><div style="display:flex;gap:10px"><div style="display:flex;align-items:center;gap:4px"><div style="width:7px;height:7px;border-radius:2px;background:var(--blue)"></div><span style="font-size:10.5px;color:var(--sub)">섭취</span></div><div style="display:flex;align-items:center;gap:4px"><div style="width:7px;height:7px;border-radius:2px;background:var(--mint)"></div><span style="font-size:10.5px;color:var(--sub)">소모</span></div></div></div>
+          <div style="display:flex;align-items:flex-end;gap:9px;height:120px;margin-top:14px">
+            <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+                <div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px"><div style="{{ d.inStyle }}"></div><div style="{{ d.outStyle }}"></div></div>
+                <div style="{{ d.labelStyle }}">{{ d.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <sc-for list="{{ reportStats }}" as="s" hint-placeholder-count="3">
+            <div style="flex:1;background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:18px;padding:13px;box-shadow:var(--shadow)">
+              <div style="font-size:10.5px;color:var(--sub)">{{ s.label }}</div>
+              <div style="font-size:16px;font-weight:700;color:var(--txt);letter-spacing:-.4px;margin-top:3px;font-variant-numeric:tabular-nums">{{ s.value }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:22px;padding:16px;display:flex;gap:12px;align-items:center">
+          <img src="assets/fitto-face.png" alt="" style="width:46px">
+          <div style="flex:1;font-size:12px;line-height:1.55;color:var(--txt)">{{ msg.kcal }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(20,32,42,.34);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;flex-direction:column;justify-content:flex-end">
+      <div onClick="{{ closeSearch }}" style="flex:1"></div>
+      <div style="background:var(--solid);border-radius:26px 26px 0 0;padding:18px 18px 26px;box-shadow:0 -12px 40px rgba(20,32,42,.24);animation:fsheet .28s cubic-bezier(.2,.9,.3,1)">
+        <div style="width:38px;height:4px;border-radius:3px;background:var(--line);margin:0 auto 16px"></div>
+        <div style="display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:15px;background:var(--card2);border:1px solid var(--stroke)">
+          <div style="color:var(--sub);font-size:13px">🔍</div>
+          <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="음식 검색 (예: 닭가슴살)" style="flex:1;border:none;background:transparent;outline:none;font-family:inherit;font-size:13.5px;color:var(--txt)">
+          <button onClick="{{ clearQuery }}" style="width:24px;height:24px;border-radius:50%;border:none;background:var(--ink);color:var(--sub);font-size:12px;line-height:1;font-family:inherit;cursor:pointer;flex:none">✕</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+          <sc-for list="{{ recent }}" as="r" hint-placeholder-count="4"><button onClick="{{ r.pick }}" style="height:32px;padding:0 12px;border-radius:11px;border:1px solid var(--stroke);background:var(--card2);color:var(--txt);font-size:11.5px;font-family:inherit;cursor:pointer">{{ r.name }}</button></sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:14px;max-height:264px;overflow-y:auto">
+          <sc-for list="{{ results }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.pick }}" style="{{ f.style }}">
+              <div style="flex:1;min-width:0;text-align:left">
+                <div style="display:flex;align-items:center;gap:7px"><div style="font-size:13px;font-weight:600;color:var(--txt)">{{ f.name }}</div><div style="{{ f.badge }}">{{ f.badgeText }}</div></div>
+                <div style="font-size:11px;color:var(--sub);margin-top:3px">{{ f.serving }} · {{ f.note }}</div>
+              </div>
+              <div style="font-size:12.5px;font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums;flex:none">{{ f.kcal }}</div>
+              <div style="{{ f.addStyle }}">{{ f.addLabel }}</div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showTutorial }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;pointer-events:auto">
+      <div style="position:absolute;inset:0;background:rgba(16,26,36,.62)"></div>
+      <div style="{{ tut.holeStyle }}"></div>
+      <div style="{{ tut.tipStyle }}">
+        <div style="font-size:10.5px;font-weight:700;letter-spacing:.6px;color:#89C4E1">{{ tut.step }}</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-top:6px;line-height:1.45">{{ tut.title }}</div>
+        <div style="font-size:12px;line-height:1.55;color:rgba(255,255,255,.72);margin-top:5px">{{ tut.desc }}</div>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button onClick="{{ endTutorial }}" style="height:36px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:transparent;color:rgba(255,255,255,.7);font-size:12px;font-family:inherit;cursor:pointer">건너뛰기</button>
+          <button onClick="{{ nextTutorial }}" style="flex:1;height:36px;border-radius:12px;border:none;background:#89C4E1;color:#fff;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer">{{ tut.cta }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showLie }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(20,32,42,.42);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:26px">
+      <div style="width:100%;background:var(--solid);border:1px solid var(--stroke);border-radius:26px;padding:24px 22px;box-shadow:0 20px 50px rgba(20,32,42,.3);animation:fin .3s ease;text-align:center">
+        <div style="height:104px;display:flex;align-items:flex-end;justify-content:center">
+          <img src="assets/fitto-hello.png" alt="드러누운 피또" style="width:132px;transform:rotate(98deg) translateY(6px);filter:drop-shadow(0 10px 14px rgba(44,62,80,.16))">
+        </div>
+        <div style="font-size:16.5px;font-weight:700;color:var(--txt);margin-top:14px">{{ msg.lieTitle }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--sub);margin-top:7px">{{ msg.lieBody }}</div>
+        <div style="display:flex;gap:9px;margin-top:18px">
+          <button onClick="{{ closeLie }}" style="flex:1;height:46px;border-radius:15px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer">나중에</button>
+          <button onClick="{{ closeLie }}" style="flex:1;height:46px;border-radius:15px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">5분만 걷기</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showOrder }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(20,32,42,.34);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;flex-direction:column;justify-content:flex-end">
+      <div onClick="{{ closeOrder }}" style="flex:1"></div>
+      <div style="background:var(--solid);border-radius:26px 26px 0 0;padding:18px 18px 26px;box-shadow:0 -12px 40px rgba(20,32,42,.24);animation:fsheet .28s cubic-bezier(.2,.9,.3,1)">
+        <div style="width:38px;height:4px;border-radius:3px;background:var(--line);margin:0 auto 14px"></div>
+        <div style="font-size:15px;font-weight:700;color:var(--txt)">홈 카드 순서</div>
+        <div style="font-size:11.5px;color:var(--sub);margin-top:4px">위아래로 옮기고, 필요 없는 카드는 숨길 수 있어요.</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:14px;max-height:330px;overflow-y:auto">
+          <sc-for list="{{ orderList }}" as="o" hint-placeholder-count="7">
+            <div style="{{ o.rowStyle }}">
+              <div style="{{ o.nameStyle }}">{{ o.name }}</div>
+              <button onClick="{{ o.toggle }}" style="{{ o.eyeStyle }}">{{ o.eye }}</button>
+              <button onClick="{{ o.up }}" style="{{ o.arrowStyle }}">↑</button>
+              <button onClick="{{ o.down }}" style="{{ o.arrowStyle }}">↓</button>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:16px">
+          <button onClick="{{ resetOrder }}" style="height:46px;padding:0 18px;border-radius:15px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer">기본값</button>
+          <button onClick="{{ closeOrder }}" style="flex:1;height:46px;border-radius:15px;border:none;background:linear-gradient(135deg,#89C4E1,#7FB6DC);color:#fff;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer">완료</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast.show }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:16px;right:16px;bottom:88px;padding:13px 15px;border-radius:16px;background:rgba(28,42,54,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font-size:12.5px;font-weight:600;box-shadow:0 10px 26px rgba(20,32,42,.3);animation:fin .24s ease">{{ toast.text }}</div>
+  </sc-if>
+
+</div>
+</x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:1010},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;system&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;모드&quot;},&quot;persona&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;friendly&quot;,&quot;strict&quot;,&quot;neutral&quot;],&quot;default&quot;:&quot;friendly&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;모드&quot;},&quot;homeLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;탐색 3안&quot;},&quot;waterVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;탐색 3안&quot;},&quot;headerVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;탐색 3안&quot;}}">
+const TOD = {
+  dawn:{label:'새벽',greet:'좋은 새벽',c:'#2C3E50'},
+  morning:{label:'아침',greet:'좋은 아침',c:'#FFCBB6'},
+  day:{label:'낮',greet:'좋은 오후',c:'#89C4E1'},
+  after:{label:'오후',greet:'나른한 오후',c:'#A8D8B9'},
+  evening:{label:'저녁',greet:'편안한 저녁',c:'#C4B5E8'},
+  night:{label:'밤',greet:'늦은 밤',c:'#6B5B95'}
+};
+const TOD_KEYS = ['dawn','morning','day','after','evening','night'];
+
+const PERSONA = {
+  friendly:{name:'친근형',
+    hello:'오늘도 같이 힘내볼까요? 물 두 잔만 더 마시면 완전 만족이에요!',
+    kcal:'아직 610kcal 남았어요. 저녁은 편하게 드셔도 괜찮아요 :)',
+    train:'어제 많이 걸으셨으니 오늘은 가볍게 몸 풀어요!',
+    period:'3일차예요. 오늘은 무리하지 말고 따뜻하게 있어요.',
+    lieTitle:'피또가 드러누웠어요',
+    lieBody:'3일 동안 운동 기록이 없어요. 같이 5분만 걸어볼까요? 저도 일어날게요!'},
+  strict:{name:'엄격형',
+    hello:'오늘 목표까지 610kcal 남았습니다. 물은 950ml 부족합니다.',
+    kcal:'섭취 1,240kcal. 목표 대비 67%입니다.',
+    train:'목표는 체중 감량입니다. 유산소 20분을 채우세요.',
+    period:'3일차. 강도 높은 운동은 권장하지 않습니다.',
+    lieTitle:'3일간 운동 기록 없음',
+    lieBody:'기록이 없으면 계획을 조정할 수 없습니다. 오늘 5분이라도 채우세요.'},
+  neutral:{name:'중립형',
+    hello:'오늘 섭취 1,240kcal, 물 950ml입니다.',
+    kcal:'남은 칼로리 610kcal.',
+    train:'추천 운동 2개가 있습니다.',
+    period:'생리 3일차입니다.',
+    lieTitle:'운동 기록 3일 없음',
+    lieBody:'운동 기록이 3일간 없습니다. 가벼운 걷기를 추천합니다.'}
+};
+
+const WATER_STAGES = ['바싹 마름','목마름','보통','촉촉','완전 만족'];
+const KCAL_STATES = [
+  {label:'부족',c:'#B0BEC5'},{label:'양호',c:'#89C4E1'},
+  {label:'목표 달성',c:'#A8D8B9'},{label:'주의',c:'#FFE082'},{label:'초과',c:'#FFAB91'}
+];
+
+const FOODS = [
+  {name:'닭가슴살 구이',serving:'100g',kcal:165,note:'단백 31g',ok:true},
+  {name:'현미밥',serving:'1공기 210g',kcal:310,note:'GI 낮음',ok:true},
+  {name:'그릭요거트',serving:'150g',kcal:130,note:'당류 4g',ok:true},
+  {name:'아몬드 한 줌',serving:'25g',kcal:145,note:'알레르기 성분',ok:false},
+  {name:'땅콩버터 토스트',serving:'1장',kcal:290,note:'알레르기 성분',ok:false},
+  {name:'연어 샐러드',serving:'1인분',kcal:340,note:'오메가3',ok:true},
+  {name:'두부조림',serving:'150g',kcal:180,note:'나트륨 주의',ok:true}
+];
+
+const SYMPTOMS = ['복통','두통','부기','피로','예민','허리 통증'];
+const TUT = [
+  {step:'1 / 3',title:'칼로리는 숫자보다 표정으로',desc:'피또 얼굴이 5단계로 오늘 상태를 알려줘요. 숫자는 그 다음에 보면 돼요.',top:150,h:190},
+  {step:'2 / 3',title:'물은 한 번의 탭으로',desc:'+250ml만 눌러주세요. 목표에 가까워지면 피또가 촉촉해져요.',top:352,h:210},
+  {step:'3 / 3',title:'카드는 원하는 순서로',desc:'길게 눌러 카드를 옮기면 나에게 맞는 홈 화면이 돼요.',top:150,h:420}
+];
+
+class Component extends DCLogic {
+  state = {
+    theme:'light', sysDark:false, persona:'friendly', tod:'day',
+    layout:'A', waterV:'A', headerV:'A',
+    screen:'home', tab:'home', stack:null,
+    water:950, waterGoal:1900, cup:250, stepGoal:8000, range:'day',
+    navV:'B', showQuick:false, cardOrder:['kcal','water','act','steps','ex','week','period'], cardHidden:[], showOrder:false,
+    alarms:{water:true,waterEvery:2,meal:true,mealTimes:'08:00 / 12:30 / 19:00',move:true,moveAfter:60,weigh:false,report:true,quiet:true,quietFrom:'22:30',quietTo:'07:00'},
+    recipes:[], recipeDraft:{name:'',items:[],pick:'닭가슴살',g:100}, monthMode:'single', monthOffset:0, mStart:'2026-05', mEnd:'2026-08',
+    profile:{name:'지연',birth:'1996-08-16',sex:'선택 안 함',height:163,weight:56,activity:'보통',goal:'건강 관리'},
+    showBirthday:false, meals:{
+      '아침':[{name:'현미밥',amount:'1공기',kcal:310},{name:'두부조림',amount:'150g',kcal:180}],
+      '점심':[{name:'연어 샐러드',amount:'1인분',kcal:340},{name:'그릭요거트',amount:'150g',kcal:130}],
+      '저녁':[],'간식':[{name:'바나나',amount:'1개',kcal:105}]
+    },
+    exercises:[{name:'아침 걷기',detail:'32분 · 140kcal'},{name:'스트레칭',detail:'10분 · 25kcal'}],
+    query:'', showSearch:false, showLie:false, tutStep:-1,
+    periodOn:true, selDay:16, cond:null, symptoms:[], toast:null, obStep:0, obPick:{}
+  };
+
+  componentDidMount(){
+    const p = this.props || {};
+    const seed = {};
+    if(p.theme) seed.theme = p.theme;
+    if(p.persona) seed.persona = p.persona;
+    if(p.homeLayout) seed.layout = p.homeLayout;
+    if(p.waterVariant) seed.waterV = p.waterVariant;
+    if(p.headerVariant) seed.headerV = p.headerVariant;
+    if(Object.keys(seed).length) this.setState(seed);
+    try{
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      this.setState({sysDark:mq.matches});
+      this._mq = e => this.setState({sysDark:e.matches});
+      mq.addEventListener('change', this._mq);
+    }catch(e){}
+  }
+  componentWillUnmount(){ if(this._mq) try{window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change',this._mq);}catch(e){} }
+
+  dark(){ return this.state.theme==='dark' || (this.state.theme==='system' && this.state.sysDark); }
+  toast(text){ clearTimeout(this._t); this.setState({toast:text}); this._t = setTimeout(()=>this.setState({toast:null}),1900); }
+  chip(active,{app=false}={}){
+    return {height:app?34:30,padding:app?'0 13px':'0 11px',borderRadius:app?12:11,
+      border:active?'1px solid rgba(137,196,225,.9)':(app?'1px solid var(--stroke)':'1px solid rgba(44,62,80,.12)'),
+      background:active?'linear-gradient(135deg,#89C4E1,#7FB6DC)':(app?'var(--card2)':'#fff'),
+      color:active?'#fff':(app?'var(--txt)':'#5D6E7B'),
+      fontSize:app?12:11.5,fontWeight:600,fontFamily:'inherit',cursor:'pointer',
+      whiteSpace:'nowrap',display:'flex',alignItems:'center',justifyContent:'center',flex:app?1:'none',
+      boxShadow:active?'0 5px 12px rgba(137,196,225,.35)':'none'};
+  }
+  intake(){ return Object.values(this.state.meals).flat().reduce((s,i)=>s+i.kcal,0); }
+  burn(){ return 320 + this.state.exercises.reduce((s,e)=>s+(parseInt((e.detail.split('·')[1]||'0'),10)||0),0); }
+  kcalStateIdx(){ const r=this.intake()/1850; if(r<0.5)return 0; if(r<0.85)return 1; if(r<=1)return 2; if(r<=1.15)return 3; return 4; }
+  waterStageIdx(){ return Math.min(4, Math.floor(this.state.water/this.state.waterGoal*5)); }
+  setWater(v){ this.setState({water:Math.max(0,Math.min(5000,Math.round(v)))}); }
+
+  go(screen){ this.setState(s=>({screen, tab:['home','meal','health','settings','report'].indexOf(screen)>=0?screen:s.tab, tutStep:-1, showQuick:false})); }
+
+  renderVals(){
+    const st = this.state, isDark = this.dark(), tod = TOD[st.tod];
+    const _left = Math.max(0, 1850 - this.intake()), _wleft = Math.max(0, 1900 - st.water);
+    const _P = PERSONA[st.persona];
+    const P = {..._P,
+      hello: st.persona==='friendly'
+        ? `오늘도 같이 힘내볼까요? 물 ${_wleft.toLocaleString()}ml만 더 마시면 완전 만족이에요!`
+        : st.persona==='strict'
+        ? `오늘 목표까지 ${_left.toLocaleString()}kcal 남았습니다. 물은 ${_wleft.toLocaleString()}ml 부족합니다.`
+        : `오늘 섭취 ${this.intake().toLocaleString()}kcal, 물 ${st.water.toLocaleString()}ml입니다.`,
+      kcal: st.persona==='friendly'
+        ? `아직 ${_left.toLocaleString()}kcal 남았어요. 저녁은 편하게 드셔도 괜찮아요 :)`
+        : st.persona==='strict'
+        ? `섭취 ${this.intake().toLocaleString()}kcal. 목표 대비 ${Math.round(this.intake()/1850*100)}%입니다.`
+        : `남은 칼로리 ${_left.toLocaleString()}kcal.`};
+    const scr = st.screen;
+    const mk = (list, cur, set, app) => list.map(([k,label])=>({
+      label, go:()=>set(k), style:this.chip(cur===k), appStyle:this.chip(cur===k,{app:true})
+    }));
+
+    // ── header gradients (3 variants)
+    const c = tod.c, off = 'transparent';
+    const hA = st.headerV==='A'
+      ? {position:'absolute',left:0,right:0,top:0,height:300,background:`linear-gradient(180deg,${c}66 0%,${c}22 42%,${off} 100%)`,pointerEvents:'none'}
+      : st.headerV==='B'
+      ? {position:'absolute',left:0,right:0,top:0,height:340,background:`linear-gradient(180deg,${c}1f,${off})`,pointerEvents:'none'}
+      : {position:'absolute',left:0,right:0,top:0,height:250,background:`linear-gradient(180deg,${c}59,${c}14 60%,${off})`,borderRadius:'0 0 46% 46% / 0 0 22% 22%',pointerEvents:'none'};
+    const hB1 = st.headerV==='B'
+      ? {position:'absolute',left:-70,top:-90,width:280,height:280,borderRadius:'50%',background:`radial-gradient(circle,${c}aa,${c}00 70%)`,filter:'blur(26px)',pointerEvents:'none'}
+      : {display:'none'};
+    const hB2 = st.headerV==='B'
+      ? {position:'absolute',right:-60,top:20,width:230,height:230,borderRadius:'50%',background:'radial-gradient(circle,rgba(168,216,185,.75),rgba(168,216,185,0) 70%)',filter:'blur(26px)',pointerEvents:'none'}
+      : st.headerV==='C'
+      ? {position:'absolute',left:0,right:0,top:196,height:70,background:`radial-gradient(120% 100% at 50% 0%,${c}2e,${off} 70%)`,pointerEvents:'none'}
+      : {display:'none'};
+
+    // ── home grid cells (3 layouts)
+    const span = n => ({gridColumn:`span ${n}`, display:'flex', flexDirection:'column'});
+    const L = st.layout;
+    const CARD_NAME = {kcal:'칼로리',water:'물 섭취',act:'활동 링',steps:'걸음수',ex:'오늘 운동',week:'주간 요약',period:'생리 주기'};
+    const uOrd = st.cardOrder, uHide = st.cardHidden;
+    const ord = (n,o) => {
+      const key = ord._k;
+      const i = uOrd.indexOf(key);
+      return {...span(n), order:(i>=0?i+1:o), display:uHide.indexOf(key)>=0?'none':'flex'};
+    };
+    const ordFor = (key) => (n,o) => { ord._k = key; return ord(n,o); };
+    const cell = L==='A'
+      ? {kcal:ordFor('kcal')(2,1),water:ordFor('water')(2,2),act:ordFor('act')(2,3),steps:ordFor('steps')(2,4),ex:ordFor('ex')(2,5),week:ordFor('week')(2,6),period:ordFor('period')(2,7)}
+      : L==='B'
+      // 물·걸음을 나란히 배치 (span 1 카드끼리 붙여야 빈 칸이 안 생김)
+      ? {kcal:ordFor('kcal')(2,1),water:ordFor('water')(1,2),steps:ordFor('steps')(1,3),act:ordFor('act')(2,4),ex:ordFor('ex')(2,5),week:ordFor('week')(2,6),period:ordFor('period')(2,7)}
+      // C: 물+걸음 한 줄, 운동+생리 한 줄
+      : {kcal:ordFor('kcal')(2,1),water:ordFor('water')(1,2),steps:ordFor('steps')(1,3),ex:ordFor('ex')(st.periodOn?1:2,4),period:ordFor('period')(1,5),act:ordFor('act')(2,6),week:ordFor('week')(2,7)};
+
+    // ── kcal
+    const ks = KCAL_STATES[this.kcalStateIdx()], intake = this.intake(), burn = this.burn();
+    const pct = Math.min(100, Math.round(intake/1850*100));
+    const kcal = {
+      intake:intake.toLocaleString(), goal:'1,850', burn:burn.toLocaleString(),
+      left:Math.max(0,1850-intake).toLocaleString(), stateLabel:ks.label,
+      barStyle:{position:'absolute',left:0,top:0,bottom:0,width:pct+'%',borderRadius:6,
+        background:`linear-gradient(90deg,${ks.c}cc,${ks.c})`,transition:'width .5s cubic-bezier(.2,.9,.3,1)'}
+    };
+    const kcalRing = {width:52,height:52,borderRadius:'50%',flex:'none',display:'flex',alignItems:'center',
+      justifyContent:'center',background:`radial-gradient(circle at 50% 40%,${ks.c}59,${ks.c}1f)`,
+      border:`2px solid ${ks.c}`,boxShadow:`0 6px 14px ${ks.c}59`};
+
+    // ── water
+    const wi = this.waterStageIdx(), wpct = Math.min(100, Math.round(st.water/st.waterGoal*100));
+    const water = {
+      ml:st.water.toLocaleString(), goal:st.waterGoal.toLocaleString(), pct:wpct, stage:WATER_STAGES[wi],
+      cup:st.cup, cupLabel:'+'+st.cup+' ml',
+      cells:[0,1,2,3,4].map(i=>({style:{flex:1,height:34,borderRadius:11,
+        border:'1px solid var(--stroke)',
+        background:i<=wi?'linear-gradient(180deg,rgba(137,196,225,.55),rgba(137,196,225,.95))':'var(--card2)',
+        boxShadow:i<=wi?'0 4px 10px rgba(137,196,225,.35)':'none',transition:'all .35s ease'}})),
+      fillStyle:{position:'absolute',left:0,right:0,bottom:0,height:wpct+'%',
+        background:'linear-gradient(180deg,rgba(137,196,225,.75),rgba(137,196,225,.95))',
+        transition:'height .5s cubic-bezier(.2,.9,.3,1)'},
+      slideStyle:{position:'absolute',left:0,top:0,bottom:0,width:wpct+'%',
+        background:'linear-gradient(90deg,rgba(168,216,185,.7),rgba(137,196,225,.9))',transition:'width .18s ease'}
+    };
+    const setWater = v => this.setWater(v);
+    const dragTo = e => {
+      const r = e.currentTarget.getBoundingClientRect();
+      const ratio = Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+      setWater(Math.round(ratio*st.waterGoal/50)*50);
+    };
+    // 세로 드래그: 위로 올리면 증가, 아래로 내리면 감소 (10ml 단위)
+    const vDown = e => {
+      this._drag = {y:e.clientY, w:this.state.water, moved:false};
+      try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){}
+    };
+    const vMove = e => {
+      if(!this._drag) return;
+      const dy = this._drag.y - e.clientY;
+      if(Math.abs(dy) < 3) return;
+      this._drag.moved = true;
+      this.setWater(Math.round((this._drag.w + dy*4)/10)*10);
+    };
+    const vUp = () => {
+      if(this._drag && this._drag.moved) this.toast('물 '+this.state.water.toLocaleString()+'ml');
+      this._drag = null;
+    };
+
+    // ── 상세: 일/주/월 데이터
+    const RANGE = [['day','일간'],['week','주간'],['month','월간']];
+    const rangeChips = RANGE.map(([k,label])=>({label,go:()=>this.setState({range:k}),
+      style:{...this.chip(st.range===k,{app:true}),height:36,borderRadius:13}}));
+    // 월간 기간 선택
+    const BASE = {y:2026, m:8}; // 이번 달
+    const shift = (n) => { let m = BASE.m + n, y = BASE.y; while(m<1){m+=12;y--;} while(m>12){m-=12;y++;} return {y,m}; };
+    const seeded = (y,m,base,spread) => base + ((y*37 + m*97) % spread) - Math.round(spread/2);
+    const monthsInRange = () => {
+      const mode = st.monthMode;
+      if(mode==='custom'){
+        const [sy,sm] = st.mStart.split('-').map(Number), [ey,em] = st.mEnd.split('-').map(Number);
+        const out = []; let y=sy, m=sm;
+        while((y<ey || (y===ey && m<=em)) && out.length<12){ out.push({y,m}); m++; if(m>12){m=1;y++;} }
+        return out.length?out:[shift(st.monthOffset)];
+      }
+      const n = mode==='3m'?3:mode==='6m'?6:1;
+      return Array.from({length:n},(_,i)=>shift(st.monthOffset - (n-1-i)));
+    };
+    const months = monthsInRange();
+    const monthSeries = (base,spread) => months.length===1
+      ? {labels:['1주','2주','3주','4주'],values:[0,1,2,3].map(w=>seeded(months[0].y,months[0].m*10+w,base,spread))}
+      : {labels:months.map(x=>x.m+'월'),values:months.map(x=>seeded(x.y,x.m,base,spread))};
+    const wMonth = monthSeries(1800,700), sMonth = monthSeries(7800,3000);
+    const single = months.length===1;
+    const monthLabel = single
+      ? months[0].y+'년 '+months[0].m+'월'
+      : months[0].m+'월 – '+months[months.length-1].m+'월 ('+months.length+'개월)';
+    const monthBar = {
+      show: st.range==='month', label: monthLabel, single,
+      prev:()=>this.setState(s=>({monthOffset:s.monthOffset-1, monthMode:s.monthMode==='custom'?'single':s.monthMode})),
+      next:()=>this.setState(s=>({monthOffset:Math.min(0,s.monthOffset+1), monthMode:s.monthMode==='custom'?'single':s.monthMode})),
+      presets:[['single','한 달'],['3m','최근 3개월'],['6m','최근 6개월'],['custom','직접 선택']].map(([k,label])=>({
+        label, go:()=>this.setState({monthMode:k}),
+        style:{...this.chip(st.monthMode===k,{app:true}),height:32,borderRadius:11,fontSize:11,flex:'none',padding:'0 11px'}})),
+      isCustom: st.monthMode==='custom', start:st.mStart, end:st.mEnd,
+      setStart:e=>this.setState({mStart:e.target.value}), setEnd:e=>this.setState({mEnd:e.target.value})
+    };
+
+    const WATER_HIST = {
+      day:{labels:['6','9','12','15','18','21'],values:[250,250,200,250,0,0],unit:'ml',cap:st.waterGoal/4},
+      week:{labels:['월','화','수','목','금','토','일'],values:[1900,1650,2100,1750,1400,2200,st.water],unit:'ml',cap:2400},
+      month:{labels:wMonth.labels,values:wMonth.values,unit:'ml',cap:2600}
+    }[st.range];
+    const STEP_HIST = {
+      day:{labels:['6','9','12','15','18','21'],values:[420,1600,980,1720,1700,0],unit:'걸음',cap:2200},
+      week:{labels:['월','화','수','목','금','토','일'],values:[8200,7400,9100,6800,5400,11200,6420],unit:'걸음',cap:12000},
+      month:{labels:sMonth.labels,values:sMonth.values,unit:'걸음',cap:12000}
+    }[st.range];
+    const mkBars = (H, color) => H.labels.map((l,i)=>({
+      label:l, value:H.values[i].toLocaleString(),
+      barStyle:{width:'100%',height:Math.max(4,Math.round(H.values[i]/H.cap*100))+'%',borderRadius:'8px 8px 3px 3px',
+        background:`linear-gradient(180deg,${color}bb,${color})`,transition:'height .4s ease'},
+      labelStyle:{fontSize:10,color:'var(--sub)',marginTop:6}
+    }));
+    const avg = a => Math.round(a.reduce((s,v)=>s+v,0)/a.length);
+    const waterDetail = {
+      bars:mkBars(WATER_HIST,'#89C4E1'),
+      total:(st.range==='day'?st.water:avg(WATER_HIST.values)).toLocaleString(),
+      totalLabel:st.range==='day'?'오늘 마신 양':'하루 평균',
+      sub:st.range==='day'?`목표 ${st.waterGoal.toLocaleString()}ml · ${wpct}%`
+        :st.range==='week'?'이번 주 7일 평균':monthLabel+' 평균',
+      goal:st.waterGoal.toLocaleString(),
+      goalPresets:[1500,1900,2200,2500].map(v=>({label:v.toLocaleString()+'ml',
+        go:()=>this.setState({waterGoal:v}), style:{...this.chip(st.waterGoal===v,{app:true}),height:36,borderRadius:13,fontSize:11.5}})),
+      cupPresets:[150,200,250,350,500].map(v=>({label:v+'ml',
+        go:()=>this.setState({cup:v}), style:{...this.chip(st.cup===v,{app:true}),height:36,borderRadius:13,fontSize:11.5}})),
+      goalValue:st.waterGoal, cupValue:st.cup,
+      setGoal:e=>this.setState({waterGoal:parseInt(e.target.value,10)}),
+      setCup:e=>this.setState({cup:parseInt(e.target.value,10)}),
+      stage:WATER_STAGES[wi]
+    };
+    const stepDetail = {
+      bars:mkBars(STEP_HIST,'#A8D8B9'),
+      total:(st.range==='day'?6420:avg(STEP_HIST.values)).toLocaleString(),
+      totalLabel:st.range==='day'?'오늘 걸음수':'하루 평균 걸음수',
+      sub:st.range==='day'?`목표 ${st.stepGoal.toLocaleString()}걸음 · ${Math.round(6420/st.stepGoal*100)}%`
+        :st.range==='week'?'이번 주 7일 평균':monthLabel+' 평균',
+      stats:st.range==='day'
+        ? [{label:'거리',value:'4.6km'},{label:'소모',value:'238kcal'},{label:'활동 시간',value:'62분'}]
+        : [{label:'최고',value:Math.max(...STEP_HIST.values).toLocaleString()},{label:'최저',value:Math.min(...STEP_HIST.values).toLocaleString()},{label:'목표 달성',value:st.range==='week'?'4일':'18일'}],
+      goalPresets:[6000,8000,10000,12000].map(v=>({label:v.toLocaleString(),
+        go:()=>this.setState({stepGoal:v}), style:{...this.chip(st.stepGoal===v,{app:true}),height:36,borderRadius:13,fontSize:11.5}})),
+      goalValue:st.stepGoal, goal:st.stepGoal.toLocaleString(),
+      setGoal:e=>this.setState({stepGoal:parseInt(e.target.value,10)})
+    };
+
+    // ── activity rings
+    const rings = {position:'relative',width:104,height:104,borderRadius:'50%',flex:'none',
+      background:`conic-gradient(#89C4E1 0turn .80turn, var(--ink) .80turn 1turn)`,
+      boxShadow:'0 8px 18px rgba(44,62,80,.10)'};
+    const act = {pct:80, rows:[
+      {label:'걸음수',value:'6,420',dot:{width:9,height:9,borderRadius:3,background:'#89C4E1'}},
+      {label:'운동 시간',value:'42분',dot:{width:9,height:9,borderRadius:3,background:'#A8D8B9'}},
+      {label:'소모 칼로리',value:burn.toLocaleString(),dot:{width:9,height:9,borderRadius:3,background:'#C4B5E8'}}
+    ]};
+
+    // ── week bars
+    const IN=[1500,1720,1610,1840,1240,1900,1240], OUT=[1300,1500,1400,1700,1600,1200,485];
+    const week = ['월','화','수','목','금','토','일'].map((d,i)=>({
+      label:d,
+      inStyle:{width:9,height:Math.round(IN[i]/2000*70)+'px',borderRadius:'5px 5px 2px 2px',background:'linear-gradient(180deg,rgba(137,196,225,.85),#89C4E1)'},
+      outStyle:{width:9,height:Math.round(OUT[i]/2000*70)+'px',borderRadius:'5px 5px 2px 2px',background:'linear-gradient(180deg,rgba(168,216,185,.85),#A8D8B9)'},
+      labelStyle:{fontSize:10,fontWeight:i===6?700:400,color:i===6?'var(--txt)':'var(--sub)'}
+    }));
+
+    // ── meals
+    const mealSlots = ['아침','점심','저녁','간식'].map(n=>({
+      name:n, items:st.meals[n], empty:st.meals[n].length===0,
+      kcal:st.meals[n].reduce((s,i)=>s+i.kcal,0).toLocaleString()
+    }));
+    const addFood = f => this.setState(s=>{
+      const slot = s.meals['저녁'].length===0 ? '저녁' : '간식';
+      return {meals:{...s.meals,[slot]:[...s.meals[slot],{name:f.name,amount:f.serving,kcal:f.kcal}]},showSearch:false,query:''};
+    }, ()=>this.toast('기록에 추가했어요'));
+    const q = st.query.trim();
+    const results = FOODS.filter(f=>!q||f.name.includes(q)).map(f=>({
+      name:f.name, serving:f.serving, note:f.note, kcal:f.kcal+' kcal',
+      pick:f.ok?()=>addFood(f):()=>this.toast('알레르기 성분이 포함된 음식이에요'),
+      style:{display:'flex',alignItems:'center',gap:10,padding:'11px 13px',borderRadius:15,
+        border:'1px solid var(--stroke)',background:f.ok?'var(--card2)':'rgba(255,171,145,.14)',
+        fontFamily:'inherit',cursor:'pointer',opacity:f.ok?1:.75},
+      badge:{fontSize:9.5,fontWeight:700,borderRadius:6,padding:'2px 6px',
+        color:f.ok?'#4E8CAF':'#C1674A',background:f.ok?'rgba(137,196,225,.22)':'rgba(255,171,145,.3)'},
+      badgeText:f.ok?'가능':'알레르기',
+      addLabel:f.ok?'추가':'제외',
+      addStyle:{flex:'none',height:32,padding:'0 13px',borderRadius:11,display:'flex',alignItems:'center',
+        fontSize:12,fontWeight:700,fontFamily:'inherit',
+        background:f.ok?'linear-gradient(135deg,#89C4E1,#7FB6DC)':'var(--ink)',
+        color:f.ok?'#fff':'var(--sub)',
+        boxShadow:f.ok?'0 5px 12px rgba(137,196,225,.35)':'none'}
+    }));
+    const recos = [
+      {name:'연어 포케볼',why:'알레르기 성분 없음 · 단백 32g',kcal:'480 kcal'},
+      {name:'두부 유부초밥',why:'나트륨 낮게 조정한 레시피',kcal:'420 kcal'},
+      {name:'단호박 수프',why:'GI 낮고 포만감 높음',kcal:'260 kcal'}
+    ].map(r=>({...r,thumb:{width:46,height:46,borderRadius:14,flex:'none',
+      background:'repeating-linear-gradient(135deg,rgba(137,196,225,.22) 0 6px,rgba(137,196,225,.08) 6px 12px)',
+      border:'1px solid var(--stroke)'}}));
+
+    // ── training / exercises
+    const quickEx = ['걷기','스트레칭','홈트'].map(n=>({name:n,
+      add:()=>this.setState(s=>({exercises:[...s.exercises,{name:n,detail:'15분 · 60kcal'}]}),()=>this.toast(n+' 기록 완료'))}));
+    const training = [
+      {name:'빠르게 걷기',spec:'20분 · 130kcal',why:'칼로리가 아직 부족해서 가벼운 유산소를 골랐어요.'},
+      {name:'의자 스쿼트',spec:'3세트 × 12회',why:'맨손 환경 · 무릎 부담 낮은 동작.'},
+      {name:'상체 스트레칭',spec:'8분',why:'생리 3일차 컨디션을 반영했어요.'}
+    ].map(t=>({...t,add:()=>this.setState(s=>({exercises:[...s.exercises,{name:t.name,detail:t.spec}]}),()=>this.toast('기록에 추가했어요'))}));
+    const exercises = st.exercises.map((e,i)=>({...e,
+      remove:()=>this.setState(s=>({exercises:s.exercises.filter((_,j)=>j!==i)}))}));
+
+    // ── period calendar (2026-08, starts Saturday)
+    const lead = 6, days = 31;
+    const calDays = [];
+    for(let i=0;i<lead;i++) calDays.push({label:'',style:{visibility:'hidden',height:38},pick:()=>{}});
+    for(let d=1;d<=days;d++){
+      const isP = d>=14 && d<=18, isFert = d>=26 && d<=31, isOv = d===29, isSel = d===st.selDay;
+      let bg='transparent', col='var(--txt)', bd='1px solid transparent';
+      if(isP){ bg='rgba(255,171,145,.32)'; }
+      if(isFert){ bg='rgba(196,181,232,.28)'; }
+      if(isOv){ bd='1px solid #C4B5E8'; }
+      if(isSel){ bg='linear-gradient(135deg,#89C4E1,#7FB6DC)'; col='#fff'; }
+      calDays.push({label:String(d),pick:()=>this.setState({selDay:d}),
+        style:{height:38,borderRadius:12,border:bd,background:bg,color:col,
+          fontSize:12.5,fontWeight:isSel?700:500,fontFamily:'inherit',cursor:'pointer',
+          display:'flex',alignItems:'center',justifyContent:'center'}});
+    }
+    const calLegend = [
+      {label:'생리',dot:{width:8,height:8,borderRadius:3,background:'rgba(255,171,145,.9)'}},
+      {label:'가임기',dot:{width:8,height:8,borderRadius:3,background:'rgba(196,181,232,.9)'}},
+      {label:'배란일',dot:{width:8,height:8,borderRadius:3,border:'1.5px solid #C4B5E8'}}
+    ];
+    const condChips = ['좋음','보통','나쁨'].map(l=>({label:l,pick:()=>this.setState({cond:l}),
+      style:{...this.chip(st.cond===l,{app:true}),height:42,borderRadius:14}}));
+    const symptomChips = SYMPTOMS.map(l=>({label:l,
+      pick:()=>this.setState(s=>({symptoms:s.symptoms.includes(l)?s.symptoms.filter(x=>x!==l):[...s.symptoms,l]})),
+      style:{...this.chip(st.symptoms.includes(l),{app:true}),flex:'none',height:32,fontSize:11.5}}));
+
+    // ── onboarding
+    const OB = [
+      {step:'FITTO',title:'물방울 요정 피또와\n오늘도 또, 건강하게',desc:'숫자 대신 표정으로 건강을 알려주는 앱이에요.',cta:'시작하기',showFitto:true},
+      {step:'STEP 1 · 목표',title:'어떤 목표로 시작할까요?',desc:'미용 목적만이 아니어도 괜찮아요.',cta:'다음',showChoices:true,
+        choices:[['체중 감량','천천히, 무리 없이'],['체중 유지','지금 상태를 지키기'],['근육 증가','단백질 중심 식단'],['건강 관리','질환·컨디션 관리']]},
+      {step:'STEP 2 · 건강 상태',title:'관리가 필요한 항목이 있나요?',desc:'복수 선택 가능 · 의료 진단을 대체하지 않아요.',cta:'다음',showChoices:true,
+        choices:[['해당 없음','건강 상태 양호'],['당뇨','당류·GI 경고'],['고혈압','나트륨 경고'],['통풍','퓨린 함량 경고'],['고지혈증','포화지방 경고']]},
+      {step:'STEP 3 · 피또 성격',title:'피또는 어떤 말투가 좋을까요?',desc:'언제든 설정에서 바꿀 수 있어요.',cta:'다음',showChoices:true,
+        choices:[['친근형','오늘도 같이 운동해볼까요? 💪'],['엄격형','오늘 목표 달성하셨나요?'],['중립형','오늘 칼로리를 확인하세요.']]},
+      {step:'완료',title:'목표가 계산됐어요',desc:'BMR과 활동량을 반영한 하루 목표예요.',cta:'홈으로',showResult:true}
+    ];
+    const cur = OB[Math.min(st.obStep,OB.length-1)];
+    const pickOb = (label) => {
+      if(st.obStep===3){ const map={'친근형':'friendly','엄격형':'strict','중립형':'neutral'}; this.setState({persona:map[label],obPick:{...st.obPick,[st.obStep]:label}}); }
+      else this.setState({obPick:{...st.obPick,[st.obStep]:label}});
+    };
+    const ob = {
+      step:cur.step, title:cur.title, desc:cur.desc, cta:cur.cta,
+      showFitto:!!cur.showFitto, showChoices:!!cur.showChoices, showResult:!!cur.showResult,
+      canBack:st.obStep>0,
+      choices:(cur.choices||[]).map(([label,sub])=>{
+        const on = st.obPick[st.obStep]===label;
+        return {label,sub,pick:()=>pickOb(label),
+          style:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,
+            padding:'15px 16px',borderRadius:18,cursor:'pointer',fontFamily:'inherit',
+            border:on?'1px solid rgba(137,196,225,.9)':'1px solid var(--stroke)',
+            background:on?'rgba(137,196,225,.16)':'var(--card)',color:'var(--txt)',
+            backdropFilter:'blur(16px)',WebkitBackdropFilter:'blur(16px)',
+            boxShadow:on?'0 8px 18px rgba(137,196,225,.24)':'none'},
+          mark:{width:20,height:20,borderRadius:'50%',flex:'none',
+            border:on?'6px solid #89C4E1':'1.5px solid var(--line)',background:'transparent'}};
+      })
+    };
+    const obDots = OB.map((_,i)=>({style:{flex:1,height:4,borderRadius:3,
+      background:i<=st.obStep?'linear-gradient(90deg,#89C4E1,#A8D8B9)':'var(--ink)'}}));
+
+    // ── tutorial
+    const T = TUT[Math.max(0,st.tutStep)];
+    const tut = {
+      step:T.step, title:T.title, desc:T.desc, cta:st.tutStep>=TUT.length-1?'완료':'다음',
+      holeStyle:{position:'absolute',left:12,right:12,top:T.top,height:T.h,borderRadius:26,
+        border:'2px solid rgba(137,196,225,.85)',boxShadow:'0 0 0 9999px rgba(0,0,0,0)',
+        background:'rgba(137,196,225,.10)',animation:'fpulse 2.2s ease-in-out infinite'},
+      tipStyle:{position:'absolute',left:20,right:20,top:T.top+T.h+16,padding:'16px 17px',borderRadius:20,
+        background:'rgba(22,32,42,.92)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',
+        border:'1px solid rgba(255,255,255,.12)'}
+    };
+
+    // ── 피또 표정 5단계 · 성격별 반응
+    const STAGE_FX = [
+      {filter:'grayscale(.5) saturate(.55) brightness(1.04)',scale:.9,glow:'rgba(176,190,197,.45)',anim:'none'},
+      {filter:'grayscale(.22) saturate(.8)',scale:.94,glow:'rgba(176,190,197,.5)',anim:'fbob 7s ease-in-out infinite'},
+      {filter:'saturate(1)',scale:1,glow:'rgba(137,196,225,.4)',anim:'fbob 5.5s ease-in-out infinite'},
+      {filter:'saturate(1.18) brightness(1.03)',scale:1.03,glow:'rgba(137,196,225,.55)',anim:'fbob 4.2s ease-in-out infinite'},
+      {filter:'saturate(1.32) brightness(1.06)',scale:1.06,glow:'rgba(168,216,185,.6)',anim:'fbob 3.2s ease-in-out infinite'}
+    ];
+    const STAGE_MSG = {
+      friendly:['입이 바싹 말랐어요… 한 잔만 부탁해요!','아직 목이 말라요. 같이 한 잔 어때요?','좋아요, 이 페이스면 괜찮아요!','거의 다 왔어요! 한 잔만 더요.','완전 만족! 오늘 물은 합격이에요 ✨'],
+      strict:['수분 섭취가 심각하게 부족합니다.','목표의 절반도 못 채웠습니다.','평균 수준입니다. 계속 유지하세요.','목표까지 얼마 남지 않았습니다.','목표 달성. 내일도 같은 페이스로.'],
+      neutral:['수분 섭취 20% 이하.','수분 섭취 부족 상태.','수분 섭취 보통.','목표 근접.','목표 달성.']
+    };
+    const stageFx = STAGE_FX[wi];
+    const fittoStages = STAGE_FX.map((fx,i)=>({
+      label:WATER_STAGES[i], msg:STAGE_MSG[st.persona][i], on:i===wi,
+      imgStyle:{width:i===wi?58:46,filter:fx.filter,transform:`scale(${fx.scale})`,transition:'all .3s ease'},
+      style:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6,padding:'12px 6px',borderRadius:16,
+        border:i===wi?'1px solid rgba(137,196,225,.85)':'1px solid var(--stroke)',
+        background:i===wi?'rgba(137,196,225,.14)':'var(--card2)',cursor:'pointer',fontFamily:'inherit'},
+      labelStyle:{fontSize:10,fontWeight:i===wi?700:500,color:i===wi?'var(--txt)':'var(--sub)',textAlign:'center'},
+      go:()=>this.setWater(Math.round(st.waterGoal*(i*0.2+0.1)))
+    }));
+
+    // ── 식단 분석 (주간 영양 밸런스)
+    const MACRO_W = [
+      {d:'월',c:212,p:88,f:54},{d:'화',c:240,p:76,f:62},{d:'수',c:198,p:95,f:48},
+      {d:'목',c:255,p:102,f:70},{d:'금',c:176,p:71,f:44},{d:'토',c:268,p:84,f:78},{d:'일',c:190,p:98,f:52}
+    ];
+    const wSum = MACRO_W.reduce((a,d)=>[a[0]+d.c,a[1]+d.p,a[2]+d.f],[0,0,0]);
+    const wKcal = [wSum[0]*4, wSum[1]*4, wSum[2]*9];
+    const wTot = wKcal.reduce((a,b)=>a+b,0);
+    const wRatio = wKcal.map(v=>Math.round(v/wTot*100));
+    const IDEAL = [50,25,25];
+    const analysis = {
+      avgKcal:Math.round(wTot/7).toLocaleString(),
+      ratioBars:[['탄수화물','#89C4E1',wRatio[0],IDEAL[0]],['단백질','#A8D8B9',wRatio[1],IDEAL[1]],['지방','#C4B5E8',wRatio[2],IDEAL[2]]].map(([label,c,p,ideal])=>({
+        label, pct:p+'%', idealLabel:'권장 '+ideal+'%',
+        barStyle:{width:p+'%',height:'100%',borderRadius:6,background:`linear-gradient(90deg,${c}bb,${c})`,transition:'width .4s ease'},
+        markStyle:{position:'absolute',left:ideal+'%',top:-3,bottom:-3,width:2,borderRadius:2,background:'var(--txt)',opacity:.32},
+        diffStyle:{fontSize:11,fontWeight:700,color:Math.abs(p-ideal)<=6?'#5B9E78':(p>ideal?'#C79A2E':'#4E8CAF')},
+        diff:(p>ideal?'+':'')+(p-ideal)+'%p'
+      })),
+      days:MACRO_W.map(d=>{
+        const tot = d.c*4+d.p*4+d.f*9;
+        return {label:d.d, kcal:Math.round(tot).toLocaleString(),
+          stack:[[d.c*4,'#89C4E1'],[d.p*4,'#A8D8B9'],[d.f*9,'#C4B5E8']].map(([v,c])=>({
+            style:{height:Math.round(v/2600*104)+'px',background:c,width:'100%'}}))};
+      }),
+      cards:[
+        {label:'평균 단백질',value:Math.round(wSum[1]/7)+'g',note:'권장 84g'},
+        {label:'평균 나트륨',value:'2,410mg',note:'권장 2,000mg 이하'},
+        {label:'식이섬유',value:'19g',note:'권장 25g'}
+      ],
+      notes:[
+        {tone:'warn',text:'주말(토) 지방 비율이 평일보다 12%p 높아요. 튀김·양념 메뉴를 한 끼만 바꿔보세요.'},
+        {tone:'good',text:'단백질은 주 5일 목표를 채웠어요. 근손실 걱정은 덜어도 돼요.'},
+        {tone:'warn',text:'식이섬유가 권장량보다 6g 부족해요. 채소 한 접시나 통곡물로 채우면 충분해요.'},
+        {tone:'sub',text:'분석은 기록된 식단만 반영합니다. 의료 진단을 대체하지 않아요.'}
+      ].map(n=>({text:n.text,
+        style:{display:'flex',gap:8,alignItems:'flex-start',fontSize:11.5,lineHeight:1.6,color:{good:'#5B9E78',warn:'#C79A2E',bad:'#C1674A',sub:'var(--sub)'}[n.tone]},
+        dot:{width:6,height:6,borderRadius:'50%',marginTop:6,flex:'none',background:{good:'#5B9E78',warn:'#C79A2E',bad:'#C1674A',sub:'var(--sub)'}[n.tone]}})),
+      legend:[['탄수','#89C4E1'],['단백','#A8D8B9'],['지방','#C4B5E8']].map(([label,c])=>({
+        label, dot:{width:8,height:8,borderRadius:3,background:c}}))
+    };
+
+    // ── 알림 / 리마인더
+    const A = st.alarms;
+    const setA = (k,v) => this.setState(s=>({alarms:{...s.alarms,[k]:v}}));
+    const sw = on => ({width:48,height:29,borderRadius:16,border:'none',cursor:'pointer',padding:3,flex:'none',
+      display:'flex',justifyContent:on?'flex-end':'flex-start',
+      background:on?'linear-gradient(135deg,#89C4E1,#7FB6DC)':'var(--ink)',transition:'all .22s ease'});
+    const knob = {width:23,height:23,borderRadius:'50%',background:'#fff',boxShadow:'0 2px 6px rgba(44,62,80,.24)'};
+    const alarm = {
+      rows:[
+        {key:'water',title:'물 마시기 알림',desc:A.waterEvery+'시간마다 · 기상 후부터'},
+        {key:'meal',title:'식사 기록 알림',desc:A.mealTimes},
+        {key:'move',title:'움직임 알림',desc:A.moveAfter+'분 이상 앉아 있으면'},
+        {key:'weigh',title:'체중 기록 알림',desc:'매주 월요일 아침'},
+        {key:'report',title:'주간 리포트',desc:'일요일 저녁 요약 발송'}
+      ].map(r=>({title:r.title,desc:r.desc,on:!!A[r.key],
+        style:sw(!!A[r.key]),knob, go:()=>setA(r.key,!A[r.key])})),
+      waterOn:A.water,
+      everyChips:[1,2,3,4].map(n=>({label:n+'시간',go:()=>setA('waterEvery',n),
+        style:{...this.chip(A.waterEvery===n,{app:true}),height:34,borderRadius:12,fontSize:11.5}})),
+      moveOn:A.move,
+      afterChips:[30,45,60,90].map(n=>({label:n+'분',go:()=>setA('moveAfter',n),
+        style:{...this.chip(A.moveAfter===n,{app:true}),height:34,borderRadius:12,fontSize:11.5}})),
+      quiet:A.quiet, quietStyle:sw(A.quiet), quietKnob:knob,
+      toggleQuiet:()=>setA('quiet',!A.quiet),
+      quietFrom:A.quietFrom, quietTo:A.quietTo,
+      setFrom:e=>setA('quietFrom',e.target.value), setTo:e=>setA('quietTo',e.target.value),
+      preview:st.persona==='friendly'
+        ? '“물 마실 시간이에요! 한 잔이면 촉촉해질 수 있어요 💧”'
+        : st.persona==='strict' ? '“수분 섭취가 2시간째 없습니다. 지금 250ml 채우세요.”'
+        : '“물 섭취 알림 · 목표까지 950ml 남음”'
+    };
+
+    // ── 나만의 레시피 (재료 100g 기준: kcal, 탄, 단, 지)
+    const ING = {
+      '닭가슴살':[165,0,31,3.6],'현미밥':[111,23,2.6,0.9],'계란':[155,1.1,13,11],
+      '두부':[76,1.9,8,4.8],'연어':[208,0,20,13],'브로콜리':[34,7,2.8,0.4],
+      '고구마':[86,20,1.6,0.1],'아보카도':[160,9,2,15],'올리브유':[884,0,0,100],
+      '우유':[60,4.8,3.2,3.3],'아몬드':[579,22,21,50],'땅콩버터':[588,20,25,50]
+    };
+    const ALLERGEN = ['아몬드','땅콩버터'];
+    const dr = st.recipeDraft;
+    const sum = dr.items.reduce((a,it)=>{
+      const v = ING[it.name]||[0,0,0,0], k = Number(it.g)/100;
+      return [a[0]+v[0]*k, a[1]+v[1]*k, a[2]+v[2]*k, a[3]+v[3]*k];
+    },[0,0,0,0]);
+    const macroKcal = [sum[1]*4, sum[2]*4, sum[3]*9];
+    const mTot = macroKcal.reduce((a,b)=>a+b,0) || 1;
+    const mPct = macroKcal.map(v=>Math.round(v/mTot*100));
+    const hasAllergen = dr.items.some(it=>ALLERGEN.indexOf(it.name)>=0);
+    const notes = [];
+    if(dr.items.length===0) notes.push({tone:'sub',text:'재료를 추가하면 칼로리와 영양 비율을 바로 계산해요.'});
+    else{
+      if(mPct[1]>=20) notes.push({tone:'good',text:`단백질 비율 ${mPct[1]}% — 근육 유지에 충분해요.`});
+      else notes.push({tone:'warn',text:`단백질 비율 ${mPct[1]}% — 20% 아래예요. 단백질 재료를 조금 늘려보세요.`});
+      if(mPct[2]>=40) notes.push({tone:'warn',text:`지방 비율 ${mPct[2]}% — 기름·견과류 양을 줄여보세요.`});
+      else notes.push({tone:'good',text:`지방 비율 ${mPct[2]}% — 적정 범위예요.`});
+      if(hasAllergen) notes.push({tone:'bad',text:'등록된 알레르기 재료(땅콩·아몬드)가 들어 있어요.'});
+      if(sum[0]>800) notes.push({tone:'warn',text:'1회분 800kcal 이상이에요. 2인분으로 나누는 걸 추천해요.'});
+    }
+    const toneColor = {good:'#5B9E78',warn:'#C79A2E',bad:'#C1674A',sub:'var(--sub)'};
+    const recipe = {
+      name:dr.name, gram:dr.g, pick:dr.pick,
+      setName:e=>this.setState(s=>({recipeDraft:{...s.recipeDraft,name:e.target.value}})),
+      setGram:e=>this.setState(s=>({recipeDraft:{...s.recipeDraft,g:e.target.value}})),
+      ingChips:Object.keys(ING).map(n=>({label:n,
+        go:()=>this.setState(s=>({recipeDraft:{...s.recipeDraft,pick:n}})),
+        style:{...this.chip(dr.pick===n,{app:true}),flex:'none',height:32,fontSize:11.5,padding:'0 11px'}})),
+      add:()=>this.setState(s=>({recipeDraft:{...s.recipeDraft,
+        items:[...s.recipeDraft.items,{name:s.recipeDraft.pick,g:Number(s.recipeDraft.g)||100}]}})),
+      items:dr.items.map((it,i)=>{
+        const v = ING[it.name]||[0,0,0,0];
+        return {name:it.name, g:it.g+'g', kcal:Math.round(v[0]*it.g/100)+' kcal',
+          remove:()=>this.setState(s=>({recipeDraft:{...s.recipeDraft,items:s.recipeDraft.items.filter((_,j)=>j!==i)}}))};
+      }),
+      hasItems:dr.items.length>0,
+      kcal:Math.round(sum[0]).toLocaleString(),
+      carb:Math.round(sum[1])+'g', protein:Math.round(sum[2])+'g', fat:Math.round(sum[3])+'g',
+      bars:[['탄수','#89C4E1',mPct[0]],['단백','#A8D8B9',mPct[1]],['지방','#C4B5E8',mPct[2]]].map(([l,c,p])=>({
+        label:l, pct:p+'%', style:{width:p+'%',height:'100%',background:c,transition:'width .4s ease'}})),
+      notes:notes.map(n=>({text:n.text, style:{display:'flex',gap:8,alignItems:'flex-start',fontSize:11.5,lineHeight:1.55,color:toneColor[n.tone]},
+        dot:{width:6,height:6,borderRadius:'50%',background:toneColor[n.tone],marginTop:6,flex:'none'}})),
+      save:()=>{
+        if(!dr.items.length) return this.toast('재료를 먼저 추가해 주세요');
+        const name = (dr.name||'이름 없는 레시피');
+        this.setState(s=>({recipes:[...s.recipes,{name, kcal:Math.round(sum[0]), count:dr.items.length}],
+          recipeDraft:{name:'',items:[],pick:'닭가슴살',g:100}}), ()=>this.toast('레시피를 저장했어요'));
+      },
+      saved:st.recipes.map((r,i)=>({name:r.name, meta:`재료 ${r.count}개 · ${r.kcal.toLocaleString()}kcal`,
+        add:()=>this.setState(s=>({meals:{...s.meals,'저녁':[...s.meals['저녁'],{name:r.name,amount:'1인분',kcal:r.kcal}]}}),
+          ()=>this.toast('오늘 저녁에 추가했어요'))})),
+      hasSaved:st.recipes.length>0
+    };
+
+    // ── 프로필
+    const pf = st.profile;
+    const setPf = (k,v) => this.setState(s=>({profile:{...s.profile,[k]:v}}));
+    const age = 2026 - parseInt((pf.birth||'1996').slice(0,4),10);
+    const ACT = {'적음':1.375,'보통':1.55,'많음':1.725};
+    const bmr = Math.round(447.6 + 9.25*Number(pf.weight||0) + 3.1*Number(pf.height||0) - 4.33*age);
+    const targetKcal = Math.round(bmr * (ACT[pf.activity]||1.55) * (pf.goal==='체중 감량'?0.82:pf.goal==='근육 증가'?1.1:1) / 10) * 10;
+    const isBirthday = (pf.birth||'').slice(5) === '08-16';
+    const profile = {
+      name:pf.name, birth:pf.birth, height:pf.height, weight:pf.weight,
+      age:age+'세', bmr:bmr.toLocaleString(), target:targetKcal.toLocaleString(),
+      summary:`${pf.goal} · ${pf.height}cm · ${pf.weight}kg · 목표 ${targetKcal.toLocaleString()}kcal`,
+      setName:e=>setPf('name',e.target.value),
+      setBirth:e=>setPf('birth',e.target.value),
+      setHeight:e=>setPf('height',e.target.value),
+      setWeight:e=>setPf('weight',e.target.value),
+      sexChips:['여성','남성','선택 안 함'].map(l=>({label:l,go:()=>setPf('sex',l),
+        style:{...this.chip(pf.sex===l,{app:true}),height:36,borderRadius:12,fontSize:11.5}})),
+      actChips:['적음','보통','많음'].map(l=>({label:l,go:()=>setPf('activity',l),
+        style:{...this.chip(pf.activity===l,{app:true}),height:36,borderRadius:12,fontSize:11.5}})),
+      goalChips:['체중 감량','체중 유지','근육 증가','건강 관리'].map(l=>({label:l,go:()=>setPf('goal',l),
+        style:{...this.chip(pf.goal===l,{app:true}),height:36,borderRadius:12,fontSize:11.5,flex:'none',padding:'0 12px'}})),
+      isBirthday
+    };
+
+    const NAVS = {
+      A:[['home','홈'],['meal','식단'],['health','헬스'],['settings','설정']],
+      B:[['home','홈'],['meal','식단'],['health','헬스'],['settings','설정']],
+      C:[['home','홈'],['meal','식단'],['health','헬스'],['report','리포트'],['settings','설정']]
+    };
+    const tabs = NAVS[st.navV].map(([k,label])=>{
+      const on = st.tab===k && scr===k;
+      return {label, go:()=>this.go(k),
+        style:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,
+          border:'none',borderRadius:16,cursor:'pointer',fontFamily:'inherit',fontSize:11.5,
+          fontWeight:on?700:500,color:on?'#fff':'var(--sub)',
+          background:on?'linear-gradient(135deg,#89C4E1,#7FB6DC)':'transparent',
+          boxShadow:on?'0 6px 14px rgba(137,196,225,.4)':'none',transition:'all .22s ease'},
+        dot:{width:6,height:6,borderRadius:'50%',background:on?'#fff':'var(--sub)',opacity:on?1:.5}};
+    });
+
+    return {
+      isDark, themeClass:isDark?'dark':'',
+      appRoot:{position:'relative',height:'100%',background:'var(--bg)',color:'var(--txt)',overflow:'hidden',
+        fontFamily:'"Pretendard Variable",Pretendard,system-ui,sans-serif'},
+      headerA:hA, headerB1:hB1, headerB2:hB2,
+      screenChips:mk([['onboarding','온보딩'],['home','홈'],['meal','식단'],['health','헬스'],['water','물 상세'],['steps','걸음 상세'],['profile','프로필'],['recipe','레시피'],['analysis','식단 분석'],['alarm','알림'],['report','리포트'],['period','생리 상세'],['settings','설정']],scr,k=>{
+        if(k==='onboarding') this.setState({screen:'onboarding',obStep:0,tutStep:-1}); else this.go(k);
+      }),
+      themeChips:mk([['light','라이트'],['dark','다크'],['system','시스템']],st.theme,k=>this.setState({theme:k})),
+      personaChips:mk([['friendly','친근형'],['strict','엄격형'],['neutral','중립형']],st.persona,k=>this.setState({persona:k})),
+      layoutChips:mk([['A','A 스택'],['B','B 히어로'],['C','C 컴팩트']],st.layout,k=>this.setState({layout:k})),
+      waterChips:mk([['A','A 5단계'],['B','B 컵'],['C','C 슬라이드']],st.waterV,k=>this.setState({waterV:k})),
+      headerChips:mk([['A','A 페이드'],['B','B 오브'],['C','C 물결']],st.headerV,k=>this.setState({headerV:k})),
+      timeChips:mk(TOD_KEYS.map(k=>[k,TOD[k].label]),st.tod,k=>this.setState({tod:k})),
+      cycleTime:()=>this.setState(s=>({tod:TOD_KEYS[(TOD_KEYS.indexOf(s.tod)+1)%TOD_KEYS.length]})),
+      tod:{label:tod.label,greet:tod.greet},
+      personaName:P.name, msg:P,
+      isOnboarding:scr==='onboarding', isHome:scr==='home', isMeal:scr==='meal',
+      isHealth:scr==='health', isPeriod:scr==='period', isSettings:scr==='settings',
+      isReport:scr==='report',
+      showNav:['home','meal','health','settings','report'].indexOf(scr)>=0,
+      navChips:[['A','A 4탭'],['B','B 4탭+기록'],['C','C 5탭']].map(([k,label])=>({
+        label, go:()=>this.setState({navV:k}), style:this.chip(st.navV===k)})),
+      navIsB:st.navV==='B', navIsPlain:st.navV!=='B',
+      fabStyle:{width:56,height:50,alignSelf:'center',flex:'none',borderRadius:18,border:'none',cursor:'pointer',
+        fontFamily:'inherit',fontSize:20,fontWeight:600,color:'#fff',
+        background:st.showQuick?'linear-gradient(135deg,#7FB6DC,#6FA6CE)':'linear-gradient(135deg,#89C4E1,#A8D8B9)',
+        boxShadow:'0 8px 18px rgba(137,196,225,.5)',
+        transform:st.showQuick?'rotate(45deg)':'none',transition:'transform .2s ease, background .2s ease'},
+      navAll:tabs.map(t=>({...t})), navLeft:tabs.slice(0,2).map(t=>({...t})), navRight:tabs.slice(2).map(t=>({...t})),
+      showQuick:st.showQuick,
+      toggleQuick:()=>this.setState(s=>({showQuick:!s.showQuick})),
+      quickActions:[
+        {label:'물 '+st.cup+'ml', sub:'바로 추가',
+         go:()=>{this.setWater(st.water+st.cup); this.setState({showQuick:false}); this.toast('+'+st.cup+'ml 기록했어요');},
+         dot:{width:10,height:10,borderRadius:3,background:'#89C4E1'}},
+        {label:'음식 기록', sub:'검색해서 추가',
+         go:()=>this.setState({screen:'meal',tab:'meal',showQuick:false,showSearch:true}),
+         dot:{width:10,height:10,borderRadius:3,background:'#FFAB91'}},
+        {label:'운동 기록', sub:'오늘 한 운동',
+         go:()=>this.setState({screen:'health',tab:'health',showQuick:false}),
+         dot:{width:10,height:10,borderRadius:3,background:'#A8D8B9'}}
+      ],
+      reportStats:[{label:'평균 섭취',value:'1,579'},{label:'평균 소모',value:'1,455'},{label:'목표 달성',value:'4일'}],
+      homeGrid:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:st.layout==='C'?10:12,alignItems:'stretch'},
+      cell, heroKcal:st.layout!=='C', kcal, kcalRing, water,
+      waterIsA:st.waterV==='A', waterIsB:st.waterV==='B', waterIsC:st.waterV==='C',
+      addWater:()=>{setWater(st.water+st.cup); this.toast('+'+st.cup+'ml · '+WATER_STAGES[Math.min(4,Math.floor((st.water+st.cup)/st.waterGoal*5))]);},
+      subWater:()=>setWater(st.water-st.cup),
+      vDown, vMove, vUp, rangeChips, waterDetail, stepDetail, monthBar,
+      isWaterDetail:scr==='water', isStepDetail:scr==='steps',
+      goWater:()=>this.setState({screen:'water'}), goSteps:()=>this.setState({screen:'steps'}),
+      dragWater:e=>{e.currentTarget.setPointerCapture(e.pointerId); dragTo(e);},
+      dragWaterMove:e=>{ if(e.buttons) dragTo(e); },
+      stepBar:{width:Math.min(100,Math.round(6420/st.stepGoal*100))+'%',height:'100%',borderRadius:5,background:'linear-gradient(90deg,#A8D8B9,#89C4E1)',transition:'width .4s ease'},
+      stepSpark:[8200,7400,9100,6800,5400,11200,6420].map((v,i)=>({style:{flex:1,height:Math.round(v/12000*34)+'px',borderRadius:'4px 4px 2px 2px',background:i===6?'linear-gradient(180deg,#89C4E1,#7FB6DC)':'var(--ink)'}})),
+      cycleStrip:Array.from({length:28},(_,i)=>{
+        const d=i+1, isP=d<=5, isFert=d>=12&&d<=17, isOv=d===15, today=d===3;
+        return {style:{flex:1,height:today?14:(isOv?12:8),borderRadius:3,
+          background:isP?'rgba(255,171,145,.85)':isOv?'#C4B5E8':isFert?'rgba(196,181,232,.5)':'var(--ink)',
+          outline:today?'2px solid rgba(137,196,225,.9)':'none'}};
+      }),
+      rings, act, week, exercises, quickEx, training,
+      moveStats:[{label:'주간 활동',value:'5일'},{label:'평균 걸음',value:'7.2천'},{label:'앉은 시간',value:'6.5h'}],
+      mealSlots, mealsEmpty:this.intake()===0, mealsFilled:this.intake()>0,
+      clearMeals:()=>this.setState({meals:{'아침':[],'점심':[],'저녁':[],'간식':[]}}),
+      recos, results, query:st.query,
+      setQuery:e=>this.setState({query:e.target.value}),
+      clearQuery:()=>this.setState({query:''}),
+      recent:['닭가슴살 구이','현미밥','그릭요거트','연어 샐러드'].map(n=>({name:n,
+        pick:()=>{const f=FOODS.find(x=>x.name===n); if(f) addFood(f);}})),
+      showSearch:st.showSearch, openSearch:()=>this.setState({showSearch:true}),
+      closeSearch:()=>this.setState({showSearch:false}),
+      periodOn:st.periodOn, togglePeriod:()=>this.setState(s=>({periodOn:!s.periodOn})),
+      periodSwitch:{width:50,height:30,borderRadius:16,border:'none',cursor:'pointer',padding:3,
+        display:'flex',justifyContent:st.periodOn?'flex-end':'flex-start',
+        background:st.periodOn?'linear-gradient(135deg,#89C4E1,#7FB6DC)':'var(--ink)',transition:'all .22s ease'},
+      periodKnob:{width:24,height:24,borderRadius:'50%',background:'#fff',boxShadow:'0 2px 6px rgba(44,62,80,.24)'},
+      calDays, calLegend, condChips, symptomChips,
+      dow:['일','월','화','수','목','금','토'].map(l=>({label:l})),
+      selectedLabel:'8월 '+st.selDay+'일',
+      ob, obDots,
+      obNext:()=>{ if(st.obStep>=OB.length-1) this.go('home'); else this.setState({obStep:st.obStep+1}); },
+      obBack:()=>this.setState({obStep:Math.max(0,st.obStep-1)}),
+      startOnboarding:()=>this.setState({screen:'onboarding',obStep:0}),
+      showTutorial:st.tutStep>=0, tut,
+      startTutorial:()=>this.setState({screen:'home',tab:'home',tutStep:0}),
+      nextTutorial:()=>this.setState(s=>({tutStep:s.tutStep>=TUT.length-1?-1:s.tutStep+1})),
+      endTutorial:()=>this.setState({tutStep:-1}),
+      showLie:st.showLie, openLie:()=>this.setState({showLie:true}), closeLie:()=>this.setState({showLie:false}),
+      recipe, isRecipe:scr==='recipe', goRecipe:()=>this.setState({screen:'recipe'}),
+      analysis, isAnalysis:scr==='analysis', goAnalysis:()=>this.setState({screen:'analysis'}),
+      alarm, isAlarm:scr==='alarm', goAlarm:()=>this.setState({screen:'alarm'}),
+      fittoStages, stageLabel:WATER_STAGES[wi], stageMsg:STAGE_MSG[st.persona][wi],
+      heroImg:{position:'relative',width:78,animation:stageFx.anim,
+        filter:stageFx.filter+' drop-shadow(0 10px 16px rgba(44,62,80,.14))',
+        transform:`scale(${stageFx.scale})`,transition:'filter .4s ease, transform .4s ease'},
+      showOrder:st.showOrder,
+      openOrder:()=>this.setState({showOrder:true}),
+      closeOrder:()=>this.setState({showOrder:false}),
+      orderPress:()=>{ clearTimeout(this._lp); this._lp = setTimeout(()=>this.setState({showOrder:true}),550); },
+      orderRelease:()=>clearTimeout(this._lp),
+      orderList:st.cardOrder.map((k,i)=>({
+        name:CARD_NAME[k], hidden:st.cardHidden.indexOf(k)>=0,
+        eye:st.cardHidden.indexOf(k)>=0?'숨김':'표시',
+        rowStyle:{display:'flex',alignItems:'center',gap:9,padding:'11px 12px',borderRadius:15,
+          border:'1px solid var(--stroke)',background:'var(--card2)',
+          opacity:st.cardHidden.indexOf(k)>=0?.5:1},
+        nameStyle:{flex:1,fontSize:12.5,fontWeight:600,color:'var(--txt)'},
+        eyeStyle:{height:28,padding:'0 10px',borderRadius:9,border:'1px solid var(--stroke)',
+          background:'transparent',color:'var(--sub)',fontSize:11,fontFamily:'inherit',cursor:'pointer'},
+        arrowStyle:{width:30,height:28,borderRadius:9,border:'1px solid var(--stroke)',
+          background:'var(--card)',color:'var(--txt)',fontSize:12,fontFamily:'inherit',cursor:'pointer'},
+        up:()=>{ if(i===0) return; this.setState(s=>{const a=[...s.cardOrder];[a[i-1],a[i]]=[a[i],a[i-1]];return{cardOrder:a};}); },
+        down:()=>{ if(i===st.cardOrder.length-1) return; this.setState(s=>{const a=[...s.cardOrder];[a[i+1],a[i]]=[a[i],a[i+1]];return{cardOrder:a};}); },
+        toggle:()=>this.setState(s=>({cardHidden:s.cardHidden.indexOf(k)>=0?s.cardHidden.filter(x=>x!==k):[...s.cardHidden,k]}))
+      })),
+      resetOrder:()=>this.setState({cardOrder:['kcal','water','act','steps','ex','week','period'],cardHidden:[]}),
+      profile, isProfile:scr==='profile',
+      goProfile:()=>this.setState({screen:'profile'}),
+      showBirthday:st.showBirthday,
+      openBirthday:()=>this.setState({showBirthday:true}),
+      closeBirthday:()=>this.setState({showBirthday:false}),
+      birthdayMsg:st.persona==='strict'
+        ? pf.name+'님, 생일 축하합니다. 오늘은 목표를 조금 여유롭게 잡아두었습니다.'
+        : st.persona==='neutral'
+        ? pf.name+'님의 생일입니다. 오늘 목표 칼로리에 200kcal을 더했습니다.'
+        : pf.name+'님, 생일 축하해요! 오늘은 케이크 한 조각쯤 괜찮아요. 목표도 살짝 늘려뒀어요 🎂',
+      goSettings:()=>this.setState({screen:'settings'}), goPeriod:()=>this.setState({screen:'period'}),
+      goHealth:()=>this.go('health'), back:()=>this.go(st.tab),
+      toast:{show:!!st.toast,text:st.toast||''}
+    };
+  }
+}
+
+</script>
+</body>
+</html>
