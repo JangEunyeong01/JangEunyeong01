@@ -2,9 +2,9 @@
 import type { Persona } from '../store/useAppStore';
 
 export const personaLabel: Record<Persona, string> = {
-  friendly: '친근',
-  strict: '엄격',
-  neutral: '중립',
+  friendly: '친근형',
+  strict: '엄격형',
+  neutral: '중립형',
 };
 
 export const personaOnboardingCopy: Record<Persona, string> = {
@@ -51,6 +51,11 @@ export const personaCopy = {
     friendly: () => '물 마실 시간이에요! 한 잔이면 촉촉해질 수 있어요 💧',
     strict: () => '수분 섭취가 2시간째 없습니다. 지금 250ml 채우세요.',
     neutral: (v: { remain: number }) => `물 섭취 알림 · 목표까지 ${v.remain}ml 남음`,
+  },
+  birthdayMessage: {
+    friendly: (v: { name: string }) => `${v.name}님, 생일 축하해요! 오늘은 케이크 한 조각쯤 괜찮아요. 목표도 살짝 늘려뒀어요 🎂`,
+    strict: (v: { name: string }) => `${v.name}님, 생일 축하합니다. 오늘은 목표를 조금 여유롭게 잡아두었습니다.`,
+    neutral: (v: { name: string }) => `${v.name}님의 생일입니다. 오늘 목표 칼로리에 200kcal을 더했습니다.`,
   },
   waterStage: {
     friendly: [

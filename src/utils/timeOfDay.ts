@@ -12,6 +12,12 @@ export function getTimeSlot(date: Date = new Date()): TimeSlot {
   return 'night';
 }
 
+/** 프로필 생일(월/일)이 오늘과 같은지. 연도는 보지 않는다. */
+export function isBirthdayToday(month: number | null, day: number | null, now: Date = new Date()): boolean {
+  if (!month || !day) return false;
+  return now.getMonth() + 1 === month && now.getDate() === day;
+}
+
 export function dateKey(date: Date = new Date()): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');

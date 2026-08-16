@@ -43,12 +43,16 @@ export default function WaterCard() {
       <GlassCard>
         <View style={styles.topRow}>
           <Text style={[styles.label, { color: colors.sub }]}>물 섭취</Text>
-          <Text style={[styles.stageName, { color: brand.blue }]}>{stage.name}</Text>
+          <View style={styles.topRight}>
+            <Text style={[styles.stageName, { color: brand.blue }]}>{stage.name}</Text>
+            <Text style={[styles.detailLink, { color: colors.sub }]}>상세 ›</Text>
+          </View>
         </View>
         <View style={styles.numRow}>
           <Text style={[styles.bigNum, { color: colors.txt }]}>{water.toLocaleString()}</Text>
           <Text style={[styles.goalNum, { color: colors.sub }]}> / {goal.toLocaleString()} ml</Text>
         </View>
+        <Text style={[styles.dragHint, { color: colors.sub }]}>카드를 위로 끌면 늘고, 아래로 끌면 줄어요</Text>
 
         <View style={styles.gauge}>
           {Array.from({ length: 5 }).map((_, i) =>
@@ -84,9 +88,23 @@ const styles = StyleSheet.create({
     fontSize: 12.5,
     fontWeight: '600',
   },
+  topRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   stageName: {
     fontSize: 11,
     fontWeight: '600',
+  },
+  detailLink: {
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  dragHint: {
+    fontSize: 11,
+    fontWeight: '500',
+    marginTop: 4,
   },
   numRow: {
     flexDirection: 'row',

@@ -13,9 +13,10 @@ import WeekCard from './cards/WeekCard';
 import PeriodCard from './cards/PeriodCard';
 import LayDownBanner from './LayDownBanner';
 import CardOrderSheet from './CardOrderSheet';
+import BirthdayBanner from './BirthdayBanner';
+import BirthdayModal from './BirthdayModal';
 import { useAppStore, CardId } from '../../store/useAppStore';
-import { dateKey } from '../../utils/timeOfDay';
-import { useTheme } from '../../theme/useTheme';
+import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
 
 const CARD_COMPONENTS: Record<CardId, React.ComponentType> = {
   kcal: KcalCard,
@@ -29,13 +30,16 @@ const CARD_COMPONENTS: Record<CardId, React.ComponentType> = {
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const { spacing } = useTheme();
   const cardOrder = useAppStore((s) => s.cardOrder);
   const cardHidden = useAppStore((s) => s.cardHidden);
   const periodOn = useAppStore((s) => s.periodOn);
   const seedMockToday = useAppStore((s) => s.seedMockToday);
   const record = useAppStore((s) => s.dailyRecords[dateKey()]);
+  const profile = useAppStore((s) => s.profile);
   const [sheetVisible, setSheetVisible] = useState(false);
+  const [birthdayVisible, setBirthdayVisible] = useState(false);
+
+  const isBirthday = isBirthdayToday(profile.birthdayMonth, profile.birthdayDay);
 
   useEffect(() => {
     seedMockToday(dateKey());
@@ -52,6 +56,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader />
+        {isBirthday && <BirthdayBanner name={profile.nickname} onPress={() => setBirthdayVisible(true)} />}
         <HeroRow />
 
         <Pressable onLongPress={() => setSheetVisible(true)} delayLongPress={550} style={styles.grid}>
@@ -69,6 +74,7 @@ export default function HomeScreen() {
       </ScrollView>
 
       <CardOrderSheet visible={sheetVisible} onClose={() => setSheetVisible(false)} />
+      <BirthdayModal visible={birthdayVisible} onClose={() => setBirthdayVisible(false)} />
     </ScreenBackground>
   );
 }

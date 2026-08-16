@@ -48,9 +48,9 @@ export default function KcalCard() {
       </View>
 
       <View style={styles.summaryRow}>
-        <SummaryCol label="섭취" value={consumed} colors={colors} />
-        <SummaryCol label="소모" value={burned} colors={colors} />
-        <SummaryCol label="남음" value={remain} colors={colors} />
+        <SummaryCol label="섭취" value={consumed} colors={colors} align="flex-start" />
+        <SummaryCol label="소모" value={burned} colors={colors} align="center" />
+        <SummaryCol label="남음" value={remain} colors={colors} align="flex-end" />
       </View>
 
       <View style={[styles.commentBox, { backgroundColor: colors.card2 }]}>
@@ -60,11 +60,24 @@ export default function KcalCard() {
   );
 }
 
-function SummaryCol({ label, value, colors }: { label: string; value: number; colors: any }) {
+// 라벨과 값을 한 줄에 두고 3열을 좌·중·우로 벌린다(원본 프로토타입 배치).
+function SummaryCol({
+  label,
+  value,
+  colors,
+  align,
+}: {
+  label: string;
+  value: number;
+  colors: any;
+  align: 'flex-start' | 'center' | 'flex-end';
+}) {
   return (
-    <View style={styles.summaryCol}>
-      <Text style={[styles.summaryLabel, { color: colors.sub }]}>{label}</Text>
-      <Text style={[styles.summaryValue, { color: colors.txt }]}>{value.toLocaleString()}</Text>
+    <View style={[styles.summaryCol, { alignItems: align }]}>
+      <View style={styles.summaryInline}>
+        <Text style={[styles.summaryLabel, { color: colors.sub }]}>{label}</Text>
+        <Text style={[styles.summaryValue, { color: colors.txt }]}>{value.toLocaleString()}</Text>
+      </View>
     </View>
   );
 }
@@ -129,7 +142,11 @@ const styles = StyleSheet.create({
   },
   summaryCol: {
     flex: 1,
-    gap: 3,
+  },
+  summaryInline: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 6,
   },
   summaryLabel: {
     fontSize: 11,

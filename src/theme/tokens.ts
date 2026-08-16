@@ -90,6 +90,26 @@ export const overlay = {
 export const tabBarShadowColor = alpha(lightColors.txt, 0.16);
 
 /**
+ * 생일 배너·모달.
+ * README 토큰 표에는 없고 원본 프로토타입에만 있는 값이라 따로 모아둔다.
+ * 옅은 복숭아색은 아침 시간대 색(#FFCBB6)과 같은 값을 쓴다.
+ */
+const BIRTHDAY_PEACH = '#FFCBB6';
+const BIRTHDAY_MODAL_INK = '#14202A';
+
+export const birthday = {
+  bannerGradient: [alpha(brand.lavender, 0.35), alpha(BIRTHDAY_PEACH, 0.35)] as const,
+  avatarGradient: [brand.lavender, BIRTHDAY_PEACH] as const,
+  confirmGradient: [brand.lavender, brand.blue] as const,
+  modalBackdrop: alpha(BIRTHDAY_MODAL_INK, 0.44),
+  modalShadow: alpha(BIRTHDAY_MODAL_INK, 0.32),
+  glowLavender: alpha(brand.lavender, 0.55),
+  glowPeach: alpha(BIRTHDAY_PEACH, 0.6),
+  /** 모달 캐릭터 부유 주기 (프로토타입: fbob 3.4s). */
+  floatDuration: 3400,
+} as const;
+
+/**
  * 캐릭터 5단계 필터 근사용 오버레이 색.
  * RN Image에 CSS filter를 걸 수 없어 반투명 레이어로 대체한다.
  * 최종 5단계 일러스트가 준비되면 이미지 스왑으로 바뀌면서 함께 제거된다.
@@ -135,13 +155,14 @@ export const motion = {
 
 export type TimeSlot = 'dawn' | 'morning' | 'day' | 'after' | 'evening' | 'night';
 
-export const timeSlots: Record<TimeSlot, { color: string; greeting: string }> = {
-  dawn: { color: '#2C3E50', greeting: '좋은 새벽' },
-  morning: { color: '#FFCBB6', greeting: '좋은 아침' },
-  day: { color: '#89C4E1', greeting: '좋은 오후' },
-  after: { color: '#A8D8B9', greeting: '나른한 오후' },
-  evening: { color: '#C4B5E8', greeting: '편안한 저녁' },
-  night: { color: '#6B5B95', greeting: '늦은 밤' },
+/** name은 헤더 시간대 칩에, greeting은 히어로 행 인사말에 쓴다. */
+export const timeSlots: Record<TimeSlot, { color: string; name: string; greeting: string }> = {
+  dawn: { color: '#2C3E50', name: '새벽', greeting: '좋은 새벽' },
+  morning: { color: '#FFCBB6', name: '아침', greeting: '좋은 아침' },
+  day: { color: '#89C4E1', name: '낮', greeting: '좋은 오후' },
+  after: { color: '#A8D8B9', name: '오후', greeting: '나른한 오후' },
+  evening: { color: '#C4B5E8', name: '저녁', greeting: '편안한 저녁' },
+  night: { color: '#6B5B95', name: '밤', greeting: '늦은 밤' },
 };
 
 export const typography = {

@@ -101,7 +101,6 @@ interface AppState {
   tutorialDone: boolean;
   birthdayShownYear: number | null;
   timeSlotOverride: string | null;
-  mockSeeded: boolean;
 
   setTheme: (t: ThemeMode) => void;
   setPersona: (p: Persona) => void;
@@ -132,7 +131,7 @@ function emptyRecord(): DailyRecord {
 }
 
 const defaultProfile: Profile = {
-  nickname: '피또 친구',
+  nickname: '은영',
   birthdayMonth: null,
   birthdayDay: null,
   gender: null,
@@ -179,7 +178,6 @@ export const useAppStore = create<AppState>()(
       tutorialDone: false,
       birthdayShownYear: null,
       timeSlotOverride: null,
-      mockSeeded: false,
 
       setTheme: (t) => set({ theme: t }),
       setPersona: (p) => set({ persona: p }),
@@ -236,29 +234,54 @@ export const useAppStore = create<AppState>()(
         }),
 
       // 실제 데이터 소스(건강 API·음식 영양성분 API) 연동 전까지 홈 화면을 채우는
-      // 1회성 예시 데이터. README 화면 명세의 예시 수치를 그대로 사용한다.
+      // 예시 데이터. README 화면 명세의 예시 수치를 그대로 사용한다.
+      // 날짜가 바뀌면 그날 기록이 없으므로 다시 채운다.
       seedMockToday: (dateKey) =>
         set((s) => {
-          if (s.mockSeeded || s.dailyRecords[dateKey]) return {};
-          const rec: DailyRecord = {
-            water: 950,
-            meals: {
-              아침: [{ id: 'm1', name: '그릭요거트', amount: '150g', kcal: 130 }],
-              점심: [{ id: 'm2', name: '현미밥 · 닭가슴살 구이', amount: '1인분', kcal: 475 }],
-              저녁: [],
-              간식: [{ id: 'm3', name: '아몬드 한 줌', amount: '25g', kcal: 145, allergy: true }],
-            },
-            exercises: [{ id: 'e1', name: '아침 걷기', minutes: 20, kcal: 130 }],
-            steps: 6420,
-            periodCondition: undefined,
-            periodSymptoms: [],
-          };
-          return { dailyRecords: { ...s.dailyRecords, [dateKey]: rec }, mockSeeded: true };
+          const patch: Partial<AppState> = {};
+          const now = new Date();
+          const month = now.getMonth() + 1;
+          const day = now.getDate();
+
+          // 데모용: 프로필 화면이 생기기 전까지 생일을 오늘로 맞춰 생일 배너를 확인할 수 있게 한다.
+          // 프로필 편집을 구현할 때 이 블록을 지우고 사용자 입력값을 그대로 쓴다.
+          if (s.profile.birthdayMonth !== month || s.profile.birthdayDay !== day) {
+            patch.profile = { ...s.profile, birthdayMonth: month, birthdayDay: day };
+          }
+
+          if (!s.dailyRecords[dateKey]) {
+            const rec: DailyRecord = {
+              water: 950,
+              meals: {
+                아침: [{ id: 'm1', name: '그릭요거트', amount: '150g', kcal: 130 }],
+                점심: [{ id: 'm2', name: '현미밥 · 닭가슴살 구이', amount: '1인분', kcal: 475 }],
+                저녁: [],
+                간식: [{ id: 'm3', name: '아몬드 한 줌', amount: '25g', kcal: 145, allergy: true }],
+              },
+              exercises: [{ id: 'e1', name: '아침 걷기', minutes: 20, kcal: 130 }],
+              steps: 6420,
+              periodCondition: undefined,
+              periodSymptoms: [],
+            };
+            patch.dailyRecords = { ...s.dailyRecords, [dateKey]: rec };
+          }
+
+          return patch;
         }),
     }),
     {
       name: 'fitto-app-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      version: 1,
+      // 이미 저장된 상태에는 defaultProfile 변경이 반영되지 않는다.
+      // 사용자가 직접 바꾼 적 없는 초기 닉네임만 새 기본값으로 옮긴다.
+      migrate: (persisted: unknown, version: number) => {
+        const state = persisted as { profile?: Profile } | undefined;
+        if (version < 1 && state?.profile?.nickname === '피또 친구') {
+          state.profile.nickname = defaultProfile.nickname;
+        }
+        return state as AppState;
+      },
     }
   )
 );

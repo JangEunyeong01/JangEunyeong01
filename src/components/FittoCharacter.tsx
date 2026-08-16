@@ -75,19 +75,21 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
           ]}
         />
       )}
-      <Animated.View style={[{ width: size, height: size }, animatedStyle]}>
-        <Image source={source} style={StyleSheet.absoluteFill} resizeMode="contain" />
+      <Animated.View style={[styles.stage, { width: size, height: size }, animatedStyle]}>
+        {/* absoluteFill에는 width/height가 없어 웹에서 Image가 원본 크기(578x731)로 삐져나온다.
+            크기를 명시해 컨테이너에 맞춘다. */}
+        <Image source={source} style={styles.fill} resizeMode="contain" />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.desaturate, opacity: grayOverlayOpacity, borderRadius: size / 2 }]}
+          style={[styles.fill, { backgroundColor: characterOverlay.desaturate, opacity: grayOverlayOpacity, borderRadius: size / 2 }]}
         />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.vivid, opacity: vividOverlayOpacity, borderRadius: size / 2 }]}
+          style={[styles.fill, { backgroundColor: characterOverlay.vivid, opacity: vividOverlayOpacity, borderRadius: size / 2 }]}
         />
         <View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFill, { backgroundColor: characterOverlay.brighten, opacity: brightOverlayOpacity, borderRadius: size / 2 }]}
+          style={[styles.fill, { backgroundColor: characterOverlay.brighten, opacity: brightOverlayOpacity, borderRadius: size / 2 }]}
         />
       </Animated.View>
     </View>
@@ -97,5 +99,15 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
 const styles = StyleSheet.create({
   glow: {
     position: 'absolute',
+  },
+  stage: {
+    overflow: 'hidden',
+  },
+  fill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
   },
 });

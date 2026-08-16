@@ -20,7 +20,7 @@ export default function HomeHeader() {
       </View>
       <View style={styles.right}>
         <View style={[styles.chip, { backgroundColor: colors.card2, borderColor: colors.stroke }]}>
-          <Text style={[styles.chipText, { color: colors.sub }]}>{timeSlots[slot].greeting}</Text>
+          <Text style={[styles.chipText, { color: colors.sub }]}>{timeSlots[slot].name}</Text>
         </View>
         <Pressable onPress={() => navigation.navigate('Settings')}>
           <BlurView
