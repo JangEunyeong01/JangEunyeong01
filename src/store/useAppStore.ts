@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { calculateGoals } from '../utils/goals';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type Persona = 'friendly' | 'strict' | 'neutral';
@@ -86,6 +87,28 @@ export interface CustomIngredient {
   allergy?: boolean;
 }
 
+/** 온보딩 기본 정보 입력값. 숫자도 입력 중 상태를 그대로 두기 위해 문자열로 보관한다. */
+export interface ObInfo {
+  name: string;
+  gender: string;
+  age: string;
+  height: string;
+  weight: string;
+}
+
+/** 태그 + 직접 입력 단계의 선택값. 태그 목록에 없던 직접 입력값도 그대로 저장된다. */
+export interface ObTags {
+  health: string[];
+  taste: string[];
+  avoid: string[];
+}
+
+export interface ObPick {
+  activity: string;
+  goal: string;
+  persona: Persona | null;
+}
+
 interface AppState {
   theme: ThemeMode;
   persona: Persona;
@@ -98,6 +121,9 @@ interface AppState {
   recipes: Recipe[];
   customIngredients: CustomIngredient[];
   dailyRecords: Record<string, DailyRecord>;
+  obInfo: ObInfo;
+  obTags: ObTags;
+  obPick: ObPick;
   onboardingDone: boolean;
   tutorialDone: boolean;
   birthdayShownYear: number | null;
@@ -111,6 +137,10 @@ interface AppState {
   setCardOrder: (order: CardId[]) => void;
   setCardHidden: (hidden: CardId[]) => void;
   resetCardOrder: () => void;
+  setObInfo: (patch: Partial<ObInfo>) => void;
+  toggleObTag: (key: keyof ObTags, value: string) => void;
+  clearObTags: (key: keyof ObTags) => void;
+  setObPick: (patch: Partial<ObPick>) => void;
   completeOnboarding: () => void;
   setTutorialDone: (v: boolean) => void;
   setBirthdayShownYear: (y: number) => void;
@@ -171,6 +201,9 @@ export const useAppStore = create<AppState>()(
       periodOn: true,
       cardOrder: DEFAULT_CARD_ORDER,
       cardHidden: [],
+      obInfo: { name: '', gender: '', age: '', height: '', weight: '' },
+      obTags: { health: [], taste: [], avoid: [] },
+      obPick: { activity: '', goal: '', persona: null },
       alarms: defaultAlarms,
       recipes: [],
       customIngredients: [],
@@ -188,7 +221,46 @@ export const useAppStore = create<AppState>()(
       setCardOrder: (order) => set({ cardOrder: order }),
       setCardHidden: (hidden) => set({ cardHidden: hidden }),
       resetCardOrder: () => set({ cardOrder: DEFAULT_CARD_ORDER, cardHidden: [] }),
-      completeOnboarding: () => set({ onboardingDone: true }),
+      setObInfo: (patch) => set((s) => ({ obInfo: { ...s.obInfo, ...patch } })),
+      // 선택 배열을 통째로 받으면 리렌더 전에 두 번 누를 때 앞선 선택이 덮어써진다.
+      // 항상 스토어의 최신 값을 기준으로 토글한다.
+      toggleObTag: (key, value) =>
+        set((s) => {
+          const cur = s.obTags[key];
+          const next = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
+          return { obTags: { ...s.obTags, [key]: next } };
+        }),
+      clearObTags: (key) => set((s) => ({ obTags: { ...s.obTags, [key]: [] } })),
+      setObPick: (patch) => set((s) => ({ obPick: { ...s.obPick, ...patch } })),
+
+      // 온보딩 완료: 계산된 목표를 홈 목표치로, 입력값을 프로필로 옮긴다.
+      completeOnboarding: () =>
+        set((s) => {
+          const result = calculateGoals({
+            gender: s.obInfo.gender,
+            age: s.obInfo.age,
+            height: s.obInfo.height,
+            weight: s.obInfo.weight,
+            activity: s.obPick.activity,
+            goal: s.obPick.goal,
+          });
+          return {
+            onboardingDone: true,
+            goals: { ...s.goals, kcal: result.kcal, water: result.water },
+            profile: {
+              ...s.profile,
+              nickname: s.obInfo.name.trim() || s.profile.nickname,
+              gender: s.obInfo.gender || null,
+              height: s.obInfo.height ? Number(s.obInfo.height) : null,
+              weight: s.obInfo.weight ? Number(s.obInfo.weight) : null,
+              activity: s.obPick.activity || null,
+              goalType: s.obPick.goal || null,
+              conditions: s.obTags.health,
+              allergies: s.obTags.avoid,
+            },
+            persona: s.obPick.persona ?? s.persona,
+          };
+        }),
       setTutorialDone: (v) => set({ tutorialDone: v }),
       setBirthdayShownYear: (y) => set({ birthdayShownYear: y }),
 

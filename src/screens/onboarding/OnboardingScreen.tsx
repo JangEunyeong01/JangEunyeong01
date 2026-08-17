@@ -1,176 +1,219 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import FittoCharacter from '../../components/FittoCharacter';
 import PrimaryButton from '../../components/PrimaryButton';
 import OptionRow from './OptionRow';
 import ProgressDots from './ProgressDots';
+import TagPicker from './TagPicker';
+import BasicInfoForm from './BasicInfoForm';
+import CompleteStep from './CompleteStep';
 import { useTheme } from '../../theme/useTheme';
-import { useAppStore, Persona } from '../../store/useAppStore';
-import { personaCopy, personaLabel } from '../../copy/persona';
+import { useAppStore } from '../../store/useAppStore';
+import { useToastStore } from '../../store/useToastStore';
+import {
+  ACTIVITY_OPTIONS,
+  AVOID_TAGS,
+  GOAL_OPTIONS,
+  HEALTH_TAGS,
+  PERSONA_OPTIONS,
+  STEP_LABELS,
+  TASTE_TAGS,
+  TOTAL_STEPS,
+} from './onboardingData';
 
-const GOAL_OPTIONS = [
-  { key: 'lose', title: '체중 감량', desc: '천천히, 무리 없이' },
-  { key: 'maintain', title: '체중 유지', desc: '지금 상태를 지키기' },
-  { key: 'muscle', title: '근육 증가', desc: '단백질 중심 식단' },
-  { key: 'health', title: '건강 관리', desc: '질환·컨디션 관리' },
+const TITLES = [
+  '물방울 요정 피또와\n오늘도 또, 건강하게',
+  '먼저 간단히 알려주세요',
+  '평소 활동량은 어느 정도인가요?',
+  '어떤 목표로 시작할까요?',
+  '건강 상태를 알려주세요',
+  '어떤 음식을 즐겨 드세요?',
+  '알레르기가 있거나\n못 먹는 음식이 있나요?',
+  '피또는 어떤 말투가 좋을까요?',
+  '준비 완료!',
 ];
 
-const CONDITION_OPTIONS = [
-  { key: 'none', title: '해당 없음' },
-  { key: 'diabetes', title: '당뇨', desc: '당류·GI 경고' },
-  { key: 'hypertension', title: '고혈압', desc: '나트륨 경고' },
-  { key: 'gout', title: '통풍', desc: '퓨린 함량 경고' },
-  { key: 'hyperlipidemia', title: '고지혈증', desc: '포화지방 경고' },
+const DESCRIPTIONS: (string | null)[] = [
+  '숫자 대신 표정으로 건강을 알려주는 앱이에요.',
+  null,
+  null,
+  null,
+  '해당되는 질환을 선택하거나 입력해주세요',
+  '추천 식단에 반영해요. 복수 선택 가능해요.',
+  '추천과 검색에서 자동으로 걸러드려요.',
+  null,
+  null,
 ];
-
-const PERSONA_OPTIONS: { key: Persona; desc: string }[] = [
-  { key: 'friendly', desc: personaCopy.kcalComment.friendly({ remainKcal: 320 }) },
-  { key: 'strict', desc: personaCopy.kcalComment.strict({ consumedKcal: 1200, percent: 65 }) },
-  { key: 'neutral', desc: personaCopy.kcalComment.neutral({ remainKcal: 320 }) },
-];
-
-const STEP_LABELS = ['FITTO', 'STEP 1 · 목표', 'STEP 2 · 건강 상태', 'STEP 3 · 피또 성격', '완료'];
 
 export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const { colors, typography } = useTheme();
-  const setProfile = useAppStore((s) => s.setProfile);
-  const setPersona = useAppStore((s) => s.setPersona);
-  const goals = useAppStore((s) => s.goals);
+  const showToast = useToastStore((s) => s.show);
+
+  const obInfo = useAppStore((s) => s.obInfo);
+  const obTags = useAppStore((s) => s.obTags);
+  const obPick = useAppStore((s) => s.obPick);
+  const setObInfo = useAppStore((s) => s.setObInfo);
+  const toggleObTag = useAppStore((s) => s.toggleObTag);
+  const clearObTags = useAppStore((s) => s.clearObTags);
+  const setObPick = useAppStore((s) => s.setObPick);
   const completeOnboarding = useAppStore((s) => s.completeOnboarding);
 
   const [step, setStep] = useState(0);
-  const [goal, setGoal] = useState<string | null>(null);
-  const [conditions, setConditions] = useState<string[]>([]);
-  const [persona, setPersonaLocal] = useState<Persona | null>(null);
 
-  const toggleCondition = (key: string) => {
-    if (key === 'none') {
-      setConditions(['none']);
-      return;
+  // README 유효성 검사: 통과하지 못하면 토스트를 띄우고 다음 단계로 넘어가지 않는다.
+  const validate = (): boolean => {
+    if (step === 1) {
+      if (!obInfo.name.trim()) {
+        showToast('이름을 입력해 주세요');
+        return false;
+      }
+      if (!obInfo.height.trim() || !obInfo.weight.trim()) {
+        showToast('키와 몸무게를 입력해 주세요');
+        return false;
+      }
     }
-    setConditions((prev) => {
-      const withoutNone = prev.filter((k) => k !== 'none');
-      return withoutNone.includes(key) ? withoutNone.filter((k) => k !== key) : [...withoutNone, key];
-    });
+    if (step === 2 && !obPick.activity) {
+      showToast('하나를 선택해 주세요');
+      return false;
+    }
+    if (step === 3 && !obPick.goal) {
+      showToast('하나를 선택해 주세요');
+      return false;
+    }
+    if (step === 7 && !obPick.persona) {
+      showToast('하나를 선택해 주세요');
+      return false;
+    }
+    return true;
   };
 
-  const canNext = step === 0 || (step === 1 && !!goal) || (step === 2 && conditions.length > 0) || (step === 3 && !!persona) || step === 4;
-
   const handleNext = () => {
-    if (step < 4) {
+    if (!validate()) return;
+    if (step < TOTAL_STEPS - 1) {
       setStep(step + 1);
       return;
     }
-    setProfile({ goalType: goal, conditions: conditions.filter((c) => c !== 'none') });
-    if (persona) setPersona(persona);
     completeOnboarding();
   };
 
-  const handlePrev = () => {
-    if (step > 0) setStep(step - 1);
-  };
+  const ctaLabel = step === 0 ? '시작하기' : step === TOTAL_STEPS - 1 ? '피또와 시작하기' : '다음';
 
   return (
     <ScreenBackground>
-      <View style={[styles.root, { paddingTop: insets.top + 26, paddingBottom: insets.bottom + 30 }]}>
-        <ProgressDots total={5} current={step} />
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={[styles.root, { paddingTop: insets.top + 26, paddingBottom: insets.bottom + 30 }]}>
+          <ProgressDots total={TOTAL_STEPS} current={step} />
 
-        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          <Text style={[styles.stepLabel, { color: colors.sub }]}>{STEP_LABELS[step]}</Text>
+          <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+            <Text style={[styles.stepLabel, { color: colors.sub }]}>{STEP_LABELS[step]}</Text>
+            <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>{TITLES[step]}</Text>
+            {DESCRIPTIONS[step] && (
+              <Text style={[styles.desc, { color: colors.sub }]}>{DESCRIPTIONS[step]}</Text>
+            )}
 
-          {step === 0 && (
-            <>
-              <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>
-                물방울 요정 피또와{'\n'}오늘도 또, 건강하게
-              </Text>
-              <View style={styles.characterWrap}>
-                <FittoCharacter current={2} goal={5} size={172} glowSize={210} />
-              </View>
-              <Text style={[styles.desc, { color: colors.sub, textAlign: 'center' }]}>
-                숫자 대신 표정으로 건강을 알려주는 앱이에요.
-              </Text>
-            </>
-          )}
-
-          {step === 1 && (
-            <>
-              <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>어떤 목표로 시작할까요?</Text>
-              <Text style={[styles.desc, { color: colors.sub }]}>미용 목적만이 아니어도 괜찮아요.</Text>
-              <View style={styles.optionsWrap}>
-                {GOAL_OPTIONS.map((o) => (
-                  <OptionRow key={o.key} title={o.title} desc={o.desc} selected={goal === o.key} onPress={() => setGoal(o.key)} />
-                ))}
-              </View>
-            </>
-          )}
-
-          {step === 2 && (
-            <>
-              <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>관리가 필요한 항목이 있나요?</Text>
-              <Text style={[styles.desc, { color: colors.sub }]}>복수 선택 가능 · 의료 진단을 대체하지 않아요.</Text>
-              <View style={styles.optionsWrap}>
-                {CONDITION_OPTIONS.map((o) => (
-                  <OptionRow key={o.key} title={o.title} desc={o.desc} selected={conditions.includes(o.key)} onPress={() => toggleCondition(o.key)} />
-                ))}
-              </View>
-            </>
-          )}
-
-          {step === 3 && (
-            <>
-              <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>피또는 어떤 말투가 좋을까요?</Text>
-              <View style={styles.optionsWrap}>
-                {PERSONA_OPTIONS.map((o) => (
-                  <OptionRow key={o.key} title={personaLabel[o.key]} desc={o.desc} selected={persona === o.key} onPress={() => setPersonaLocal(o.key)} />
-                ))}
-              </View>
-            </>
-          )}
-
-          {step === 4 && (
-            <>
-              <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>목표가 계산됐어요</Text>
-              <View style={styles.resultRow}>
-                <View style={[styles.resultCard, { backgroundColor: colors.card2, borderColor: colors.stroke }]}>
-                  <Text style={[styles.resultLabel, { color: colors.sub }]}>목표 칼로리</Text>
-                  <Text style={[styles.resultValue, { color: colors.txt }]}>{goals.kcal.toLocaleString()} kcal</Text>
-                  <Text style={[styles.resultCaption, { color: colors.sub }]}>BMR 기반</Text>
+            <View style={styles.body}>
+              {step === 0 && (
+                <View style={styles.characterWrap}>
+                  <FittoCharacter current={2} goal={5} size={172} glowSize={210} />
                 </View>
-                <View style={[styles.resultCard, { backgroundColor: colors.card2, borderColor: colors.stroke }]}>
-                  <Text style={[styles.resultLabel, { color: colors.sub }]}>물 목표</Text>
-                  <Text style={[styles.resultValue, { color: colors.txt }]}>{goals.water.toLocaleString()} ml</Text>
-                  <Text style={[styles.resultCaption, { color: colors.sub }]}>체중×활동량</Text>
-                </View>
-              </View>
-              <Text style={[styles.desc, { color: colors.sub, marginTop: 16 }]}>
-                알레르기(땅콩·아몬드)를 반영한 추천 식단이 준비됐어요. 의료 진단을 대체하지 않습니다.
-              </Text>
-            </>
-          )}
-        </ScrollView>
+              )}
 
-        <View style={styles.buttonRow}>
-          {step > 0 && (
-            <Pressable onPress={handlePrev} style={[styles.prevButton, { borderColor: colors.line }]}>
-              <Text style={[styles.prevLabel, { color: colors.txt }]}>이전</Text>
-            </Pressable>
-          )}
-          <PrimaryButton
-            label={step === 0 ? '시작하기' : step === 4 ? '홈으로' : '다음'}
-            onPress={handleNext}
-            disabled={!canNext}
-            style={styles.nextButton}
-          />
+              {step === 1 && <BasicInfoForm value={obInfo} onChange={setObInfo} />}
+
+              {step === 2 &&
+                ACTIVITY_OPTIONS.map((o) => (
+                  <OptionRow
+                    key={o.label}
+                    title={o.label}
+                    desc={o.desc}
+                    selected={obPick.activity === o.label}
+                    onPress={() => setObPick({ activity: o.label })}
+                  />
+                ))}
+
+              {step === 3 &&
+                GOAL_OPTIONS.map((o) => (
+                  <OptionRow
+                    key={o.label}
+                    title={o.label}
+                    desc={o.desc}
+                    selected={obPick.goal === o.label}
+                    onPress={() => setObPick({ goal: o.label })}
+                  />
+                ))}
+
+              {step === 4 && (
+                <TagPicker
+                  tags={HEALTH_TAGS}
+                  selected={obTags.health}
+                  onToggle={(v) => toggleObTag('health', v)}
+                  onClear={() => clearObTags('health')}
+                  placeholder="기타 질환을 입력하세요"
+                  noneLabel="해당사항 없음"
+                />
+              )}
+
+              {step === 5 && (
+                <TagPicker
+                  tags={TASTE_TAGS}
+                  selected={obTags.taste}
+                  onToggle={(v) => toggleObTag('taste', v)}
+                  onClear={() => clearObTags('taste')}
+                  placeholder="다른 종류를 입력하세요"
+                  noneLabel="가리는 것 없음"
+                />
+              )}
+
+              {step === 6 && (
+                <TagPicker
+                  tags={AVOID_TAGS}
+                  selected={obTags.avoid}
+                  onToggle={(v) => toggleObTag('avoid', v)}
+                  onClear={() => clearObTags('avoid')}
+                  placeholder="기타 음식을 입력하세요"
+                  noneLabel="해당사항 없음"
+                />
+              )}
+
+              {step === 7 &&
+                PERSONA_OPTIONS.map((o) => (
+                  <OptionRow
+                    key={o.key}
+                    title={o.label}
+                    desc={o.desc}
+                    selected={obPick.persona === o.key}
+                    onPress={() => setObPick({ persona: o.key })}
+                  />
+                ))}
+
+              {step === 8 && <CompleteStep />}
+            </View>
+          </ScrollView>
+
+          <View style={styles.buttonRow}>
+            {step > 0 && (
+              <Pressable onPress={() => setStep(step - 1)} style={[styles.prevButton, { borderColor: colors.line }]}>
+                <Text style={[styles.prevLabel, { color: colors.txt }]}>이전</Text>
+              </Pressable>
+            )}
+            <PrimaryButton label={ctaLabel} onPress={handleNext} style={styles.nextButton} />
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   root: {
     flex: 1,
     paddingHorizontal: 24,
@@ -191,36 +234,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 10,
   },
+  body: {
+    marginTop: 20,
+  },
   characterWrap: {
     alignItems: 'center',
     marginVertical: 28,
-  },
-  optionsWrap: {
-    marginTop: 20,
-  },
-  resultRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginTop: 20,
-  },
-  resultCard: {
-    flex: 1,
-    borderRadius: 18,
-    borderWidth: 1,
-    padding: 16,
-    gap: 6,
-  },
-  resultLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
-  resultValue: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  resultCaption: {
-    fontSize: 10.5,
-    fontWeight: '500',
   },
   buttonRow: {
     flexDirection: 'row',
