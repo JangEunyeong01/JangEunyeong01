@@ -387,7 +387,8 @@ box-shadow: var(--shadow)
 - `alarms`: { water, waterEvery, meal, mealTimes, move, moveAfter, weigh, report, quiet, quietFrom, quietTo }
 - `recipes`: 저장한 레시피 목록, `customIngredients`: 사용자 정의 재료
 - 일자별 기록: `water(ml)`, `meals{아침,점심,저녁,간식}`, `exercises[]`, `steps`, 생리 `condition`/`symptoms`
-- `onboardingDone`, `tutorialDone`, `birthdayShownYear`
+- `onboardingDone`, `tutorialDone`
+- `birthdayShownYear`: 축하를 전달한 연도. 생일 배너 노출 여부는 **프로필 생일 = 오늘**로만 판정하므로(당일 내내 떠 있고 몇 번이든 다시 열 수 있다) 이 값이 배너를 막지는 않는다. 올해 축하를 이미 봤는지 기록하는 용도다.
 
 세션 상태: 현재 탭·화면, 열린 시트/모달, 검색어, 기간 선택(range / monthMode / monthOffset / 사용자 지정 시작·종료), 레시피 작성 중 초안, 토스트.
 

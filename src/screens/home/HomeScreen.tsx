@@ -36,10 +36,18 @@ export default function HomeScreen() {
   const seedMockToday = useAppStore((s) => s.seedMockToday);
   const record = useAppStore((s) => s.dailyRecords[dateKey()]);
   const profile = useAppStore((s) => s.profile);
+  const setBirthdayShownYear = useAppStore((s) => s.setBirthdayShownYear);
   const [sheetVisible, setSheetVisible] = useState(false);
   const [birthdayVisible, setBirthdayVisible] = useState(false);
 
+  // 배너는 생일 당일 내내 떠 있고 몇 번이든 다시 열 수 있다.
+  // birthdayShownYear는 올해 축하를 이미 전달했다는 기록으로, 배너 노출을 막지는 않는다.
   const isBirthday = isBirthdayToday(profile.birthdayMonth, profile.birthdayDay);
+
+  const openBirthday = () => {
+    setBirthdayVisible(true);
+    setBirthdayShownYear(new Date().getFullYear());
+  };
 
   useEffect(() => {
     seedMockToday(dateKey());
@@ -56,7 +64,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader />
-        {isBirthday && <BirthdayBanner name={profile.nickname} onPress={() => setBirthdayVisible(true)} />}
+        {isBirthday && <BirthdayBanner name={profile.nickname} onPress={openBirthday} />}
         <HeroRow />
 
         <Pressable onLongPress={() => setSheetVisible(true)} delayLongPress={550} style={styles.grid}>
