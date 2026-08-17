@@ -21,7 +21,7 @@ export default function StepsCard() {
   const maxVal = Math.max(...week, 1);
 
   return (
-    <GlassCard>
+    <GlassCard fill>
       <View style={styles.topRow}>
         <Text style={[styles.label, { color: colors.sub }]}>걸음수</Text>
       </View>
@@ -81,9 +81,11 @@ const styles = StyleSheet.create({
   barWrap: {
     marginTop: 10,
   },
+  // README: 하단(margin-top:auto)에 최근 7일 미니 막대 — 카드가 늘어나도 빈 공간을 남기지 않는다.
   chartRow: {
     flexDirection: 'row',
-    marginTop: 16,
+    marginTop: 'auto',
+    paddingTop: 16,
     gap: 4,
   },
   chartCol: {

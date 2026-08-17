@@ -1,17 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, Easing } from 'react-native-reanimated';
+import { StyleSheet, Text, Animated, Easing } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToastStore } from '../store/useToastStore';
 import { motion, overlay, radius, spacing, white } from '../theme/tokens';
 
 // README: left/right 16, bottom 88, padding 13/15, r16, 어두운 반투명+blur(10), 흰 글씨 12.5/700, fin, 1.9초 자동 소멸
 export default function Toast() {
   const { message, seq } = useToastStore();
-  const insets = useSafeAreaInsets();
-  const opacity = useSharedValue(0);
-  const translateY = useSharedValue(10);
+  const opacity = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(motion.fadeInOffsetY)).current;
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [visible, setVisible] = React.useState(false);
   const [text, setText] = React.useState('');
@@ -20,29 +17,41 @@ export default function Toast() {
     if (!message) return;
     setText(message);
     setVisible(true);
-    opacity.value = 0;
-    translateY.value = motion.fadeInOffsetY;
-    opacity.value = withTiming(1, { duration: motion.fadeIn, easing: Easing.out(Easing.ease) });
-    translateY.value = withTiming(0, { duration: motion.fadeIn, easing: Easing.out(Easing.ease) });
+    opacity.setValue(0);
+    translateY.setValue(motion.fadeInOffsetY);
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: motion.fadeIn,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: false,
+      }),
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: motion.fadeIn,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: false,
+      }),
+    ]).start();
+
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      opacity.value = withTiming(0, { duration: motion.fadeOut });
-      setTimeout(() => setVisible(false), motion.fadeOut);
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: motion.fadeOut,
+        useNativeDriver: false,
+      }).start(() => setVisible(false));
     }, motion.toastVisible);
+
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
   }, [seq]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ translateY: translateY.value }],
-  }));
-
   if (!visible) return null;
 
   return (
-    <Animated.View pointerEvents="none" style={[styles.wrap, { bottom: 88 + (insets.bottom > 0 ? 0 : 0) }, animatedStyle]}>
+    <Animated.View pointerEvents="none" style={[styles.wrap, { opacity, transform: [{ translateY }] }]}>
       <BlurView intensity={20} tint="dark" style={styles.blur}>
         <Text style={styles.text}>{text}</Text>
       </BlurView>
@@ -55,6 +64,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: spacing.screenX,
     right: spacing.screenX,
+    bottom: 88,
     zIndex: 999,
     alignItems: 'center',
   },

@@ -7,7 +7,8 @@ export type Persona = 'friendly' | 'strict' | 'neutral';
 
 export type CardId = 'kcal' | 'water' | 'act' | 'steps' | 'ex' | 'week' | 'period';
 
-export const DEFAULT_CARD_ORDER: CardId[] = ['kcal', 'water', 'act', 'steps', 'ex', 'week', 'period'];
+// B 히어로 순서: 칼로리 전폭 → 물·걸음 반폭 2열 → 활동 → 운동 → 주간 → 생리.
+export const DEFAULT_CARD_ORDER: CardId[] = ['kcal', 'water', 'steps', 'act', 'ex', 'week', 'period'];
 
 export interface Profile {
   nickname: string;
@@ -272,14 +273,26 @@ export const useAppStore = create<AppState>()(
     {
       name: 'fitto-app-storage',
       storage: createJSONStorage(() => AsyncStorage),
-      version: 1,
-      // 이미 저장된 상태에는 defaultProfile 변경이 반영되지 않는다.
-      // 사용자가 직접 바꾼 적 없는 초기 닉네임만 새 기본값으로 옮긴다.
+      version: 2,
+      // 이미 저장된 상태에는 기본값 변경이 자동 반영되지 않아 버전별로 옮겨준다.
       migrate: (persisted: unknown, version: number) => {
-        const state = persisted as { profile?: Profile } | undefined;
-        if (version < 1 && state?.profile?.nickname === '피또 친구') {
+        const state = persisted as { profile?: Profile; cardOrder?: CardId[] } | undefined;
+        if (!state) return state as unknown as AppState;
+
+        // v1: 사용자가 직접 바꾼 적 없는 초기 닉네임만 새 기본값으로.
+        if (version < 1 && state.profile?.nickname === '피또 친구') {
           state.profile.nickname = defaultProfile.nickname;
         }
+
+        // v2: 홈 레이아웃 확정안이 A 스택 → B 히어로로 바뀌면서 기본 카드 순서도 바뀌었다.
+        // 사용자가 순서를 건드리지 않았을 때만(= 예전 기본 순서 그대로일 때) 새 순서로 옮긴다.
+        if (version < 2) {
+          const oldDefault = ['kcal', 'water', 'act', 'steps', 'ex', 'week', 'period'];
+          if (state.cardOrder && state.cardOrder.join() === oldDefault.join()) {
+            state.cardOrder = [...DEFAULT_CARD_ORDER];
+          }
+        }
+
         return state as AppState;
       },
     }

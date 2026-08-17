@@ -1,14 +1,5 @@
-import React, { useEffect } from 'react';
-import { Image, View, StyleSheet } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withRepeat,
-  withSequence,
-  Easing,
-  cancelAnimation,
-} from 'react-native-reanimated';
+import React, { useEffect, useRef } from 'react';
+import { Image, View, StyleSheet, Animated, Easing } from 'react-native';
 import { FITTO_FACE, FITTO_HELLO } from '../theme/assets';
 import { getWaterStageSpec } from '../utils/health';
 import { brand, characterOverlay, motion } from '../theme/tokens';
@@ -26,32 +17,47 @@ interface FittoCharacterProps {
 // 반투명 오버레이로 근사한다. 최종 5단계 일러스트가 준비되면 이미지 스왑으로 교체 권장(README 참고).
 export default function FittoCharacter({ current, goal, size = 78, variant = 'full', glow = true, glowSize }: FittoCharacterProps) {
   const spec = getWaterStageSpec(current, goal);
-  const scale = useSharedValue(spec.scale);
-  const floatY = useSharedValue(0);
+  const scale = useRef(new Animated.Value(spec.scale)).current;
+  const floatY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    scale.value = withTiming(spec.scale, { duration: motion.characterState, easing: Easing.out(Easing.ease) });
+    Animated.timing(scale, {
+      toValue: spec.scale,
+      duration: motion.characterState,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
   }, [spec.scale]);
 
   useEffect(() => {
-    cancelAnimation(floatY);
-    if (spec.floatDurationMs) {
-      floatY.value = withRepeat(
-        withSequence(
-          withTiming(motion.floatOffsetY, { duration: spec.floatDurationMs / 2, easing: Easing.inOut(Easing.sin) }),
-          withTiming(0, { duration: spec.floatDurationMs / 2, easing: Easing.inOut(Easing.sin) })
-        ),
-        -1,
-        false
-      );
-    } else {
-      floatY.value = withTiming(0, { duration: motion.characterFloatReset });
+    if (!spec.floatDurationMs) {
+      Animated.timing(floatY, {
+        toValue: 0,
+        duration: motion.characterFloatReset,
+        useNativeDriver: false,
+      }).start();
+      return;
     }
+    const half = spec.floatDurationMs / 2;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(floatY, {
+          toValue: motion.floatOffsetY,
+          duration: half,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+        Animated.timing(floatY, {
+          toValue: 0,
+          duration: half,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+      ])
+    );
+    loop.start();
+    return () => loop.stop();
   }, [spec.floatDurationMs]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: floatY.value }, { scale: scale.value }],
-  }));
 
   const grayOverlayOpacity = spec.grayscale * 0.55;
   const vividOverlayOpacity = Math.max(0, spec.saturate - 1) * 0.28;
@@ -75,7 +81,12 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
           ]}
         />
       )}
-      <Animated.View style={[styles.stage, { width: size, height: size }, animatedStyle]}>
+      <Animated.View
+        style={[
+          styles.stage,
+          { width: size, height: size, transform: [{ translateY: floatY }, { scale }] },
+        ]}
+      >
         {/* absoluteFill에는 width/height가 없어 웹에서 Image가 원본 크기(578x731)로 삐져나온다.
             크기를 명시해 컨테이너에 맞춘다. */}
         <Image source={source} style={styles.fill} resizeMode="contain" />

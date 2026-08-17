@@ -18,6 +18,9 @@ import BirthdayModal from './BirthdayModal';
 import { useAppStore, CardId } from '../../store/useAppStore';
 import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
 
+// B 히어로(확정 기본안): 물·걸음만 반폭 2열, 나머지는 전폭.
+const HALF_WIDTH_CARDS = new Set<CardId>(['water', 'steps']);
+
 const CARD_COMPONENTS: Record<CardId, React.ComponentType> = {
   kcal: KcalCard,
   water: WaterCard,
@@ -70,8 +73,9 @@ export default function HomeScreen() {
         <Pressable onLongPress={() => setSheetVisible(true)} delayLongPress={550} style={styles.grid}>
           {visibleCards.map((id) => {
             const Card = CARD_COMPONENTS[id];
+            const half = HALF_WIDTH_CARDS.has(id);
             return (
-              <View key={id} style={styles.cardSlot}>
+              <View key={id} style={half ? styles.slotHalf : styles.slotFull}>
                 <Card />
               </View>
             );
@@ -87,6 +91,8 @@ export default function HomeScreen() {
   );
 }
 
+const GUTTER = 6; // 카드 간격 12px의 절반을 각 슬롯 좌우에 준다.
+
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
@@ -94,8 +100,24 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 16,
   },
+  // B 히어로: 반폭 카드(물·걸음)가 같은 행에 나란히 흐르도록 wrap 그리드로 둔다.
+  // gap 대신 슬롯 패딩 + 컨테이너 음수 마진을 쓰는 이유는 RN에 calc()가 없어
+  // width:50% 와 gap 을 함께 쓰면 행이 넘치기 때문이다.
   grid: {
-    gap: 12,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'stretch',
+    marginHorizontal: -GUTTER,
+  },
+  slotFull: {
+    width: '100%',
+    paddingHorizontal: GUTTER,
+    paddingBottom: 12,
+  },
+  slotHalf: {
+    width: '50%',
+    paddingHorizontal: GUTTER,
+    paddingBottom: 12,
   },
   cardSlot: {
     width: '100%',

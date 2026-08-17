@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
-import { LinearGradient } from 'expo-linear-gradient';
 import GlassCard from '../../../components/GlassCard';
 import PrimaryButton from '../../../components/PrimaryButton';
+import WaterCup from './WaterCup';
 import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
@@ -21,7 +21,7 @@ export default function WaterCard() {
   const showToast = useToastStore((s) => s.show);
 
   const stage = getWaterStageSpec(water, goal);
-  const filledCells = water <= 0 ? 0 : Math.min(5, Math.ceil((water / goal) * 5));
+  const percent = goal > 0 ? Math.min(100, Math.round((water / goal) * 100)) : 0;
 
   const applyDelta = (deltaMl: number) => {
     if (deltaMl === 0) return;
@@ -40,7 +40,7 @@ export default function WaterCard() {
 
   return (
     <GestureDetector gesture={pan}>
-      <GlassCard>
+      <GlassCard fill>
         <View style={styles.topRow}>
           <Text style={[styles.label, { color: colors.sub }]}>물 섭취</Text>
           <View style={styles.topRight}>
@@ -52,26 +52,21 @@ export default function WaterCard() {
           <Text style={[styles.bigNum, { color: colors.txt }]}>{water.toLocaleString()}</Text>
           <Text style={[styles.goalNum, { color: colors.sub }]}> / {goal.toLocaleString()} ml</Text>
         </View>
-        <Text style={[styles.dragHint, { color: colors.sub }]}>카드를 위로 끌면 늘고, 아래로 끌면 줄어요</Text>
-
-        <View style={styles.gauge}>
-          {Array.from({ length: 5 }).map((_, i) =>
-            i < filledCells ? (
-              <LinearGradient key={i} colors={[brand.blue, brand.blueDeep]} style={styles.cell} />
-            ) : (
-              <View key={i} style={[styles.cell, { backgroundColor: colors.ink }]} />
-            )
-          )}
+        {/* 반폭 카드라 원본의 가로(컵+컨트롤) 배치는 컨트롤이 45px로 찌그러진다.
+            컵을 가운데 두고 버튼을 아래에 카드 폭으로 까는 세로 배치로 바꿨다. */}
+        <View style={styles.cupWrap}>
+          <WaterCup progress={water / goal} percent={percent} onPress={() => applyDelta(cup)} />
         </View>
+        <Text style={[styles.cupHint, { color: colors.sub }]}>컵을 탭하면 {cup}ml씩 채워져요.</Text>
 
-        <View style={styles.buttonRow}>
+        <View style={styles.buttonCol}>
+          <PrimaryButton small label={`+${cup} ml`} onPress={() => applyDelta(cup)} />
           <Pressable
             onPress={() => applyDelta(-cup)}
-            style={[styles.minusBtn, { borderColor: colors.line }]}
+            style={[styles.undoBtn, { borderColor: colors.line }]}
           >
-            <Text style={[styles.minusLabel, { color: colors.txt }]}>−</Text>
+            <Text style={[styles.undoLabel, { color: colors.sub }]}>되돌리기</Text>
           </Pressable>
-          <PrimaryButton small label={`+${cup} ml`} onPress={() => applyDelta(cup)} style={styles.plusBtn} />
         </View>
       </GlassCard>
     </GestureDetector>
@@ -120,34 +115,30 @@ const styles = StyleSheet.create({
     fontSize: 12.5,
     fontWeight: '600',
   },
-  gauge: {
-    flexDirection: 'row',
-    gap: 6,
+  cupWrap: {
+    alignItems: 'center',
     marginTop: 14,
   },
-  cell: {
-    flex: 1,
-    height: 34,
+  cupHint: {
+    fontSize: 11,
+    lineHeight: 11 * 1.5,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  buttonCol: {
+    marginTop: 'auto',
+    paddingTop: 10,
+    gap: 7,
+  },
+  undoBtn: {
+    height: 32,
     borderRadius: 11,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 12,
-  },
-  minusBtn: {
-    width: 46,
-    height: 42,
-    borderRadius: 14,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  minusLabel: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  plusBtn: {
-    flex: 1,
+  undoLabel: {
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

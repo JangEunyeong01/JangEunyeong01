@@ -98,21 +98,80 @@ a{color:#5FA8CE;text-decoration:none}a:hover{color:#3E8CB6}
         </div>
       </sc-if>
 
+      <sc-if value="{{ ob.showForm }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;gap:14px;margin-top:22px;overflow-y:auto">
+          <div>
+            <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-bottom:7px">이름</div>
+            <input value="{{ ob.name }}" onChange="{{ ob.setName }}" placeholder="피또가 부를 이름" style="width:100%;box-sizing:border-box;height:50px;border-radius:16px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--txt);font-family:inherit;font-size:14px;padding:0 14px;outline:none">
+          </div>
+          <div>
+            <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-bottom:7px">성별</div>
+            <div style="display:flex;gap:8px"><sc-for list="{{ ob.genders }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.go }}" style="{{ g.style }}">{{ g.label }}</button></sc-for></div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div style="flex:1">
+              <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-bottom:7px">나이</div>
+              <input type="number" value="{{ ob.age }}" onChange="{{ ob.setAge }}" placeholder="28" style="width:100%;box-sizing:border-box;height:50px;border-radius:16px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--txt);font-family:inherit;font-size:14px;padding:0 14px;outline:none">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-bottom:7px">키 (cm)</div>
+              <input type="number" value="{{ ob.height }}" onChange="{{ ob.setHeight }}" placeholder="165" style="width:100%;box-sizing:border-box;height:50px;border-radius:16px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--txt);font-family:inherit;font-size:14px;padding:0 14px;outline:none">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin-bottom:7px">몸무게 (kg)</div>
+              <input type="number" value="{{ ob.weight }}" onChange="{{ ob.setWeight }}" placeholder="58" style="width:100%;box-sizing:border-box;height:50px;border-radius:16px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--txt);font-family:inherit;font-size:14px;padding:0 14px;outline:none">
+            </div>
+          </div>
+          <div style="font-size:11px;line-height:1.6;color:var(--sub)">입력한 정보는 기기에만 저장되고 언제든 프로필에서 수정할 수 있어요.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ ob.showTags }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;margin-top:20px;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+            <sc-for list="{{ ob.tagOptions }}" as="t" hint-placeholder-count="8"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+          </div>
+          <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin:18px 0 7px">직접 입력</div>
+          <div style="display:flex;gap:8px">
+            <input value="{{ ob.customValue }}" onChange="{{ ob.setCustom }}" placeholder="{{ ob.customPlaceholder }}" style="flex:1;min-width:0;box-sizing:border-box;height:46px;border-radius:15px;border:1px solid var(--stroke);background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--txt);font-family:inherit;font-size:13.5px;padding:0 13px;outline:none">
+            <button onClick="{{ ob.addCustom }}" style="width:66px;height:46px;border-radius:15px;border:none;background:linear-gradient(135deg,#A8D8B9,#89C4E1);color:#fff;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer">추가</button>
+          </div>
+          <sc-if value="{{ ob.hasSelected }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:11.5px;font-weight:600;color:var(--sub);margin:18px 0 8px">선택된 항목</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ ob.selected }}" as="s" hint-placeholder-count="2">
+                <button onClick="{{ s.remove }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:12px;border:1px solid rgba(137,196,225,.7);background:rgba(137,196,225,.16);color:var(--txt);font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer">{{ s.label }} <span style="color:var(--sub);font-size:13px">×</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <button onClick="{{ ob.pickNone }}" style="align-self:flex-start;margin-top:18px;border:none;background:transparent;color:var(--sub);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;padding:0">{{ ob.noneLabel }}</button>
+        </div>
+      </sc-if>
+
       <sc-if value="{{ ob.showResult }}" hint-placeholder-val="{{ false }}">
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;overflow-y:auto">
+          <div style="display:flex;align-items:center;gap:13px">
+            <img src="assets/fitto-face.png" alt="" style="width:62px;animation:fbob 3.6s ease-in-out infinite">
+            <div style="font-size:14px;line-height:1.5;color:var(--txt);font-weight:600">{{ ob.resName }}, 반가워요!<br><span style="font-size:12px;font-weight:500;color:var(--sub)">{{ ob.resAct }} · {{ ob.resGoal }}</span></div>
+          </div>
           <div style="display:flex;gap:12px">
             <div style="flex:1;background:var(--card);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--stroke);border-radius:22px;padding:18px;box-shadow:var(--shadow)">
               <div style="font-size:11.5px;color:var(--sub);font-weight:600">목표 칼로리</div>
-              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">1,850</div>
-              <div style="font-size:11px;color:var(--sub)">kcal · BMR 기반</div>
+              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">{{ ob.resKcal }}</div>
+              <div style="font-size:11px;color:var(--sub)">kcal · BMR {{ ob.resBmr }}</div>
             </div>
             <div style="flex:1;background:var(--card);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--stroke);border-radius:22px;padding:18px;box-shadow:var(--shadow)">
               <div style="font-size:11.5px;color:var(--sub);font-weight:600">물 목표</div>
-              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">1,900</div>
-              <div style="font-size:11px;color:var(--sub)">ml · 체중×활동량</div>
+              <div style="font-size:27px;font-weight:700;letter-spacing:-1px;color:var(--txt);margin-top:6px;font-variant-numeric:tabular-nums">{{ ob.resWater }}</div>
+              <div style="font-size:11px;color:var(--sub)">ml · 체중 기준</div>
             </div>
           </div>
-          <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:18px;padding:14px 16px;font-size:11.5px;line-height:1.6;color:var(--sub)">알레르기(땅콩·아몬드)를 반영한 추천 식단이 준비됐어요. 의료 진단을 대체하지 않습니다.</div>
+          <div style="background:var(--card2);border:1px solid var(--stroke);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px"><div style="width:62px;flex:none;font-size:11.5px;color:var(--sub)">건강 상태</div><div style="flex:1;font-size:11.5px;color:var(--txt)">{{ ob.resHealth }}</div></div>
+            <div style="display:flex;gap:10px"><div style="width:62px;flex:none;font-size:11.5px;color:var(--sub)">식단 취향</div><div style="flex:1;font-size:11.5px;color:var(--txt)">{{ ob.resTaste }}</div></div>
+            <div style="display:flex;gap:10px"><div style="width:62px;flex:none;font-size:11.5px;color:var(--sub)">제외 음식</div><div style="flex:1;font-size:11.5px;color:var(--txt)">{{ ob.resAvoid }}</div></div>
+          </div>
+          <div style="font-size:11px;line-height:1.6;color:var(--sub)">이 정보를 반영한 추천 식단이 준비됐어요. 의료 진단을 대체하지 않습니다.</div>
         </div>
       </sc-if>
 
@@ -1206,9 +1265,9 @@ const TUT = [
 class Component extends DCLogic {
   state = {
     theme:'light', sysDark:false, persona:'friendly', tod:'day',
-    layout:'A', waterV:'A', headerV:'A',
+    layout:'B', waterV:'B', headerV:'A',
     screen:'home', tab:'home', stack:null,
-    water:950, waterGoal:1900, cup:250, stepGoal:8000, range:'day',
+    water:950, waterGoal:1900, goalKcal:1850, cup:250, stepGoal:8000, range:'day',
     navV:'B', showQuick:false, cardOrder:['kcal','water','act','steps','ex','week','period'], cardHidden:[], showOrder:false,
     alarms:{water:true,waterEvery:2,meal:true,mealTimes:'08:00 / 12:30 / 19:00',move:true,moveAfter:60,weigh:false,report:true,quiet:true,quietFrom:'22:30',quietTo:'07:00'},
     recipes:[], recipeDraft:{name:'',items:[],pick:'닭가슴살',g:100}, monthMode:'single', monthOffset:0, mStart:'2026-05', mEnd:'2026-08',
@@ -1220,7 +1279,9 @@ class Component extends DCLogic {
     },
     exercises:[{name:'아침 걷기',detail:'32분 · 140kcal'},{name:'스트레칭',detail:'10분 · 25kcal'}],
     query:'', showSearch:false, showLie:false, tutStep:-1,
-    periodOn:true, selDay:16, cond:null, symptoms:[], toast:null, obStep:0, obPick:{}
+    periodOn:true, selDay:16, cond:null, symptoms:[], toast:null, obStep:0, obPick:{},
+    obInfo:{name:'',gender:'여성',age:'',height:'',weight:''},
+    obTags:{health:[],taste:[],avoid:[]}, obCustom:{health:'',taste:'',avoid:''}
   };
 
   componentDidMount(){
@@ -1254,7 +1315,7 @@ class Component extends DCLogic {
   }
   intake(){ return Object.values(this.state.meals).flat().reduce((s,i)=>s+i.kcal,0); }
   burn(){ return 320 + this.state.exercises.reduce((s,e)=>s+(parseInt((e.detail.split('·')[1]||'0'),10)||0),0); }
-  kcalStateIdx(){ const r=this.intake()/1850; if(r<0.5)return 0; if(r<0.85)return 1; if(r<=1)return 2; if(r<=1.15)return 3; return 4; }
+  kcalStateIdx(){ const r=this.intake()/this.state.goalKcal; if(r<0.5)return 0; if(r<0.85)return 1; if(r<=1)return 2; if(r<=1.15)return 3; return 4; }
   waterStageIdx(){ return Math.min(4, Math.floor(this.state.water/this.state.waterGoal*5)); }
   setWater(v){ this.setState({water:Math.max(0,Math.min(5000,Math.round(v)))}); }
 
@@ -1262,7 +1323,7 @@ class Component extends DCLogic {
 
   renderVals(){
     const st = this.state, isDark = this.dark(), tod = TOD[st.tod];
-    const _left = Math.max(0, 1850 - this.intake()), _wleft = Math.max(0, 1900 - st.water);
+    const _left = Math.max(0, st.goalKcal - this.intake()), _wleft = Math.max(0, st.waterGoal - st.water);
     const _P = PERSONA[st.persona];
     const P = {..._P,
       hello: st.persona==='friendly'
@@ -1273,7 +1334,7 @@ class Component extends DCLogic {
       kcal: st.persona==='friendly'
         ? `아직 ${_left.toLocaleString()}kcal 남았어요. 저녁은 편하게 드셔도 괜찮아요 :)`
         : st.persona==='strict'
-        ? `섭취 ${this.intake().toLocaleString()}kcal. 목표 대비 ${Math.round(this.intake()/1850*100)}%입니다.`
+        ? `섭취 ${this.intake().toLocaleString()}kcal. 목표 대비 ${Math.round(this.intake()/st.goalKcal*100)}%입니다.`
         : `남은 칼로리 ${_left.toLocaleString()}kcal.`};
     const scr = st.screen;
     const mk = (list, cur, set, app) => list.map(([k,label])=>({
@@ -1317,10 +1378,10 @@ class Component extends DCLogic {
 
     // ── kcal
     const ks = KCAL_STATES[this.kcalStateIdx()], intake = this.intake(), burn = this.burn();
-    const pct = Math.min(100, Math.round(intake/1850*100));
+    const pct = Math.min(100, Math.round(intake/st.goalKcal*100));
     const kcal = {
-      intake:intake.toLocaleString(), goal:'1,850', burn:burn.toLocaleString(),
-      left:Math.max(0,1850-intake).toLocaleString(), stateLabel:ks.label,
+      intake:intake.toLocaleString(), goal:st.goalKcal.toLocaleString(), burn:burn.toLocaleString(),
+      left:Math.max(0,st.goalKcal-intake).toLocaleString(), stateLabel:ks.label,
       barStyle:{position:'absolute',left:0,top:0,bottom:0,width:pct+'%',borderRadius:6,
         background:`linear-gradient(90deg,${ks.c}cc,${ks.c})`,transition:'width .5s cubic-bezier(.2,.9,.3,1)'}
     };
@@ -1545,25 +1606,88 @@ class Component extends DCLogic {
       style:{...this.chip(st.symptoms.includes(l),{app:true}),flex:'none',height:32,fontSize:11.5}}));
 
     // ── onboarding
+    const F = st.obInfo, TG = st.obTags;
     const OB = [
       {step:'FITTO',title:'물방울 요정 피또와\n오늘도 또, 건강하게',desc:'숫자 대신 표정으로 건강을 알려주는 앱이에요.',cta:'시작하기',showFitto:true},
-      {step:'STEP 1 · 목표',title:'어떤 목표로 시작할까요?',desc:'미용 목적만이 아니어도 괜찮아요.',cta:'다음',showChoices:true,
-        choices:[['체중 감량','천천히, 무리 없이'],['체중 유지','지금 상태를 지키기'],['근육 증가','단백질 중심 식단'],['건강 관리','질환·컨디션 관리']]},
-      {step:'STEP 2 · 건강 상태',title:'관리가 필요한 항목이 있나요?',desc:'복수 선택 가능 · 의료 진단을 대체하지 않아요.',cta:'다음',showChoices:true,
-        choices:[['해당 없음','건강 상태 양호'],['당뇨','당류·GI 경고'],['고혈압','나트륨 경고'],['통풍','퓨린 함량 경고'],['고지혈증','포화지방 경고']]},
-      {step:'STEP 3 · 피또 성격',title:'피또는 어떤 말투가 좋을까요?',desc:'언제든 설정에서 바꿀 수 있어요.',cta:'다음',showChoices:true,
+      {step:'STEP 1 · 기본 정보',title:'먼저 간단히 알려주세요',desc:'목표 칼로리와 물 섭취량을 계산하는 데 써요.',cta:'다음',showForm:true},
+      {step:'STEP 2 · 활동량',title:'평소 활동량은 어느 정도인가요?',desc:'하루 소모 칼로리를 추정하는 기준이에요.',cta:'다음',showChoices:true,key:'activity',
+        choices:[['거의 안 움직여요','종일 앉아서 생활'],['가볍게 움직여요','주 1~2회 가벼운 운동'],['보통이에요','주 3~4회 운동'],['많이 움직여요','주 5회 이상 운동'],['매우 활동적이에요','육체 노동 · 매일 운동']]},
+      {step:'STEP 3 · 목표',title:'어떤 목표로 시작할까요?',desc:'미용 목적만이 아니어도 괜찮아요.',cta:'다음',showChoices:true,key:'goal',
+        choices:[['체중 감량','천천히, 무리 없이'],['체중 증가','건강하게 늘리기'],['체중 유지','지금 상태를 지키기'],['건강 관리','질환·컨디션 관리'],['근력 강화','단백질 중심 식단'],['체력 증진','지구력·활동량 늘리기']]},
+      {step:'STEP 4 · 건강 상태',title:'건강 상태를 알려주세요',desc:'해당되는 질환을 선택하거나 입력해주세요',cta:'다음',showTags:true,tagKey:'health',
+        tags:['당뇨','고혈압','고지혈증','관절염','위염','빈혈','통풍','갑상선'],
+        placeholder:'기타 질환을 입력하세요', noneLabel:'해당사항 없음'},
+      {step:'STEP 5 · 식단 취향',title:'어떤 음식을 즐겨 드세요?',desc:'추천 식단에 반영해요. 복수 선택 가능해요.',cta:'다음',showTags:true,tagKey:'taste',
+        tags:['한식','양식','일식','중식','분식','샐러드·채식','아시안','베이커리'],
+        placeholder:'다른 종류를 입력하세요', noneLabel:'가리는 것 없음'},
+      {step:'STEP 6 · 못 먹는 음식',title:'알레르기가 있거나\n못 먹는 음식이 있나요?',desc:'추천과 검색에서 자동으로 걸러드려요.',cta:'다음',showTags:true,tagKey:'avoid',
+        tags:['견과류','유제품','해산물','갑각류','달걀','밀(글루텐)','대두','복숭아','매운 음식','돼지고기'],
+        placeholder:'기타 음식을 입력하세요', noneLabel:'해당사항 없음'},
+      {step:'STEP 7 · 피또 성격',title:'피또는 어떤 말투가 좋을까요?',desc:'언제든 설정에서 바꿀 수 있어요.',cta:'다음',showChoices:true,key:'persona',
         choices:[['친근형','오늘도 같이 운동해볼까요? 💪'],['엄격형','오늘 목표 달성하셨나요?'],['중립형','오늘 칼로리를 확인하세요.']]},
-      {step:'완료',title:'목표가 계산됐어요',desc:'BMR과 활동량을 반영한 하루 목표예요.',cta:'홈으로',showResult:true}
+      {step:'완료',title:'준비 완료!',desc:'BMR과 활동량을 반영한 하루 목표예요.',cta:'피또와 시작하기',showResult:true}
     ];
     const cur = OB[Math.min(st.obStep,OB.length-1)];
     const pickOb = (label) => {
-      if(st.obStep===3){ const map={'친근형':'friendly','엄격형':'strict','중립형':'neutral'}; this.setState({persona:map[label],obPick:{...st.obPick,[st.obStep]:label}}); }
-      else this.setState({obPick:{...st.obPick,[st.obStep]:label}});
+      if(cur.key==='persona'){ const map={'친근형':'friendly','엄격형':'strict','중립형':'neutral'}; this.setState({persona:map[label]}); }
+      this.setState({obPick:{...st.obPick,[st.obStep]:label}});
     };
+    // 목표 계산 (Mifflin-St Jeor)
+    const ageN = Number(F.age)||28, hN = Number(F.height)||165, wN = Number(F.weight)||58;
+    const obBmr = Math.round(F.gender==='남성' ? 10*wN+6.25*hN-5*ageN+5 : 10*wN+6.25*hN-5*ageN-161);
+    const ACT_MULT = {'거의 안 움직여요':1.2,'가볍게 움직여요':1.375,'보통이에요':1.55,'많이 움직여요':1.725,'매우 활동적이에요':1.9};
+    const tdee = Math.round(obBmr * (ACT_MULT[st.obPick[2]] || 1.375));
+    const GOAL_ADJ = {'체중 감량':-350,'체중 증가':350,'근력 강화':200,'체력 증진':100};
+    const obKcal = Math.max(1200, tdee + (GOAL_ADJ[st.obPick[3]]||0));
+    const obWater = Math.round(wN*33/50)*50;
+    const tagList = TG[cur.tagKey]||[];
+    const custom = st.obCustom[cur.tagKey]||'';
+    const setTag = (k,v) => this.setState(s=>({obTags:{...s.obTags,[k]:v}}));
     const ob = {
       step:cur.step, title:cur.title, desc:cur.desc, cta:cur.cta,
       showFitto:!!cur.showFitto, showChoices:!!cur.showChoices, showResult:!!cur.showResult,
+      showForm:!!cur.showForm, showTags:!!cur.showTags,
       canBack:st.obStep>0,
+      // 기본 정보 폼
+      name:F.name, age:F.age, height:F.height, weight:F.weight,
+      setName:e=>{const v=e.target.value;this.setState(s=>({obInfo:{...s.obInfo,name:v}}));},
+      setAge:e=>{const v=e.target.value;this.setState(s=>({obInfo:{...s.obInfo,age:v}}));},
+      setHeight:e=>{const v=e.target.value;this.setState(s=>({obInfo:{...s.obInfo,height:v}}));},
+      setWeight:e=>{const v=e.target.value;this.setState(s=>({obInfo:{...s.obInfo,weight:v}}));},
+      genders:['여성','남성','선택 안 함'].map(g=>({label:g,
+        go:()=>this.setState(s=>({obInfo:{...s.obInfo,gender:g}})),
+        style:{...this.chip(F.gender===g,{app:true}),height:46,borderRadius:15,fontSize:13}})),
+      // 태그 선택 (질환 / 취향 / 못 먹는 음식)
+      tagOptions:(cur.tags||[]).map(t=>{
+        const on = tagList.indexOf(t)>=0;
+        return {label:t, go:()=>setTag(cur.tagKey, on?tagList.filter(x=>x!==t):[...tagList,t]),
+          style:{height:46,borderRadius:15,border:on?'1px solid rgba(137,196,225,.9)':'1px solid var(--stroke)',
+            background:on?'rgba(137,196,225,.16)':'var(--card)',color:'var(--txt)',
+            backdropFilter:'blur(14px)',WebkitBackdropFilter:'blur(14px)',
+            fontSize:13,fontWeight:on?700:500,fontFamily:'inherit',cursor:'pointer',
+            boxShadow:on?'0 6px 14px rgba(137,196,225,.22)':'none'}};
+      }),
+      customValue:custom,
+      customPlaceholder:cur.placeholder||'직접 입력',
+      setCustom:e=>{const v=e.target.value;this.setState(s=>({obCustom:{...s.obCustom,[cur.tagKey]:v}}));},
+      addCustom:()=>{
+        const v=(custom||'').trim(); if(!v) return this.toast('내용을 입력해 주세요');
+        if(tagList.indexOf(v)>=0) return this.toast('이미 선택했어요');
+        this.setState(s=>({obTags:{...s.obTags,[cur.tagKey]:[...(s.obTags[cur.tagKey]||[]),v]},
+          obCustom:{...s.obCustom,[cur.tagKey]:''}}));
+      },
+      selected:tagList.map(t=>({label:t, remove:()=>setTag(cur.tagKey, tagList.filter(x=>x!==t))})),
+      hasSelected:tagList.length>0,
+      noneLabel:cur.noneLabel||'해당사항 없음',
+      pickNone:()=>setTag(cur.tagKey,[]),
+      // 결과
+      resKcal:obKcal.toLocaleString(), resWater:obWater.toLocaleString(),
+      resName:(F.name||'회원')+'님',
+      resGoal:st.obPick[3]||'건강 관리', resAct:st.obPick[2]||'가볍게 움직여요',
+      resBmr:obBmr.toLocaleString(), resTdee:tdee.toLocaleString(),
+      resAvoid:(TG.avoid.length?TG.avoid.join(' · '):'없음'),
+      resTaste:(TG.taste.length?TG.taste.join(' · '):'가리지 않음'),
+      resHealth:(TG.health.length?TG.health.join(' · '):'해당사항 없음'),
       choices:(cur.choices||[]).map(([label,sub])=>{
         const on = st.obPick[st.obStep]===label;
         return {label,sub,pick:()=>pickOb(label),
@@ -1874,7 +1998,20 @@ class Component extends DCLogic {
       dow:['일','월','화','수','목','금','토'].map(l=>({label:l})),
       selectedLabel:'8월 '+st.selDay+'일',
       ob, obDots,
-      obNext:()=>{ if(st.obStep>=OB.length-1) this.go('home'); else this.setState({obStep:st.obStep+1}); },
+      obNext:()=>{
+        if(cur.showForm){
+          if(!(F.name||'').trim()) return this.toast('이름을 입력해 주세요');
+          if(!F.height || !F.weight) return this.toast('키와 몸무게를 입력해 주세요');
+        }
+        if(cur.showChoices && !st.obPick[st.obStep]) return this.toast('하나를 선택해 주세요');
+        if(st.obStep>=OB.length-1){
+          this.setState(s=>({goalKcal:obKcal, waterGoal:obWater,
+            profile:{...s.profile, name:(F.name||s.profile.name), sex:F.gender,
+              height:Number(F.height)||s.profile.height, weight:Number(F.weight)||s.profile.weight,
+              goal:st.obPick[3]||s.profile.goal}}));
+          this.go('home');
+        } else this.setState({obStep:st.obStep+1});
+      },
       obBack:()=>this.setState({obStep:Math.max(0,st.obStep-1)}),
       startOnboarding:()=>this.setState({screen:'onboarding',obStep:0}),
       showTutorial:st.tutStep>=0, tut,

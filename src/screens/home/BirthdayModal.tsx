@@ -1,13 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withRepeat,
-  withSequence,
-  Easing,
-} from 'react-native-reanimated';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Pressable, StyleSheet, Image, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
 import { birthday, brand, motion, radius, white } from '../../theme/tokens';
@@ -25,35 +17,44 @@ export default function BirthdayModal({ visible, onClose }: BirthdayModalProps) 
   const persona = useAppStore((s) => s.persona);
   const name = useAppStore((s) => s.profile.nickname);
 
-  const floatY = useSharedValue(0);
-  const enter = useSharedValue(0);
+  const floatY = useRef(new Animated.Value(0)).current;
+  const enter = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (!visible) return;
-    enter.value = 0;
-    enter.value = withTiming(1, { duration: 320, easing: Easing.out(Easing.ease) });
-    floatY.value = withRepeat(
-      withSequence(
-        withTiming(motion.floatOffsetY, { duration: birthday.floatDuration / 2, easing: Easing.inOut(Easing.sin) }),
-        withTiming(0, { duration: birthday.floatDuration / 2, easing: Easing.inOut(Easing.sin) })
-      ),
-      -1,
-      false
+    enter.setValue(0);
+    Animated.timing(enter, {
+      toValue: 1,
+      duration: 320,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
+
+    const half = birthday.floatDuration / 2;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(floatY, {
+          toValue: motion.floatOffsetY,
+          duration: half,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+        Animated.timing(floatY, {
+          toValue: 0,
+          duration: half,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+      ])
     );
+    loop.start();
+    return () => loop.stop();
   }, [visible]);
-
-  const cardStyle = useAnimatedStyle(() => ({
-    opacity: enter.value,
-    transform: [{ translateY: (1 - enter.value) * motion.fadeInOffsetY }],
-  }));
-
-  const charStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: floatY.value }],
-  }));
 
   if (!visible) return null;
 
   const message = personaCopy.birthdayMessage[persona]({ name });
+  const translateY = enter.interpolate({ inputRange: [0, 1], outputRange: [motion.fadeInOffsetY, 0] });
 
   return (
     <View style={styles.overlay}>
@@ -66,8 +67,9 @@ export default function BirthdayModal({ visible, onClose }: BirthdayModalProps) 
               backgroundColor: colors.solid,
               borderColor: colors.stroke,
               shadowColor: birthday.modalShadow,
+              opacity: enter,
+              transform: [{ translateY }],
             },
-            cardStyle,
           ]}
         >
           {/* 프로토타입의 radial-gradient 장식. RN에는 라디얼이 없어 흐린 원으로 근사한다. */}
@@ -76,7 +78,7 @@ export default function BirthdayModal({ visible, onClose }: BirthdayModalProps) 
 
           <Text style={[styles.label, { color: brand.lavender }]}>HAPPY BIRTHDAY</Text>
 
-          <Animated.View style={[styles.charWrap, charStyle]}>
+          <Animated.View style={[styles.charWrap, { transform: [{ translateY: floatY }] }]}>
             <Image source={FITTO_HELLO} style={styles.char} resizeMode="contain" accessibilityLabel="축하하는 피또" />
           </Animated.View>
 
