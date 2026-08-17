@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBar from './TabBar';
 import HomeScreen from '../screens/home/HomeScreen';
+import DietScreen from '../screens/diet/DietScreen';
 import PlaceholderScreen from '../screens/placeholder/PlaceholderScreen';
 
 export type MainTabsParamList = {
@@ -17,7 +18,7 @@ export default function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Diet">{() => <PlaceholderScreen title="식단" />}</Tab.Screen>
+      <Tab.Screen name="Diet" component={DietScreen} />
       <Tab.Screen name="Health">{() => <PlaceholderScreen title="헬스" />}</Tab.Screen>
       <Tab.Screen name="Settings">{() => <PlaceholderScreen title="설정" />}</Tab.Screen>
     </Tab.Navigator>

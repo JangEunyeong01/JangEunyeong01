@@ -10,6 +10,7 @@ import { dateKey } from '../utils/timeOfDay';
 import { getWaterStageSpec } from '../utils/health';
 import { waterStageNames } from '../copy/persona';
 import { overlay } from '../theme/tokens';
+import { useFoodSearchStore } from '../store/useFoodSearchStore';
 
 const ACTIONS = [
   { key: 'water', label: '물 +250ml', icon: '💧' },
@@ -28,6 +29,7 @@ export default function QuickLogSheet() {
   const goalWater = useAppStore((s) => s.goals.water);
   const today = useAppStore((s) => s.dailyRecords[dateKey()]?.water ?? 0);
   const showToast = useToastStore((s) => s.show);
+  const openFoodSearch = useFoodSearchStore((s) => s.show);
 
   const handlePress = (key: (typeof ACTIONS)[number]['key']) => {
     if (key === 'water') {
@@ -37,7 +39,12 @@ export default function QuickLogSheet() {
       hide();
       return;
     }
-    // 음식/운동/체중 기록은 다음 단계(식단, 헬스)에서 실제 입력 폼으로 연결된다.
+    if (key === 'meal') {
+      hide();
+      openFoodSearch();
+      return;
+    }
+    // 운동·체중 기록은 헬스 화면을 만들 때 실제 입력 폼으로 연결한다.
     showToast('다음 단계에서 구현될 기능이에요');
     hide();
   };
