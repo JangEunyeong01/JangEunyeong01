@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -13,11 +14,15 @@ function AppShell() {
   const { mode } = useTheme();
   return (
     <>
+      {/* 시트들은 화면 전체를 덮는 오버레이지만 useNavigation을 쓰므로
+          NavigationContainer 안에 둔다. */}
       <NavigationContainer>
-        <RootNavigator />
+        <View style={{ flex: 1 }}>
+          <RootNavigator />
+          <QuickLogSheet />
+          <FoodSearchSheet />
+        </View>
       </NavigationContainer>
-      <QuickLogSheet />
-      <FoodSearchSheet />
       <Toast />
       <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
     </>

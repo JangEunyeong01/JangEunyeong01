@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../theme/useTheme';
 import { useQuickLogSheetStore } from '../store/useQuickLogSheetStore';
 import { useAppStore } from '../store/useAppStore';
@@ -24,6 +25,7 @@ export default function QuickLogSheet() {
   const { open, hide } = useQuickLogSheetStore();
   const { colors, mode, radius, spacing } = useTheme();
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<any>();
   const addWater = useAppStore((s) => s.addWater);
   const cup = useAppStore((s) => s.goals.cup);
   const goalWater = useAppStore((s) => s.goals.water);
@@ -44,7 +46,12 @@ export default function QuickLogSheet() {
       openFoodSearch();
       return;
     }
-    // 운동·체중 기록은 헬스 화면을 만들 때 실제 입력 폼으로 연결한다.
+    if (key === 'exercise') {
+      hide();
+      navigation.navigate('Health');
+      return;
+    }
+    // 체중 기록은 프로필 화면을 만들 때 입력 폼으로 연결한다.
     showToast('다음 단계에서 구현될 기능이에요');
     hide();
   };
