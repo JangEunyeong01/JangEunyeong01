@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 import GlassCard from '../../../components/GlassCard';
 import PrimaryButton from '../../../components/PrimaryButton';
 import WaterCup from './WaterCup';
@@ -13,6 +14,7 @@ import { waterStageNames } from '../../../copy/persona';
 import { useToastStore } from '../../../store/useToastStore';
 
 export default function WaterCard() {
+  const navigation = useNavigation<any>();
   const { colors, brand } = useTheme();
   const goal = useAppStore((s) => s.goals.water);
   const cup = useAppStore((s) => s.goals.cup);
@@ -45,7 +47,9 @@ export default function WaterCard() {
           <Text style={[styles.label, { color: colors.sub }]}>물 섭취</Text>
           <View style={styles.topRight}>
             <Text style={[styles.stageName, { color: brand.blue }]}>{stage.name}</Text>
-            <Text style={[styles.detailLink, { color: colors.sub }]}>상세 ›</Text>
+            <Pressable onPress={() => navigation.navigate('WaterDetail')} hitSlop={6}>
+              <Text style={[styles.detailLink, { color: colors.sub }]}>상세 ›</Text>
+            </Pressable>
           </View>
         </View>
         <View style={styles.numRow}>

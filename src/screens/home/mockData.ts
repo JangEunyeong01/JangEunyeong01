@@ -16,3 +16,4 @@ export function getWeekDayLabels(): string[] {
 export const MOCK_STEPS_PAST6 = [8210, 6540, 9120, 7460, 8890, 5310];
 export const MOCK_INTAKE_PAST6 = [1620, 1900, 1480, 2050, 1750, 1340];
 export const MOCK_BURN_PAST6 = [520, 610, 480, 700, 550, 430];
+export const MOCK_WATER_PAST6 = [1750, 1400, 2100, 1600, 1950, 1300];

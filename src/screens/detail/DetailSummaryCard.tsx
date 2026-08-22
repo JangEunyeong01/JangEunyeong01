@@ -1,0 +1,66 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import GlassCard from '../../components/GlassCard';
+import ProgressBar from '../../components/ProgressBar';
+import { useTheme } from '../../theme/useTheme';
+
+interface DetailSummaryCardProps {
+  value: number;
+  unit: string;
+  goal: number;
+  periodDesc: string;
+}
+
+// README: 요약 카드 — 큰 수치 + 목표 + 기간 설명.
+export default function DetailSummaryCard({ value, unit, goal, periodDesc }: DetailSummaryCardProps) {
+  const { colors, brand } = useTheme();
+  const progress = goal > 0 ? value / goal : 0;
+
+  return (
+    <GlassCard style={styles.card}>
+      <Text style={[styles.desc, { color: colors.sub }]}>{periodDesc}</Text>
+      <View style={styles.numRow}>
+        <Text style={[styles.bigNum, { color: colors.txt }]}>
+          {value.toLocaleString()}
+          {unit}
+        </Text>
+        <Text style={[styles.unit, { color: colors.sub }]}>
+          {' '}
+          / {goal.toLocaleString()}
+          {unit}
+        </Text>
+      </View>
+      <View style={styles.barWrap}>
+        <ProgressBar progress={progress} height={9} radius={6} gradientColors={[brand.blue, brand.blueDeep]} />
+      </View>
+    </GlassCard>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: 12,
+  },
+  desc: {
+    fontSize: 11.5,
+    fontWeight: '600',
+  },
+  numRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 6,
+    marginTop: 6,
+  },
+  bigNum: {
+    fontSize: 27,
+    fontWeight: '700',
+    letterSpacing: -1,
+  },
+  unit: {
+    fontSize: 12.5,
+    fontWeight: '600',
+  },
+  barWrap: {
+    marginTop: 12,
+  },
+});
