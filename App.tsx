@@ -8,6 +8,7 @@ import RootNavigator from './src/navigation/RootNavigator';
 import Toast from './src/components/Toast';
 import QuickLogSheet from './src/components/QuickLogSheet';
 import FoodSearchSheet from './src/screens/diet/FoodSearchSheet';
+import BirthdayModal from './src/screens/home/BirthdayModal';
 import { useTheme } from './src/theme/useTheme';
 
 function AppShell() {
@@ -23,6 +24,7 @@ function AppShell() {
           <FoodSearchSheet />
         </View>
       </NavigationContainer>
+      <BirthdayModal />
       <Toast />
       <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
     </>

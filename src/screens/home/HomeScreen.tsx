@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, View, Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
@@ -14,8 +14,9 @@ import PeriodCard from './cards/PeriodCard';
 import LayDownBanner from './LayDownBanner';
 import CardOrderSheet from './CardOrderSheet';
 import BirthdayBanner from './BirthdayBanner';
-import BirthdayModal from './BirthdayModal';
 import { useAppStore, CardId } from '../../store/useAppStore';
+import { useCardOrderSheetStore } from '../../store/useCardOrderSheetStore';
+import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
 import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
 
 // B 히어로(확정 기본안): 물·걸음만 반폭 2열, 나머지는 전폭.
@@ -40,15 +41,17 @@ export default function HomeScreen() {
   const record = useAppStore((s) => s.dailyRecords[dateKey()]);
   const profile = useAppStore((s) => s.profile);
   const setBirthdayShownYear = useAppStore((s) => s.setBirthdayShownYear);
-  const [sheetVisible, setSheetVisible] = useState(false);
-  const [birthdayVisible, setBirthdayVisible] = useState(false);
+  const sheetVisible = useCardOrderSheetStore((s) => s.open);
+  const showSheet = useCardOrderSheetStore((s) => s.show);
+  const hideSheet = useCardOrderSheetStore((s) => s.hide);
+  const showBirthday = useBirthdayModalStore((s) => s.show);
 
   // 배너는 생일 당일 내내 떠 있고 몇 번이든 다시 열 수 있다.
   // birthdayShownYear는 올해 축하를 이미 전달했다는 기록으로, 배너 노출을 막지는 않는다.
   const isBirthday = isBirthdayToday(profile.birthdayMonth, profile.birthdayDay);
 
   const openBirthday = () => {
-    setBirthdayVisible(true);
+    showBirthday();
     setBirthdayShownYear(new Date().getFullYear());
   };
 
@@ -70,7 +73,7 @@ export default function HomeScreen() {
         {isBirthday && <BirthdayBanner name={profile.nickname} onPress={openBirthday} />}
         <HeroRow />
 
-        <Pressable onLongPress={() => setSheetVisible(true)} delayLongPress={550} style={styles.grid}>
+        <Pressable onLongPress={showSheet} delayLongPress={550} style={styles.grid}>
           {visibleCards.map((id) => {
             const Card = CARD_COMPONENTS[id];
             const half = HALF_WIDTH_CARDS.has(id);
@@ -85,8 +88,7 @@ export default function HomeScreen() {
         {noExerciseToday && <LayDownBanner />}
       </ScrollView>
 
-      <CardOrderSheet visible={sheetVisible} onClose={() => setSheetVisible(false)} />
-      <BirthdayModal visible={birthdayVisible} onClose={() => setBirthdayVisible(false)} />
+      <CardOrderSheet visible={sheetVisible} onClose={hideSheet} />
     </ScreenBackground>
   );
 }

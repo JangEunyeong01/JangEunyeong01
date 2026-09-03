@@ -5,15 +5,15 @@ import { useTheme } from '../../theme/useTheme';
 import { birthday, brand, motion, radius, white } from '../../theme/tokens';
 import { personaCopy } from '../../copy/persona';
 import { useAppStore } from '../../store/useAppStore';
+import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
 import { FITTO_HELLO } from '../../theme/assets';
 
-interface BirthdayModalProps {
-  visible: boolean;
-  onClose: () => void;
-}
-
-export default function BirthdayModal({ visible, onClose }: BirthdayModalProps) {
+// 생일 배너(홈)와 미리보기 버튼(설정) 양쪽에서 열 수 있어야 해서
+// Toast처럼 전역 스토어에서 open 상태를 직접 구독한다.
+export default function BirthdayModal() {
   const { colors } = useTheme();
+  const visible = useBirthdayModalStore((s) => s.open);
+  const onClose = useBirthdayModalStore((s) => s.hide);
   const persona = useAppStore((s) => s.persona);
   const name = useAppStore((s) => s.profile.nickname);
 

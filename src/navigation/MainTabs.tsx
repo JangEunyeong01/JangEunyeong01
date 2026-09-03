@@ -4,7 +4,7 @@ import TabBar from './TabBar';
 import HomeStack from './HomeStack';
 import DietScreen from '../screens/diet/DietScreen';
 import HealthScreen from '../screens/health/HealthScreen';
-import PlaceholderScreen from '../screens/placeholder/PlaceholderScreen';
+import SettingsStack from './SettingsStack';
 
 export type MainTabsParamList = {
   Home: undefined;
@@ -21,7 +21,7 @@ export default function MainTabs() {
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Diet" component={DietScreen} />
       <Tab.Screen name="Health" component={HealthScreen} />
-      <Tab.Screen name="Settings">{() => <PlaceholderScreen title="설정" />}</Tab.Screen>
+      <Tab.Screen name="Settings" component={SettingsStack} />
     </Tab.Navigator>
   );
 }

@@ -133,6 +133,7 @@ interface AppState {
   setPersona: (p: Persona) => void;
   setProfile: (patch: Partial<Profile>) => void;
   setGoals: (patch: Partial<Goals>) => void;
+  setAlarms: (patch: Partial<Alarms>) => void;
   setPeriodOn: (v: boolean) => void;
   setCardOrder: (order: CardId[]) => void;
   setCardHidden: (hidden: CardId[]) => void;
@@ -142,6 +143,7 @@ interface AppState {
   clearObTags: (key: keyof ObTags) => void;
   setObPick: (patch: Partial<ObPick>) => void;
   completeOnboarding: () => void;
+  resetOnboarding: () => void;
   setTutorialDone: (v: boolean) => void;
   setBirthdayShownYear: (y: number) => void;
   addWater: (dateKey: string, deltaMl: number) => void;
@@ -217,6 +219,7 @@ export const useAppStore = create<AppState>()(
       setPersona: (p) => set({ persona: p }),
       setProfile: (patch) => set((s) => ({ profile: { ...s.profile, ...patch } })),
       setGoals: (patch) => set((s) => ({ goals: { ...s.goals, ...patch } })),
+      setAlarms: (patch) => set((s) => ({ alarms: { ...s.alarms, ...patch } })),
       setPeriodOn: (v) => set({ periodOn: v }),
       setCardOrder: (order) => set({ cardOrder: order }),
       setCardHidden: (hidden) => set({ cardHidden: hidden }),
@@ -261,6 +264,21 @@ export const useAppStore = create<AppState>()(
             persona: s.obPick.persona ?? s.persona,
           };
         }),
+      // 설정 → 온보딩 다시 보기. 처음 온보딩 때 입력한 obInfo는 그 뒤로 갱신되지 않으므로,
+      // 프로필에서 바뀐 최신 값을 다시 채워 넣고 첫 화면으로 돌려보낸다.
+      resetOnboarding: () =>
+        set((s) => ({
+          onboardingDone: false,
+          obInfo: {
+            name: s.profile.nickname,
+            gender: s.profile.gender ?? '',
+            age: s.obInfo.age,
+            height: s.profile.height ? String(s.profile.height) : '',
+            weight: s.profile.weight ? String(s.profile.weight) : '',
+          },
+          obTags: { health: s.profile.conditions, taste: s.obTags.taste, avoid: s.profile.allergies },
+          obPick: { activity: s.profile.activity ?? '', goal: s.profile.goalType ?? '', persona: s.persona },
+        })),
       setTutorialDone: (v) => set({ tutorialDone: v }),
       setBirthdayShownYear: (y) => set({ birthdayShownYear: y }),
 
