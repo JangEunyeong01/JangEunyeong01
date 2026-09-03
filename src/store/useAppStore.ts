@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateGoals } from '../utils/goals';
+import { toDateKey, type PeriodSettings } from '../utils/periodCycle';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type Persona = 'friendly' | 'strict' | 'neutral';
@@ -115,6 +116,7 @@ interface AppState {
   profile: Profile;
   goals: Goals;
   periodOn: boolean;
+  periodSettings: PeriodSettings;
   cardOrder: CardId[];
   cardHidden: CardId[];
   alarms: Alarms;
@@ -135,6 +137,9 @@ interface AppState {
   setGoals: (patch: Partial<Goals>) => void;
   setAlarms: (patch: Partial<Alarms>) => void;
   setPeriodOn: (v: boolean) => void;
+  setPeriodSettings: (patch: Partial<PeriodSettings>) => void;
+  setDayCondition: (dateKey: string, condition: DailyRecord['periodCondition']) => void;
+  toggleDaySymptom: (dateKey: string, symptom: string) => void;
   setCardOrder: (order: CardId[]) => void;
   setCardHidden: (hidden: CardId[]) => void;
   resetCardOrder: () => void;
@@ -179,6 +184,13 @@ const defaultProfile: Profile = {
 
 const defaultGoals: Goals = { kcal: 1850, water: 1900, steps: 8000, cup: 250 };
 
+// 실제 생리 시작일을 입력받기 전까지 홈 카드의 예시 문구("3일차")와 맞춘 기본값.
+function defaultPeriodSettings(): PeriodSettings {
+  const start = new Date();
+  start.setDate(start.getDate() - 2);
+  return { lastStartDate: toDateKey(start), cycleLength: 28, periodLength: 5 };
+}
+
 const defaultAlarms: Alarms = {
   water: true,
   waterEvery: 2,
@@ -201,6 +213,7 @@ export const useAppStore = create<AppState>()(
       profile: defaultProfile,
       goals: defaultGoals,
       periodOn: true,
+      periodSettings: defaultPeriodSettings(),
       cardOrder: DEFAULT_CARD_ORDER,
       cardHidden: [],
       obInfo: { name: '', gender: '', age: '', height: '', weight: '' },
@@ -221,6 +234,19 @@ export const useAppStore = create<AppState>()(
       setGoals: (patch) => set((s) => ({ goals: { ...s.goals, ...patch } })),
       setAlarms: (patch) => set((s) => ({ alarms: { ...s.alarms, ...patch } })),
       setPeriodOn: (v) => set({ periodOn: v }),
+      setPeriodSettings: (patch) => set((s) => ({ periodSettings: { ...s.periodSettings, ...patch } })),
+      setDayCondition: (dateKey, condition) =>
+        set((s) => {
+          const rec = s.dailyRecords[dateKey] ?? emptyRecord();
+          return { dailyRecords: { ...s.dailyRecords, [dateKey]: { ...rec, periodCondition: condition } } };
+        }),
+      toggleDaySymptom: (dateKey, symptom) =>
+        set((s) => {
+          const rec = s.dailyRecords[dateKey] ?? emptyRecord();
+          const cur = rec.periodSymptoms ?? [];
+          const next = cur.includes(symptom) ? cur.filter((v) => v !== symptom) : [...cur, symptom];
+          return { dailyRecords: { ...s.dailyRecords, [dateKey]: { ...rec, periodSymptoms: next } } };
+        }),
       setCardOrder: (order) => set({ cardOrder: order }),
       setCardHidden: (hidden) => set({ cardHidden: hidden }),
       resetCardOrder: () => set({ cardOrder: DEFAULT_CARD_ORDER, cardHidden: [] }),

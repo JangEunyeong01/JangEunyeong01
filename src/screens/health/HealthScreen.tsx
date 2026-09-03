@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
@@ -14,6 +15,7 @@ import { MOCK_STEPS_PAST6 } from '../home/mockData';
 
 export default function HealthScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<any>();
   const { colors, typography } = useTheme();
   const persona = useAppStore((s) => s.persona);
   const periodOn = useAppStore((s) => s.periodOn);
@@ -120,7 +122,7 @@ export default function HealthScreen() {
         </GlassCard>
 
         {periodOn && (
-          <Pressable onPress={() => showToast('다음 단계에서 구현될 화면이에요')}>
+          <Pressable onPress={() => navigation.navigate('PeriodDetail')}>
             <GlassCard style={styles.card}>
               <View style={styles.periodRow}>
                 <View style={[styles.periodBadge, { backgroundColor: alpha(brand.lavender, 0.28) }]}>

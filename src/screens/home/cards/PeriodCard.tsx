@@ -1,32 +1,44 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 import GlassCard from '../../../components/GlassCard';
 import { useTheme } from '../../../theme/useTheme';
 import { periodBadgeGradient, white } from '../../../theme/tokens';
+import { useAppStore } from '../../../store/useAppStore';
+import { dateKey } from '../../../utils/timeOfDay';
+import { getCycleDayNumber, getDaysUntilFertile } from '../../../utils/periodCycle';
 
-// 생리 주기 상세 화면은 다음 단계에서 구현 예정 — 카드는 예시 수치(3일차)를 보여준다.
 export default function PeriodCard() {
   const { colors } = useTheme();
+  const navigation = useNavigation<any>();
+  const settings = useAppStore((s) => s.periodSettings);
+
+  const today = dateKey();
+  const cycleDay = getCycleDayNumber(today, settings);
+  const untilFertile = getDaysUntilFertile(today, settings);
+  const subtitle = untilFertile === 0 ? `${cycleDay}일차 · 가임기` : `${cycleDay}일차 · 가임기까지 ${untilFertile}일`;
 
   return (
-    <GlassCard>
-      <View style={styles.row}>
-        <LinearGradient
-          colors={periodBadgeGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.badge}
-        >
-          <Text style={styles.badgeText}>D+3</Text>
-        </LinearGradient>
-        <View style={styles.textCol}>
-          <Text style={[styles.title, { color: colors.txt }]}>생리 주기</Text>
-          <Text style={[styles.sub, { color: colors.sub }]}>3일차 · 가임기까지 9일</Text>
+    <Pressable onPress={() => navigation.navigate('PeriodDetail')}>
+      <GlassCard>
+        <View style={styles.row}>
+          <LinearGradient
+            colors={periodBadgeGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.badge}
+          >
+            <Text style={styles.badgeText}>D+{cycleDay - 1}</Text>
+          </LinearGradient>
+          <View style={styles.textCol}>
+            <Text style={[styles.title, { color: colors.txt }]}>생리 주기</Text>
+            <Text style={[styles.sub, { color: colors.sub }]}>{subtitle}</Text>
+          </View>
+          <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
         </View>
-        <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
-      </View>
-    </GlassCard>
+      </GlassCard>
+    </Pressable>
   );
 }
 
