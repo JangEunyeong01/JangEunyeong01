@@ -6,7 +6,7 @@
 
 export type PeriodKind = 'water' | 'steps';
 
-function seededRatio(seed: string): number {
+export function seededRatio(seed: string): number {
   // FNV-1a 해시. 'water-2026-8-w0'처럼 끝자리만 다른 시드가 많아서,
   // 단순 다항식 해시(h*31+code)는 마지막 문자 차이가 그대로 h 값 차이로 남아
   // w0~w3가 사실상 같은 값을 냈다. murmur3 계열 최종 믹싱을 한 번 더 거쳐 비트를 흩뜨린다.

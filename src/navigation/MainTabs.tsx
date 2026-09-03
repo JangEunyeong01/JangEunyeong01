@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBar from './TabBar';
 import HomeStack from './HomeStack';
-import DietScreen from '../screens/diet/DietScreen';
+import DietStack from './DietStack';
 import HealthStack from './HealthStack';
 import SettingsStack from './SettingsStack';
 
@@ -19,7 +19,7 @@ export default function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Diet" component={DietScreen} />
+      <Tab.Screen name="Diet" component={DietStack} />
       <Tab.Screen name="Health" component={HealthStack} />
       <Tab.Screen name="Settings" component={SettingsStack} />
     </Tab.Navigator>

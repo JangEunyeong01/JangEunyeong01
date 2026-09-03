@@ -155,6 +155,8 @@ interface AppState {
   addExercise: (dateKey: string, entry: ExerciseEntry) => void;
   removeExercise: (dateKey: string, id: string) => void;
   addMealItem: (dateKey: string, slot: keyof DailyRecord['meals'], item: MealItem) => void;
+  addRecipe: (recipe: Recipe) => void;
+  addCustomIngredient: (ingredient: CustomIngredient) => void;
   getRecord: (dateKey: string) => DailyRecord;
   seedMockToday: (dateKey: string) => void;
 }
@@ -349,6 +351,13 @@ export const useAppStore = create<AppState>()(
             },
           };
         }),
+
+      addRecipe: (recipe) => set((s) => ({ recipes: [recipe, ...s.recipes] })),
+      // 직접 입력한 재료는 칩 목록에 남아 재사용된다(README 5장). 같은 이름이면 최신 값으로 덮어쓴다.
+      addCustomIngredient: (ingredient) =>
+        set((s) => ({
+          customIngredients: [ingredient, ...s.customIngredients.filter((c) => c.name !== ingredient.name)],
+        })),
 
       // 실제 데이터 소스(건강 API·음식 영양성분 API) 연동 전까지 홈 화면을 채우는
       // 예시 데이터. README 화면 명세의 예시 수치를 그대로 사용한다.

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -18,6 +19,7 @@ const SLOTS = ['아침', '점심', '저녁', '간식'] as const;
 
 export default function DietScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<any>();
   const { colors, typography } = useTheme();
   const record = useAppStore((s) => s.dailyRecords[dateKey()]);
   const openSearch = useFoodSearchStore((s) => s.show);
@@ -62,13 +64,13 @@ export default function DietScreen() {
 
         <View style={styles.bottomRow}>
           <Pressable
-            onPress={() => showToast('다음 단계에서 구현될 화면이에요')}
+            onPress={() => navigation.navigate('Recipe')}
             style={[styles.bottomBtn, { borderColor: colors.line, backgroundColor: colors.card2 }]}
           >
             <Text style={[styles.bottomLabel, { color: colors.txt }]}>나만의 레시피</Text>
           </Pressable>
           <Pressable
-            onPress={() => showToast('다음 단계에서 구현될 화면이에요')}
+            onPress={() => navigation.navigate('DietAnalysis')}
             style={[styles.bottomBtn, { borderColor: colors.line, backgroundColor: colors.card2 }]}
           >
             <Text style={[styles.bottomLabel, { color: colors.txt }]}>식단 분석</Text>
