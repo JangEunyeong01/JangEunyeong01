@@ -157,7 +157,6 @@ interface AppState {
   addMealItem: (dateKey: string, slot: keyof DailyRecord['meals'], item: MealItem) => void;
   addRecipe: (recipe: Recipe) => void;
   addCustomIngredient: (ingredient: CustomIngredient) => void;
-  getRecord: (dateKey: string) => DailyRecord;
   seedMockToday: (dateKey: string) => void;
 }
 
@@ -216,7 +215,8 @@ export const useAppStore = create<AppState>()(
       goals: defaultGoals,
       periodOn: true,
       periodSettings: defaultPeriodSettings(),
-      cardOrder: DEFAULT_CARD_ORDER,
+      // 전역 상수를 그대로 상태에 넣으면 어딘가에서 배열을 직접 수정했을 때 기본값이 오염된다.
+      cardOrder: [...DEFAULT_CARD_ORDER],
       cardHidden: [],
       obInfo: { name: '', gender: '', age: '', height: '', weight: '' },
       obTags: { health: [], taste: [], avoid: [] },
@@ -251,7 +251,7 @@ export const useAppStore = create<AppState>()(
         }),
       setCardOrder: (order) => set({ cardOrder: order }),
       setCardHidden: (hidden) => set({ cardHidden: hidden }),
-      resetCardOrder: () => set({ cardOrder: DEFAULT_CARD_ORDER, cardHidden: [] }),
+      resetCardOrder: () => set({ cardOrder: [...DEFAULT_CARD_ORDER], cardHidden: [] }),
       setObInfo: (patch) => set((s) => ({ obInfo: { ...s.obInfo, ...patch } })),
       // 선택 배열을 통째로 받으면 리렌더 전에 두 번 누를 때 앞선 선택이 덮어써진다.
       // 항상 스토어의 최신 값을 기준으로 토글한다.
@@ -310,8 +310,6 @@ export const useAppStore = create<AppState>()(
       setTutorialDone: (v) => set({ tutorialDone: v }),
       setBirthdayShownYear: (y) => set({ birthdayShownYear: y }),
 
-      getRecord: (dateKey) => get().dailyRecords[dateKey] ?? emptyRecord(),
-
       addWater: (dateKey, deltaMl) =>
         set((s) => {
           const rec = s.dailyRecords[dateKey] ?? emptyRecord();
@@ -365,15 +363,6 @@ export const useAppStore = create<AppState>()(
       seedMockToday: (dateKey) =>
         set((s) => {
           const patch: Partial<AppState> = {};
-          const now = new Date();
-          const month = now.getMonth() + 1;
-          const day = now.getDate();
-
-          // 데모용: 프로필 화면이 생기기 전까지 생일을 오늘로 맞춰 생일 배너를 확인할 수 있게 한다.
-          // 프로필 편집을 구현할 때 이 블록을 지우고 사용자 입력값을 그대로 쓴다.
-          if (s.profile.birthdayMonth !== month || s.profile.birthdayDay !== day) {
-            patch.profile = { ...s.profile, birthdayMonth: month, birthdayDay: day };
-          }
 
           if (!s.dailyRecords[dateKey]) {
             const rec: DailyRecord = {
@@ -399,6 +388,23 @@ export const useAppStore = create<AppState>()(
       name: 'fitto-app-storage',
       storage: createJSONStorage(() => AsyncStorage),
       version: 2,
+      // 기본 병합은 얕은 병합이라 profile 같은 객체는 저장본이 통째로 덮어쓴다.
+      // 그러면 나중에 필드를 추가했을 때 기존 사용자에게만 undefined가 남으므로,
+      // 객체 필드는 기본값 위에 저장본을 얹는다.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<AppState>;
+        return {
+          ...current,
+          ...p,
+          profile: { ...current.profile, ...(p.profile ?? {}) },
+          goals: { ...current.goals, ...(p.goals ?? {}) },
+          alarms: { ...current.alarms, ...(p.alarms ?? {}) },
+          periodSettings: { ...current.periodSettings, ...(p.periodSettings ?? {}) },
+          obInfo: { ...current.obInfo, ...(p.obInfo ?? {}) },
+          obTags: { ...current.obTags, ...(p.obTags ?? {}) },
+          obPick: { ...current.obPick, ...(p.obPick ?? {}) },
+        };
+      },
       // 이미 저장된 상태에는 기본값 변경이 자동 반영되지 않아 버전별로 옮겨준다.
       migrate: (persisted: unknown, version: number) => {
         const state = persisted as { profile?: Profile; cardOrder?: CardId[] } | undefined;
