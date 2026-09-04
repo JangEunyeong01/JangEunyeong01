@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand } from '../../theme/tokens';
+import { alpha, brand, typography } from '../../theme/tokens';
 import { RECOMMENDED_MEALS, findAllergyHit } from '../../data/foods';
 import { useAppStore } from '../../store/useAppStore';
 
@@ -66,20 +66,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   badge: {
     paddingHorizontal: 9,
     paddingVertical: 4,
     borderRadius: 9,
     maxWidth: '55%',
   },
-  badgeText: {
-    fontSize: 10.5,
-    fontWeight: '700',
-  },
+  badgeText: typography.badge,
   list: {
     marginTop: 12,
     gap: 10,
@@ -97,25 +91,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  thumbMark: {
-    fontSize: 12,
-  },
+  thumbMark: typography.bodySm,
   rowText: {
     flex: 1,
     gap: 2,
   },
-  name: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  amount: {
-    fontSize: 11,
-  },
-  kcal: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  empty: {
-    fontSize: 12,
-  },
+  name: typography.rowLabel,
+  amount: typography.caption,
+  kcal: typography.sectionTitle,
+  empty: typography.bodySm,
 });

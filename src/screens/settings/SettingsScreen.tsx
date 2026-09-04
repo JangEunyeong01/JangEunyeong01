@@ -15,6 +15,7 @@ import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
 import { useTutorialStore } from '../../store/useTutorialStore';
 import { useToastStore } from '../../store/useToastStore';
 import { PERSONA_OPTIONS } from '../onboarding/onboardingData';
+import { typography } from '../../theme/tokens';
 
 const THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
   { value: 'light', label: '라이트' },
@@ -221,26 +222,17 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  nickname: {
-    fontSize: 14.5,
-    fontWeight: '700',
-  },
-  goalSummary: {
-    fontSize: 12,
-  },
+  nickname: typography.itemTitle,
+  goalSummary: typography.bodySm,
   chevron: {
     fontSize: 18,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   gap10: {
     marginTop: 10,
   },
   previewText: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 10,
   },
   divider: {
@@ -253,23 +245,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
-  rowLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  rowAction: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  rowLabel: typography.rowLabel,
+  rowAction: typography.unit,
   badge: {
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 7,
   },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-  },
+  badgeText: typography.badge,
   rowTextCol: {
     flex: 1,
     gap: 4,
@@ -279,9 +262,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 7,
   },
-  rowDesc: {
-    fontSize: 11,
-  },
+  rowDesc: typography.caption,
   previewBtn: {
     height: 34,
     borderRadius: 12,
@@ -294,8 +275,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  previewBtnLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  previewBtnLabel: typography.label,
 });

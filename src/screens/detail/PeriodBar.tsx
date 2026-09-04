@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 import { YearMonth, ymAdd, ymFromIndex, ymIndex, ymRangeLabel } from '../../utils/periodMock';
 
 export type MonthPreset = '1m' | '3m' | '6m' | 'custom';
@@ -150,13 +150,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  navIcon: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
+  navIcon: typography.rowLabel,
   label: {
-    fontSize: 14,
-    fontWeight: '700',
+    ...typography.itemTitle,
     minWidth: 140,
     textAlign: 'center',
   },
@@ -172,9 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.chip,
     borderWidth: 1,
   },
-  presetLabel: {
-    fontSize: 11.5,
-  },
+  presetLabel: typography.bodySm,
   customRow: {
     flexDirection: 'row',
     gap: 16,
@@ -186,10 +180,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 6,
   },
-  stepperLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  stepperLabel: typography.label,
   stepperRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -204,9 +195,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepperValue: {
+    ...typography.value,
     flex: 1,
-    fontSize: 12.5,
-    fontWeight: '700',
     textAlign: 'center',
   },
 });

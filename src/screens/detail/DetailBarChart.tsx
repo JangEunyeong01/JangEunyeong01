@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
+import { typography } from '../../theme/tokens';
 
 const BAR_MAX_HEIGHT = 88;
 
@@ -61,10 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
-  value: {
-    fontSize: 9.5,
-    fontWeight: '600',
-  },
+  value: typography.micro,
   track: {
     width: '100%',
     justifyContent: 'flex-end',
@@ -73,8 +71,5 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 5,
   },
-  label: {
-    fontSize: 10.5,
-    fontWeight: '500',
-  },
+  label: typography.captionSm,
 });

@@ -8,7 +8,7 @@ import { dateKey } from '../../../utils/timeOfDay';
 import { getKcalStatus, kcalStatusColor, kcalStatusLabel, sumMealKcal, getBurnedKcal } from '../../../utils/health';
 import { personaCopy } from '../../../copy/persona';
 import { FITTO_FACE } from '../../../theme/assets';
-import { alpha } from '../../../theme/tokens';
+import { alpha, typography } from '../../../theme/tokens';
 
 export default function KcalCard() {
   const { colors } = useTheme();
@@ -116,10 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 4,
   },
-  label: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  label: typography.label,
   numRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
@@ -129,10 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -1,
   },
-  goalNum: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  goalNum: typography.unit,
   barWrap: {
     marginTop: 14,
   },
@@ -148,22 +142,13 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     gap: 6,
   },
-  summaryLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  summaryValue: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
+  summaryLabel: typography.label,
+  summaryValue: typography.itemTitle,
   commentBox: {
     marginTop: 12,
     borderRadius: 15,
     paddingVertical: 11,
     paddingHorizontal: 13,
   },
-  commentText: {
-    fontSize: 12.5,
-    fontWeight: '500',
-  },
+  commentText: typography.body,
 });

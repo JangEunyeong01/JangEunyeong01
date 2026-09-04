@@ -12,6 +12,7 @@ import { dateKey } from '../../../utils/timeOfDay';
 import { getWaterStageSpec } from '../../../utils/health';
 import { waterStageNames } from '../../../copy/persona';
 import { useToastStore } from '../../../store/useToastStore';
+import { typography } from '../../../theme/tokens';
 
 export default function WaterCard() {
   const navigation = useNavigation<any>();
@@ -83,26 +84,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  label: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  label: typography.unit,
   topRight: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  stageName: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  detailLink: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  stageName: typography.label,
+  detailLink: typography.label,
   dragHint: {
-    fontSize: 11,
-    fontWeight: '500',
+    ...typography.caption,
     marginTop: 4,
   },
   numRow: {
@@ -115,16 +106,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -0.9,
   },
-  goalNum: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  goalNum: typography.unit,
   cupWrap: {
     alignItems: 'center',
     marginTop: 14,
   },
   cupHint: {
-    fontSize: 11,
+    ...typography.caption,
     lineHeight: 11 * 1.5,
     marginTop: 10,
     textAlign: 'center',
@@ -141,8 +129,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  undoLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
+  undoLabel: typography.label,
 });

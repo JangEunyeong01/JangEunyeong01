@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -58,7 +58,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  label: {
-    fontSize: 12.5,
-  },
+  label: typography.body,
 });

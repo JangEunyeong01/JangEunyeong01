@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 import { useAppStore, type DailyRecord } from '../../store/useAppStore';
 
 const CONDITIONS: { value: NonNullable<DailyRecord['periodCondition']>; label: string }[] = [
@@ -83,13 +83,9 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   desc: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 6,
   },
   conditionRow: {
@@ -105,12 +101,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  conditionLabel: {
-    fontSize: 13,
-  },
+  conditionLabel: typography.input,
   sectionLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
+    ...typography.label,
     marginTop: 16,
     marginBottom: 8,
   },
@@ -125,16 +118,14 @@ const styles = StyleSheet.create({
     borderRadius: radius.chip,
     borderWidth: 1,
   },
-  symptomLabel: {
-    fontSize: 12,
-  },
+  symptomLabel: typography.bodySm,
   memoBlock: {
     borderRadius: 15,
     padding: 12,
     marginTop: 14,
   },
   memoText: {
-    fontSize: 11,
+    ...typography.caption,
     lineHeight: 11 * 1.5,
   },
 });

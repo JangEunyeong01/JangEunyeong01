@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, Image, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, radius, white } from '../../theme/tokens';
+import { alpha, radius, typography, white } from '../../theme/tokens';
 import { personaCopy } from '../../copy/persona';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
@@ -120,8 +120,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   body: {
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.6,
+    ...typography.body,
     marginTop: 7,
     textAlign: 'center',
   },
@@ -139,10 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  laterLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  laterLabel: typography.rowLabel,
   walkWrap: {
     flex: 1,
   },
@@ -153,8 +149,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   walkLabel: {
+    ...typography.sectionTitle,
     color: white,
-    fontSize: 13,
-    fontWeight: '700',
   },
 });

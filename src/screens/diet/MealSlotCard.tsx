@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
 import type { MealItem } from '../../store/useAppStore';
+import { typography } from '../../theme/tokens';
 
 interface MealSlotCardProps {
   slot: string;
@@ -52,14 +53,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  total: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
+  title: typography.sectionTitle,
+  total: typography.label,
   emptyBtn: {
     marginTop: 12,
     height: 42,
@@ -69,10 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emptyLabel: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  emptyLabel: typography.unit,
   list: {
     marginTop: 10,
     gap: 8,
@@ -83,16 +75,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   itemName: {
+    ...typography.rowLabel,
     flex: 1,
-    fontSize: 13,
-    fontWeight: '600',
   },
-  itemAmount: {
-    fontSize: 11,
-  },
+  itemAmount: typography.caption,
   itemKcal: {
-    fontSize: 12.5,
-    fontWeight: '700',
+    ...typography.value,
     minWidth: 34,
     textAlign: 'right',
   },

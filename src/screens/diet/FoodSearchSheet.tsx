@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View, Text, Pressable, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, overlay, radius, selection } from '../../theme/tokens';
+import { alpha, brand, overlay, radius, selection, typography } from '../../theme/tokens';
 import { FOODS, findAllergyHit, type Food } from '../../data/foods';
 import { useAppStore } from '../../store/useAppStore';
 import { useFoodSearchStore } from '../../store/useFoodSearchStore';
@@ -192,12 +192,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     gap: 8,
   },
-  searchIcon: {
-    fontSize: 14,
-  },
+  searchIcon: typography.input,
   searchInput: {
+    ...typography.input,
     flex: 1,
-    fontSize: 13.5,
   },
   clearBtn: {
     width: 24,
@@ -206,9 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clearIcon: {
-    fontSize: 11,
-  },
+  clearIcon: typography.caption,
   recentRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -222,15 +218,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
   },
-  recentText: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  recentText: typography.label,
   results: {
     marginTop: 12,
   },
   empty: {
-    fontSize: 12.5,
+    ...typography.body,
     paddingVertical: 20,
     textAlign: 'center',
   },
@@ -252,26 +245,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  name: {
-    fontSize: 13.5,
-    fontWeight: '600',
-  },
+  name: typography.rowLabel,
   badge: {
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 8,
   },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-  },
-  meta: {
-    fontSize: 11,
-  },
-  kcal: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  badgeText: typography.badge,
+  meta: typography.caption,
+  kcal: typography.sectionTitle,
   addBtn: {
     height: 32,
     paddingHorizontal: 14,
@@ -279,8 +261,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
+  addLabel: typography.value,
 });

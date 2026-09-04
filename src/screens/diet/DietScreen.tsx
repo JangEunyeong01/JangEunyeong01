@@ -14,6 +14,7 @@ import { useFoodSearchStore } from '../../store/useFoodSearchStore';
 import { useToastStore } from '../../store/useToastStore';
 import { dateKey } from '../../utils/timeOfDay';
 import { sumMealKcal } from '../../utils/health';
+import { typography } from '../../theme/tokens';
 
 const SLOTS = ['아침', '점심', '저녁', '간식'] as const;
 
@@ -109,13 +110,11 @@ const styles = StyleSheet.create({
     opacity: 0.72,
   },
   emptyTitle: {
-    fontSize: 14.5,
-    fontWeight: '700',
+    ...typography.itemTitle,
     marginTop: 12,
   },
   emptyDesc: {
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.5,
+    ...typography.body,
     textAlign: 'center',
     marginTop: 6,
   },
@@ -136,8 +135,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bottomLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  bottomLabel: typography.rowLabel,
 });

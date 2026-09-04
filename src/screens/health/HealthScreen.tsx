@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand } from '../../theme/tokens';
+import { alpha, brand, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
 import { dateKey } from '../../utils/timeOfDay';
@@ -162,10 +162,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -177,10 +174,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 8,
   },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-  },
+  badgeText: typography.badge,
   statRow: {
     flexDirection: 'row',
     marginTop: 14,
@@ -194,13 +188,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -0.6,
   },
-  statLabel: {
-    fontSize: 11,
-    fontWeight: '500',
-  },
+  statLabel: typography.caption,
   comment: {
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.5,
+    ...typography.body,
     marginTop: 10,
   },
   suggestList: {
@@ -218,16 +208,10 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  suggestName: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  suggestDetail: {
-    fontSize: 11.5,
-    fontWeight: '500',
-  },
+  suggestName: typography.sectionTitle,
+  suggestDetail: typography.bodySm,
   suggestReason: {
-    fontSize: 11,
+    ...typography.caption,
     lineHeight: 11 * 1.45,
   },
   addBtn: {
@@ -238,12 +222,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  addLabel: typography.label,
   empty: {
-    fontSize: 12.5,
+    ...typography.body,
     marginTop: 10,
   },
   recordList: {
@@ -261,13 +242,10 @@ const styles = StyleSheet.create({
     borderRadius: 3.5,
   },
   recordName: {
+    ...typography.rowLabel,
     flex: 1,
-    fontSize: 13,
-    fontWeight: '600',
   },
-  recordDetail: {
-    fontSize: 11,
-  },
+  recordDetail: typography.caption,
   remove: {
     fontSize: 16,
     paddingHorizontal: 4,
@@ -286,10 +264,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'dashed',
   },
-  chipText: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  chipText: typography.label,
   periodRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -309,9 +284,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 2,
   },
-  periodSub: {
-    fontSize: 11.5,
-  },
+  periodSub: typography.bodySm,
   chevron: {
     fontSize: 20,
   },

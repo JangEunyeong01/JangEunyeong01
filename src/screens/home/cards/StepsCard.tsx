@@ -8,6 +8,7 @@ import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { MOCK_STEPS_PAST6, getWeekDayLabels } from '../mockData';
+import { typography } from '../../../theme/tokens';
 
 const BAR_MAX_HEIGHT = 34;
 
@@ -68,10 +69,7 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: 'row',
   },
-  label: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  label: typography.unit,
   numRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
@@ -82,10 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -0.8,
   },
-  goalNum: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  goalNum: typography.unit,
   barWrap: {
     marginTop: 10,
   },
@@ -109,13 +104,9 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 4,
   },
-  dayLabel: {
-    fontSize: 9.5,
-    fontWeight: '500',
-  },
+  dayLabel: typography.micro,
   caption: {
-    fontSize: 10.5,
-    fontWeight: '500',
+    ...typography.captionSm,
     marginTop: 8,
   },
 });

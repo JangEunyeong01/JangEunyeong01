@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from '../../theme/useTheme';
-import { selection } from '../../theme/tokens';
+import { selection, typography } from '../../theme/tokens';
 import { GENDERS } from './onboardingData';
 import type { ObInfo } from '../../store/useAppStore';
 
@@ -89,10 +89,10 @@ function NumField({
 
 const styles = StyleSheet.create({
   input: {
+    ...typography.input,
     borderRadius: 15,
     borderWidth: 1,
     paddingHorizontal: 14,
-    fontSize: 14,
   },
   nameInput: {
     height: 50,
@@ -110,9 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  genderText: {
-    fontSize: 13.5,
-  },
+  genderText: typography.input,
   numRow: {
     flexDirection: 'row',
     gap: 8,
@@ -122,17 +120,13 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 6,
   },
-  numLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  numLabel: typography.label,
   numInput: {
     height: 46,
     textAlign: 'center',
   },
   notice: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 14,
   },
 });

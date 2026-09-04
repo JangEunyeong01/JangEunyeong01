@@ -201,6 +201,14 @@ export const typography = {
   bodySm: { fontSize: 11.5, fontWeight: '500' as const, lineHeight: 11.5 * 1.5 },
   /** 캡션·메타 정보. */
   caption: { fontSize: 11, fontWeight: '500' as const },
+  /** 차트 축 라벨, 카드 하단 캡션처럼 더 작은 자리. */
+  captionSm: { fontSize: 10.5, fontWeight: '500' as const },
+  /** 범례·요일 머리글처럼 아주 좁은 자리. */
+  micro: { fontSize: 9.5, fontWeight: '600' as const },
+  /** 시트·모달 제목. */
+  sheetTitle: { fontSize: 16, fontWeight: '700' as const },
+  /** 강조되는 항목 이름(닉네임, 빈 상태 제목). */
+  itemTitle: { fontSize: 14.5, fontWeight: '700' as const },
   /** V2 같은 작은 배지. */
   badge: { fontSize: 10, fontWeight: '700' as const },
 

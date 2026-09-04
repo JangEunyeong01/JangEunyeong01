@@ -4,6 +4,7 @@ import FittoCharacter from '../../components/FittoCharacter';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore } from '../../store/useAppStore';
 import { calculateGoals } from '../../utils/goals';
+import { typography } from '../../theme/tokens';
 
 // README "완료 화면": 인사 → 목표 카드 2개 → 요약 블록 → 의료 면책 안내.
 export default function CompleteStep() {
@@ -81,13 +82,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  greetName: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  greetMeta: {
-    fontSize: 12,
-  },
+  greetName: typography.rowLabel,
+  greetMeta: typography.bodySm,
   cardRow: {
     flexDirection: 'row',
     gap: 12,
@@ -100,18 +96,13 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 4,
   },
-  cardLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  cardLabel: typography.label,
   cardValue: {
     fontSize: 27,
     fontWeight: '700',
     letterSpacing: -1,
   },
-  cardCaption: {
-    fontSize: 10.5,
-  },
+  cardCaption: typography.captionSm,
   summary: {
     borderRadius: 18,
     padding: 16,
@@ -124,18 +115,15 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   summaryLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
+    ...typography.label,
     width: 62,
   },
   summaryValue: {
+    ...typography.unit,
     flex: 1,
-    fontSize: 12.5,
-    fontWeight: '600',
   },
   notice: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 14,
   },
 });

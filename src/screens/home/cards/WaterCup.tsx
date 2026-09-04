@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, Animated, Easing } from 'react-nativ
 import Svg, { Circle } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../../theme/useTheme';
-import { motion } from '../../../theme/tokens';
+import { motion, typography } from '../../../theme/tokens';
 
 const CUP_W = 86;
 const CUP_H = 112;
@@ -115,8 +115,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pct: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
+  pct: typography.value,
 });

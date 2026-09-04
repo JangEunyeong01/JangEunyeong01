@@ -6,6 +6,7 @@ import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { sumMealKcal, getBurnedKcal } from '../../../utils/health';
 import { MOCK_INTAKE_PAST6, MOCK_BURN_PAST6, getWeekDayLabels } from '../mockData';
+import { typography } from '../../../theme/tokens';
 
 const MAX_KCAL = 2000;
 const CHART_HEIGHT = 70;
@@ -65,10 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   legend: {
     flexDirection: 'row',
     gap: 10,
@@ -83,10 +81,7 @@ const styles = StyleSheet.create({
     height: 7,
     borderRadius: 3.5,
   },
-  legendLabel: {
-    fontSize: 10.5,
-    fontWeight: '600',
-  },
+  legendLabel: typography.captionSm,
   chartRow: {
     flexDirection: 'row',
     marginTop: 16,
@@ -108,7 +103,5 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 2,
     borderBottomRightRadius: 2,
   },
-  dayLabel: {
-    fontSize: 10.5,
-  },
+  dayLabel: typography.captionSm,
 });

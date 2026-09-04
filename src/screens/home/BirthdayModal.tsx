@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Image, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
-import { birthday, brand, motion, radius, white } from '../../theme/tokens';
+import { birthday, brand, motion, radius, typography, white } from '../../theme/tokens';
 import { personaCopy } from '../../copy/persona';
 import { useAppStore } from '../../store/useAppStore';
 import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
@@ -155,8 +155,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   label: {
-    fontSize: 11,
-    fontWeight: '700',
+    ...typography.label,
     letterSpacing: 1.2,
   },
   charWrap: {
@@ -169,8 +168,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   message: {
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.65,
+    ...typography.body,
     marginTop: 12,
     textAlign: 'center',
   },
@@ -185,8 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   confirmLabel: {
+    ...typography.buttonLabelSm,
     color: white,
-    fontSize: 13.5,
-    fontWeight: '700',
   },
 });

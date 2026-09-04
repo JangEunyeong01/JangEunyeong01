@@ -6,6 +6,7 @@ import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { useToastStore } from '../../../store/useToastStore';
+import { typography } from '../../../theme/tokens';
 
 const QUICK_CHIPS = ['걷기', '스트레칭', '홈트'];
 
@@ -64,17 +65,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  link: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  title: typography.sectionTitle,
+  link: typography.label,
   empty: {
-    fontSize: 12.5,
-    fontWeight: '500',
+    ...typography.body,
     marginTop: 10,
   },
   list: {
@@ -92,14 +86,10 @@ const styles = StyleSheet.create({
     borderRadius: 3.5,
   },
   name: {
-    fontSize: 13,
-    fontWeight: '600',
+    ...typography.rowLabel,
     flex: 1,
   },
-  detail: {
-    fontSize: 11,
-    fontWeight: '500',
-  },
+  detail: typography.caption,
   chipRow: {
     flexDirection: 'row',
     gap: 8,
@@ -115,8 +105,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'dashed',
   },
-  chipText: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  chipText: typography.label,
 });

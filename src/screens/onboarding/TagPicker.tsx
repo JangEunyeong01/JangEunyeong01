@@ -3,7 +3,7 @@ import { View, Text, Pressable, TextInput, StyleSheet, Platform } from 'react-na
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, radius, selection } from '../../theme/tokens';
+import { alpha, brand, radius, selection, typography } from '../../theme/tokens';
 import { useToastStore } from '../../store/useToastStore';
 
 interface TagPickerProps {
@@ -147,12 +147,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
   },
-  tagText: {
-    fontSize: 13.5,
-  },
+  tagText: typography.input,
   sectionLabel: {
-    fontSize: 11.5,
-    fontWeight: '600',
+    ...typography.label,
     marginTop: 12,
     marginBottom: 8,
   },
@@ -161,12 +158,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   input: {
+    ...typography.input,
     flex: 1,
     height: 46,
     borderRadius: 15,
     borderWidth: 1,
     paddingHorizontal: 14,
-    fontSize: 13.5,
   },
   addBtn: {
     width: 66,
@@ -176,9 +173,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addLabel: {
+    ...typography.buttonLabelSm,
     color: '#fff',
-    fontSize: 13.5,
-    fontWeight: '700',
   },
   chipWrap: {
     flexDirection: 'row',
@@ -194,19 +190,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  chipText: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
-  chipX: {
-    fontSize: 14,
-  },
+  chipText: typography.unit,
+  chipX: typography.input,
   noneWrap: {
     marginTop: 16,
     alignSelf: 'flex-start',
   },
   noneText: {
-    fontSize: 12.5,
+    ...typography.body,
     textDecorationLine: 'underline',
   },
 });

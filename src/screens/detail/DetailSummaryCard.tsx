@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import ProgressBar from '../../components/ProgressBar';
 import { useTheme } from '../../theme/useTheme';
+import { typography } from '../../theme/tokens';
 
 interface DetailSummaryCardProps {
   value: number;
@@ -41,10 +42,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  desc: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  desc: typography.label,
   numRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
@@ -56,10 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -1,
   },
-  unit: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  unit: typography.unit,
   barWrap: {
     marginTop: 12,
   },

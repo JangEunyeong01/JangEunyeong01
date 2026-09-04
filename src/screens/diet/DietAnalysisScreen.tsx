@@ -5,7 +5,7 @@ import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import DetailHeader from '../detail/DetailHeader';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, semantic } from '../../theme/tokens';
+import { alpha, brand, semantic, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { dateKey } from '../../utils/timeOfDay';
 import { sumMealKcal } from '../../utils/health';
@@ -173,20 +173,14 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   avgKcal: {
     fontSize: 26,
     fontWeight: '700',
     letterSpacing: -1,
     marginTop: 10,
   },
-  avgUnit: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  avgUnit: typography.unit,
   macroList: {
     marginTop: 16,
     gap: 14,
@@ -199,12 +193,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 7,
   },
-  macroLabel: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  macroLabel: typography.unit,
   macroRec: {
-    fontSize: 11,
+    ...typography.caption,
     flex: 1,
   },
   diffBadge: {
@@ -212,13 +203,9 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 7,
   },
-  diffText: {
-    fontSize: 10,
-    fontWeight: '700',
-  },
+  diffText: typography.badge,
   macroCurrent: {
-    fontSize: 12.5,
-    fontWeight: '700',
+    ...typography.value,
     minWidth: 34,
     textAlign: 'right',
   },
@@ -254,10 +241,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'flex-end',
   },
-  stackLabel: {
-    fontSize: 10,
-    fontWeight: '500',
-  },
+  stackLabel: typography.captionSm,
   legendRow: {
     flexDirection: 'row',
     gap: 14,
@@ -274,10 +258,7 @@ const styles = StyleSheet.create({
     height: 9,
     borderRadius: 4.5,
   },
-  legendLabel: {
-    fontSize: 10.5,
-    fontWeight: '500',
-  },
+  legendLabel: typography.captionSm,
   summaryRow: {
     flexDirection: 'row',
   },
@@ -285,28 +266,19 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  summaryLabel: {
-    fontSize: 10.5,
-    fontWeight: '600',
-  },
+  summaryLabel: typography.captionSm,
   summaryValue: {
-    fontSize: 16,
-    fontWeight: '700',
+    ...typography.sheetTitle,
     letterSpacing: -0.5,
   },
-  summaryCaption: {
-    fontSize: 9.5,
-  },
+  summaryCaption: typography.micro,
   commentList: {
     marginTop: 12,
     gap: 7,
   },
-  comment: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
-  },
+  comment: typography.bodySm,
   notice: {
-    fontSize: 10.5,
+    ...typography.captionSm,
     lineHeight: 10.5 * 1.5,
     marginTop: 12,
   },

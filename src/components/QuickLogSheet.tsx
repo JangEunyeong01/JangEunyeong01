@@ -10,7 +10,7 @@ import { useToastStore } from '../store/useToastStore';
 import { dateKey } from '../utils/timeOfDay';
 import { getWaterStageSpec } from '../utils/health';
 import { waterStageNames } from '../copy/persona';
-import { overlay } from '../theme/tokens';
+import { overlay, typography } from '../theme/tokens';
 import { useFoodSearchStore } from '../store/useFoodSearchStore';
 
 const ACTIONS = [
@@ -116,8 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '700',
+    ...typography.sheetTitle,
     marginBottom: 12,
   },
   row: {
@@ -130,8 +129,5 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 18,
   },
-  rowLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
+  rowLabel: typography.rowLabel,
 });

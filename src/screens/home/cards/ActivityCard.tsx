@@ -6,6 +6,7 @@ import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { getBurnedKcal } from '../../../utils/health';
+import { typography } from '../../../theme/tokens';
 
 const SIZE = 104;
 const STROKE = 12;
@@ -84,14 +85,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
   },
-  percent: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  percentLabel: {
-    fontSize: 9,
-    fontWeight: '600',
-  },
+  percent: typography.sheetTitle,
+  percentLabel: typography.micro,
   statCol: {
     flex: 1,
     gap: 10,
@@ -107,12 +102,8 @@ const styles = StyleSheet.create({
     borderRadius: 4.5,
   },
   statLabel: {
-    fontSize: 11.5,
-    fontWeight: '500',
+    ...typography.bodySm,
     flex: 1,
   },
-  statValue: {
-    fontSize: 12.5,
-    fontWeight: '700',
-  },
+  statValue: typography.value,
 });

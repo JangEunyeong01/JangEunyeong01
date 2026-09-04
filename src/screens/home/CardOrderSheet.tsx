@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore, CardId, ESSENTIAL_CARDS } from '../../store/useAppStore';
 import PrimaryButton from '../../components/PrimaryButton';
-import { overlay } from '../../theme/tokens';
+import { overlay, typography } from '../../theme/tokens';
 
 interface CardOrderSheetProps {
   visible: boolean;
@@ -129,8 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '700',
+    ...typography.sheetTitle,
     marginBottom: 8,
   },
   row: {
@@ -140,10 +139,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  rowLabel: {
-    fontSize: 13.5,
-    fontWeight: '600',
-  },
+  rowLabel: typography.rowLabel,
   rowActions: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -155,10 +151,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconText: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  iconText: typography.buttonLabel,
   toggleBtn: {
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -170,10 +163,7 @@ const styles = StyleSheet.create({
     // 누를 수 없는 상태라는 걸 눌리는 버튼과 구분해서 보여준다.
     borderStyle: 'dashed',
   },
-  toggleText: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  toggleText: typography.label,
   bottomRow: {
     flexDirection: 'row',
     gap: 10,
@@ -187,10 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  defaultLabel: {
-    fontSize: 13.5,
-    fontWeight: '600',
-  },
+  defaultLabel: typography.rowLabel,
   doneBtn: {
     flex: 1,
   },

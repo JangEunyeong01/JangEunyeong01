@@ -7,7 +7,7 @@ import PrimaryButton from '../../components/PrimaryButton';
 import DetailHeader from '../detail/DetailHeader';
 import NutritionCard from './NutritionCard';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 import { INGREDIENTS, calcNutrition, type Ingredient, type RecipeLine } from '../../data/ingredients';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
@@ -297,10 +297,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   photoSlot: {
     height: 150,
     borderRadius: radius.optionRow,
@@ -310,16 +307,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
   },
-  photoText: {
-    fontSize: 12.5,
-    fontWeight: '600',
-  },
+  photoText: typography.unit,
   nameInput: {
+    ...typography.input,
     height: 44,
     borderRadius: 15,
     borderWidth: 1,
     paddingHorizontal: 14,
-    fontSize: 14,
     marginBottom: 12,
   },
   chipWrap: {
@@ -334,21 +328,19 @@ const styles = StyleSheet.create({
     borderRadius: radius.chip,
     borderWidth: 1,
   },
-  chipLabel: {
-    fontSize: 12,
-  },
+  chipLabel: typography.bodySm,
   addRow: {
     flexDirection: 'row',
     gap: 8,
     marginTop: 12,
   },
   gramInput: {
+    ...typography.input,
     width: 96,
     height: 42,
     borderRadius: 13,
     borderWidth: 1,
     paddingHorizontal: 12,
-    fontSize: 13,
     textAlign: 'center',
   },
   addBtn: {
@@ -363,20 +355,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  customToggleLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
+  customToggleLabel: typography.label,
   customForm: {
     marginTop: 12,
     gap: 8,
   },
   customInput: {
+    ...typography.input,
     height: 42,
     borderRadius: 13,
     borderWidth: 1,
     paddingHorizontal: 12,
-    fontSize: 13,
   },
   macroInputRow: {
     flexDirection: 'row',
@@ -396,16 +385,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   lineName: {
+    ...typography.rowLabel,
     flex: 1,
-    fontSize: 13,
-    fontWeight: '600',
   },
-  lineGram: {
-    fontSize: 11.5,
-  },
+  lineGram: typography.bodySm,
   lineKcal: {
-    fontSize: 12.5,
-    fontWeight: '700',
+    ...typography.value,
     minWidth: 40,
     textAlign: 'right',
   },
@@ -429,13 +414,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  savedName: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  savedMeta: {
-    fontSize: 11,
-  },
+  savedName: typography.rowLabel,
+  savedMeta: typography.caption,
   savedBtn: {
     height: 32,
     paddingHorizontal: 12,
@@ -444,8 +424,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  savedBtnLabel: {
-    fontSize: 11.5,
-    fontWeight: '700',
-  },
+  savedBtnLabel: typography.label,
 });

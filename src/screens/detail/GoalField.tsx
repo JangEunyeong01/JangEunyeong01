@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
+import { typography } from '../../theme/tokens';
 
 interface GoalFieldProps {
   title: string;
@@ -55,10 +56,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -66,20 +64,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
+    ...typography.buttonLabel,
     flex: 1,
     height: 46,
     borderRadius: 15,
     borderWidth: 1,
     paddingHorizontal: 14,
-    fontSize: 15,
-    fontWeight: '700',
   },
-  unit: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  unit: typography.rowLabel,
   range: {
-    fontSize: 11,
+    ...typography.caption,
     marginTop: 8,
   },
 });

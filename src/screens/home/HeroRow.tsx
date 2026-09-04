@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../theme/useTheme';
-import { timeSlots } from '../../theme/tokens';
+import { timeSlots, typography } from '../../theme/tokens';
 import { getTimeSlot } from '../../utils/timeOfDay';
 import { useAppStore } from '../../store/useAppStore';
 import { dateKey } from '../../utils/timeOfDay';
@@ -55,10 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 4,
   },
-  meta: {
-    fontSize: 11.5,
-    fontWeight: '600',
-  },
+  meta: typography.label,
   greeting: {
     fontSize: 16.5,
     fontWeight: '700',

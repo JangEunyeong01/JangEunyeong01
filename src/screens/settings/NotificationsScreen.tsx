@@ -7,7 +7,7 @@ import DetailHeader from '../detail/DetailHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import FittoCharacter from '../../components/FittoCharacter';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { personaCopy, waterStageNames } from '../../copy/persona';
 import { dateKey } from '../../utils/timeOfDay';
@@ -245,10 +245,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   toggleRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -259,13 +256,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  rowLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  rowDesc: {
-    fontSize: 11,
-  },
+  rowLabel: typography.rowLabel,
+  rowDesc: typography.caption,
   chipWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -278,9 +270,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.chip,
     borderWidth: 1,
   },
-  chipLabel: {
-    fontSize: 12,
-  },
+  chipLabel: typography.bodySm,
   quietRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -288,24 +278,20 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   quietDash: {
-    fontSize: 14,
-    fontWeight: '600',
+    ...typography.rowLabel,
     marginBottom: 12,
   },
   timeCol: {
     flex: 1,
     gap: 6,
   },
-  timeLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  timeLabel: typography.label,
   timeInput: {
+    ...typography.input,
     height: 42,
     borderRadius: 13,
     borderWidth: 1,
     paddingHorizontal: 12,
-    fontSize: 13,
     textAlign: 'center',
   },
   previewRow: {
@@ -319,9 +305,8 @@ const styles = StyleSheet.create({
     height: 44,
   },
   previewText: {
+    ...typography.body,
     flex: 1,
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.5,
   },
   galleryRow: {
     flexDirection: 'row',
@@ -341,13 +326,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  galleryLabel: {
-    fontSize: 9.5,
-    fontWeight: '600',
-  },
+  galleryLabel: typography.micro,
   stageComment: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 12,
   },
 });

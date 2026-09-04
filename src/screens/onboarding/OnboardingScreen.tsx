@@ -13,6 +13,7 @@ import { useTheme } from '../../theme/useTheme';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
 import { INPUT_LIMITS } from '../../utils/goals';
+import { typography } from '../../theme/tokens';
 import {
   ACTIVITY_OPTIONS,
   AVOID_TAGS,
@@ -263,13 +264,9 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 20,
   },
-  stepLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
+  stepLabel: typography.label,
   desc: {
-    fontSize: 13.5,
-    fontWeight: '500',
+    ...typography.input,
     marginTop: 10,
   },
   body: {
@@ -292,10 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  prevLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
+  prevLabel: typography.rowLabel,
   nextButton: {
     flex: 1,
   },

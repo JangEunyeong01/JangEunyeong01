@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand } from '../../theme/tokens';
+import { alpha, brand, typography } from '../../theme/tokens';
 import { getMonthGrid, getDayType, type PeriodSettings } from '../../utils/periodCycle';
 
 const WEEKDAY_LABELS = ['일', '월', '화', '수', '목', '금', '토'];
@@ -121,13 +121,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  navIcon: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  navIcon: typography.rowLabel,
   monthLabel: {
-    fontSize: 14,
-    fontWeight: '700',
+    ...typography.itemTitle,
     minWidth: 100,
     textAlign: 'center',
   },
@@ -147,19 +143,15 @@ const styles = StyleSheet.create({
     height: 9,
     borderRadius: 4.5,
   },
-  legendLabel: {
-    fontSize: 10.5,
-    fontWeight: '500',
-  },
+  legendLabel: typography.captionSm,
   weekHeader: {
     flexDirection: 'row',
     marginTop: 16,
   },
   weekLabel: {
+    ...typography.captionSm,
     width: CELL,
     textAlign: 'center',
-    fontSize: 10.5,
-    fontWeight: '600',
   },
   grid: {
     flexDirection: 'row',
@@ -193,13 +185,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dayText: {
-    fontSize: 12.5,
-    fontWeight: '500',
-  },
+  dayText: typography.body,
   selectedText: {
-    fontSize: 12.5,
-    fontWeight: '700',
+    ...typography.value,
     color: '#fff',
   },
 });

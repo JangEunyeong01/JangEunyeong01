@@ -3,7 +3,7 @@ import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useTheme } from '../../theme/useTheme';
-import { selection, radius } from '../../theme/tokens';
+import { radius, selection, typography } from '../../theme/tokens';
 
 const PRESETS = [100, 200, 250, 330, 500];
 
@@ -78,10 +78,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   chipRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -94,21 +91,19 @@ const styles = StyleSheet.create({
     borderRadius: radius.chip,
     borderWidth: 1,
   },
-  chipLabel: {
-    fontSize: 12.5,
-  },
+  chipLabel: typography.body,
   customRow: {
     flexDirection: 'row',
     gap: 8,
     marginTop: 10,
   },
   input: {
+    ...typography.input,
     flex: 1,
     height: 42,
     borderRadius: 13,
     borderWidth: 1,
     paddingHorizontal: 12,
-    fontSize: 13,
   },
   setBtn: {
     width: 72,

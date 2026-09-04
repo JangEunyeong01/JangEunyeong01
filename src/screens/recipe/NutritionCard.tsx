@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import { useTheme } from '../../theme/useTheme';
-import { brand } from '../../theme/tokens';
+import { brand, typography } from '../../theme/tokens';
 import { calcNutrition, getNutritionComment, type RecipeLine } from '../../data/ingredients';
 import { useAppStore } from '../../store/useAppStore';
 
@@ -69,29 +69,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  title: typography.sectionTitle,
   badge: {
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 8,
   },
-  badgeText: {
-    fontSize: 9.5,
-    fontWeight: '700',
-  },
+  badgeText: typography.micro,
   totalKcal: {
     fontSize: 28,
     fontWeight: '700',
     letterSpacing: -1,
     marginTop: 12,
   },
-  totalUnit: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  totalUnit: typography.rowLabel,
   macroRow: {
     flexDirection: 'row',
     marginTop: 14,
@@ -100,17 +91,9 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  macroLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  macroValue: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  macroPct: {
-    fontSize: 10.5,
-  },
+  macroLabel: typography.label,
+  macroValue: typography.buttonLabel,
+  macroPct: typography.captionSm,
   stackBar: {
     flexDirection: 'row',
     height: 9,
@@ -119,8 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   comment: {
-    fontSize: 11.5,
-    lineHeight: 11.5 * 1.5,
+    ...typography.bodySm,
     marginTop: 12,
   },
 });

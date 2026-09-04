@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../../theme/useTheme';
-import { birthday, radius } from '../../theme/tokens';
+import { birthday, radius, typography } from '../../theme/tokens';
 
 interface BirthdayBannerProps {
   name: string;
@@ -76,15 +76,10 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
   },
-  title: {
-    fontSize: 12.5,
-    fontWeight: '700',
-  },
+  title: typography.value,
   sub: {
-    fontSize: 11,
+    ...typography.caption,
     marginTop: 2,
   },
-  chevron: {
-    fontSize: 14,
-  },
+  chevron: typography.input,
 });

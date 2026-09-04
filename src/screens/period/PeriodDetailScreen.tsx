@@ -12,6 +12,7 @@ import { useAppStore } from '../../store/useAppStore';
 import { personaCopy } from '../../copy/persona';
 import { dateKey } from '../../utils/timeOfDay';
 import { getCycleDayNumber, parseDateKey } from '../../utils/periodCycle';
+import { typography } from '../../theme/tokens';
 
 export default function PeriodDetailScreen() {
   const insets = useSafeAreaInsets();
@@ -85,8 +86,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   comment: {
+    ...typography.body,
     flex: 1,
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.5,
   },
 });

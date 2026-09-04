@@ -3,6 +3,7 @@ import { Text, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import { useTheme } from '../../theme/useTheme';
+import { typography } from '../../theme/tokens';
 
 interface PlaceholderScreenProps {
   title: string;
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   sub: {
+    ...typography.input,
     paddingHorizontal: 16,
     marginTop: 8,
-    fontSize: 13,
   },
 });

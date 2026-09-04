@@ -11,6 +11,7 @@ import { useTheme } from '../../theme/useTheme';
 import { useAppStore } from '../../store/useAppStore';
 import { ACTIVITY_OPTIONS, GENDERS, HEALTH_TAGS, AVOID_TAGS } from '../onboarding/onboardingData';
 import { INPUT_LIMITS } from '../../utils/goals';
+import { typography } from '../../theme/tokens';
 
 // README 9. 프로필: 언제든 수정 가능한 필드들 — 저장 버튼 없이 값이 바뀌는 대로 스토어에 반영한다.
 // 숫자 입력만 blur 시점에 클램프해서 커밋한다(타이핑 중간값이 범위를 벗어나도 막지 않기 위해).
@@ -217,24 +218,20 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 12,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
+  cardTitle: typography.sectionTitle,
   gap10: {
     marginTop: 10,
   },
   label: {
-    fontSize: 11.5,
-    fontWeight: '600',
+    ...typography.label,
     marginBottom: 8,
   },
   input: {
+    ...typography.input,
     height: 46,
     borderRadius: 15,
     borderWidth: 1,
     paddingHorizontal: 14,
-    fontSize: 14,
   },
   birthRow: {
     flexDirection: 'row',
@@ -252,10 +249,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 6,
   },
-  numLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  numLabel: typography.label,
   numInput: {
     height: 46,
     textAlign: 'center',
