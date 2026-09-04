@@ -10,6 +10,7 @@ import TagPicker from '../onboarding/TagPicker';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore } from '../../store/useAppStore';
 import { ACTIVITY_OPTIONS, GENDERS, HEALTH_TAGS, AVOID_TAGS } from '../onboarding/onboardingData';
+import { INPUT_LIMITS } from '../../utils/goals';
 
 // README 9. 프로필: 언제든 수정 가능한 필드들 — 저장 버튼 없이 값이 바뀌는 대로 스토어에 반영한다.
 // 숫자 입력만 blur 시점에 클램프해서 커밋한다(타이핑 중간값이 범위를 벗어나도 막지 않기 위해).
@@ -41,9 +42,11 @@ export default function ProfileScreen() {
     setBirthDay(clamped ? String(clamped) : '');
     setProfile({ birthdayDay: clamped });
   };
+  // 온보딩과 같은 범위로 자른다(utils/goals의 INPUT_LIMITS). 목표 체중도 몸무게와 같은 범위를 쓴다.
   const commitNum = (text: string, setText: (t: string) => void, key: 'height' | 'weight' | 'targetWeight') => {
+    const limit = key === 'height' ? INPUT_LIMITS.height : INPUT_LIMITS.weight;
     const n = parseInt(text, 10);
-    const clamped = Number.isFinite(n) && n > 0 ? n : null;
+    const clamped = Number.isFinite(n) && n > 0 ? Math.min(limit.max, Math.max(limit.min, n)) : null;
     setText(clamped ? String(clamped) : '');
     setProfile({ [key]: clamped });
   };

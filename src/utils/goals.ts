@@ -23,6 +23,25 @@ const DEFAULT_HEIGHT = 165;
 const DEFAULT_WEIGHT = 58;
 const DEFAULT_ACTIVITY_FACTOR = 1.375;
 
+/**
+ * 입력 허용 범위. 물·걸음 목표는 상세 화면에서 이 범위로 다시 제한하므로,
+ * 계산 결과가 그 범위를 벗어나지 않도록 여기서부터 맞춰둔다.
+ */
+export const INPUT_LIMITS = {
+  age: { min: 10, max: 100 },
+  height: { min: 100, max: 250 },
+  weight: { min: 25, max: 250 },
+};
+
+/** 물 상세(GoalField)와 같은 범위. 온보딩 계산 결과도 이 안으로 들어와야 한다. */
+export const WATER_GOAL_LIMITS = { min: 500, max: 4000 };
+/** 하루 목표 칼로리 상·하한. 하한 1200은 README 명시값. */
+export const KCAL_GOAL_LIMITS = { min: 1200, max: 5000 };
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
 export interface GoalInput {
   gender: string;
   age: string | number;
@@ -46,9 +65,10 @@ function num(value: string | number, fallback: number): number {
 }
 
 export function calculateGoals(input: GoalInput): GoalResult {
-  const age = num(input.age, DEFAULT_AGE);
-  const height = num(input.height, DEFAULT_HEIGHT);
-  const weight = num(input.weight, DEFAULT_WEIGHT);
+  // 온보딩 입력은 자릿수 실수(예: 몸무게 300)가 그대로 들어올 수 있어 범위로 자른다.
+  const age = clamp(num(input.age, DEFAULT_AGE), INPUT_LIMITS.age.min, INPUT_LIMITS.age.max);
+  const height = clamp(num(input.height, DEFAULT_HEIGHT), INPUT_LIMITS.height.min, INPUT_LIMITS.height.max);
+  const weight = clamp(num(input.weight, DEFAULT_WEIGHT), INPUT_LIMITS.weight.min, INPUT_LIMITS.weight.max);
 
   // Mifflin-St Jeor. 남성만 +5, 그 외(여성·선택 안 함)는 -161.
   const bmr = Math.round(
@@ -59,9 +79,10 @@ export function calculateGoals(input: GoalInput): GoalResult {
   const tdee = Math.round(bmr * factor);
 
   const adjust = GOAL_ADJUSTMENTS[input.goal] ?? 0;
-  const kcal = Math.max(1200, tdee + adjust);
+  const kcal = clamp(tdee + adjust, KCAL_GOAL_LIMITS.min, KCAL_GOAL_LIMITS.max);
 
-  const water = Math.round((weight * 33) / 50) * 50;
+  const rawWater = Math.round((weight * 33) / 50) * 50;
+  const water = clamp(rawWater, WATER_GOAL_LIMITS.min, WATER_GOAL_LIMITS.max);
 
   return { bmr, tdee, kcal, water, weight };
 }

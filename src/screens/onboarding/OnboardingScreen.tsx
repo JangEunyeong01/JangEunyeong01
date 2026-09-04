@@ -12,6 +12,7 @@ import CompleteStep from './CompleteStep';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
+import { INPUT_LIMITS } from '../../utils/goals';
 import {
   ACTIVITY_OPTIONS,
   AVOID_TAGS,
@@ -47,6 +48,23 @@ const DESCRIPTIONS: (string | null)[] = [
   null,
 ];
 
+/** 범위를 벗어난 첫 항목의 안내 문구를 돌려준다. 다 정상이면 null. */
+function checkRange(info: { age: string; height: string; weight: string }): string | null {
+  const checks: { value: string; limit: { min: number; max: number }; label: string; unit: string }[] = [
+    { value: info.age, limit: INPUT_LIMITS.age, label: '나이', unit: '세' },
+    { value: info.height, limit: INPUT_LIMITS.height, label: '키', unit: 'cm' },
+    { value: info.weight, limit: INPUT_LIMITS.weight, label: '몸무게', unit: 'kg' },
+  ];
+  for (const c of checks) {
+    if (!c.value.trim()) continue; // 빈 값은 기본값으로 계산되므로 통과시킨다.
+    const n = parseFloat(c.value);
+    if (!Number.isFinite(n) || n < c.limit.min || n > c.limit.max) {
+      return `${c.label}는 ${c.limit.min}~${c.limit.max}${c.unit} 사이로 입력해 주세요`;
+    }
+  }
+  return null;
+}
+
 export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const { colors, typography } = useTheme();
@@ -72,6 +90,12 @@ export default function OnboardingScreen() {
       }
       if (!obInfo.height.trim() || !obInfo.weight.trim()) {
         showToast('키와 몸무게를 입력해 주세요');
+        return false;
+      }
+      // 자릿수를 잘못 넣으면 목표 칼로리·물 목표가 엉뚱하게 잡히므로 여기서 막는다.
+      const outOfRange = checkRange(obInfo);
+      if (outOfRange) {
+        showToast(outOfRange);
         return false;
       }
     }

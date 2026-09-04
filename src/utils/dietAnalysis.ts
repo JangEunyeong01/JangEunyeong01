@@ -16,11 +16,19 @@ export interface DayMacros {
   fat: number; // g
 }
 
+/**
+ * labels는 "최근 7일(6일 전 → 오늘)"이라 인덱스가 요일이 아니다.
+ * 주말인지는 요일 라벨로 판단해야 한다.
+ */
+function isWeekendLabel(label: string): boolean {
+  return label === '토' || label === '일';
+}
+
 export function buildWeekMacros(labels: string[], kcalByDay: number[]): DayMacros[] {
   return labels.map((label, i) => {
     const kcal = kcalByDay[i] ?? 0;
-    // 권장 비율 근처에서 ±10%p 정도 흔든다. 주말(인덱스 0=일, 6=토)은 지방을 좀 더 얹는다.
-    const isWeekend = i === 0 || i === 6;
+    // 권장 비율 근처에서 ±10%p 정도 흔들고, 주말은 지방을 좀 더 얹는다.
+    const isWeekend = isWeekendLabel(label);
     const fatPct = 25 + (seededRatio(`fat-${label}-${i}`) * 20 - 10) + (isWeekend ? 8 : 0);
     const proteinPct = 25 + (seededRatio(`pro-${label}-${i}`) * 12 - 6);
     const carbsPct = Math.max(0, 100 - fatPct - proteinPct);
@@ -63,7 +71,7 @@ export function summarizeWeek(days: DayMacros[]): WeekSummary {
   const fatKcal = sum.fat * 9;
   const macroKcal = carbsKcal + proteinKcal + fatKcal || 1;
 
-  const weekendDays = days.filter((_, i) => i === 0 || i === 6);
+  const weekendDays = days.filter((d) => isWeekendLabel(d.label));
   const weekendFat = weekendDays.reduce((a, d) => a + d.fat * 9, 0);
   const weekendTotal = weekendDays.reduce((a, d) => a + d.carbs * 4 + d.protein * 4 + d.fat * 9, 0) || 1;
 

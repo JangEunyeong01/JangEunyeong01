@@ -12,6 +12,7 @@ import CupSizeField from './CupSizeField';
 import { useAppStore } from '../../store/useAppStore';
 import { dateKey, getTimeSlot } from '../../utils/timeOfDay';
 import { MOCK_WATER_PAST6, getWeekDayLabels } from '../home/mockData';
+import { WATER_GOAL_LIMITS } from '../../utils/goals';
 import {
   TIME_SLOT_LABELS,
   splitByTimeSlot,
@@ -117,7 +118,14 @@ export default function WaterDetailScreen() {
         <DetailSummaryCard value={summaryValue} unit="ml" goal={goal} periodDesc={summaryDesc} />
         <DetailBarChart labels={chartLabels} values={chartValues} highlightIndex={highlightIndex} />
 
-        <GoalField title="물 목표" value={goal} min={500} max={4000} unit="ml" onCommit={(v) => setGoals({ water: v })} />
+        <GoalField
+          title="물 목표"
+          value={goal}
+          min={WATER_GOAL_LIMITS.min}
+          max={WATER_GOAL_LIMITS.max}
+          unit="ml"
+          onCommit={(v) => setGoals({ water: v })}
+        />
         <CupSizeField value={cup} onChange={(v) => setGoals({ cup: v })} />
       </ScrollView>
     </ScreenBackground>
