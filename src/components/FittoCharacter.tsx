@@ -25,7 +25,7 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
       toValue: spec.scale,
       duration: motion.characterState,
       easing: Easing.out(Easing.ease),
-      useNativeDriver: false,
+      useNativeDriver: true, // scale·translateY만 다루므로 네이티브 드라이버로 돌린다
     }).start();
   }, [spec.scale]);
 
@@ -34,7 +34,7 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
       Animated.timing(floatY, {
         toValue: 0,
         duration: motion.characterFloatReset,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
       return;
     }
@@ -45,13 +45,13 @@ export default function FittoCharacter({ current, goal, size = 78, variant = 'fu
           toValue: motion.floatOffsetY,
           duration: half,
           easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
         Animated.timing(floatY, {
           toValue: 0,
           duration: half,
           easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
       ])
     );

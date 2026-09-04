@@ -27,7 +27,7 @@ export default function BirthdayModal() {
       toValue: 1,
       duration: 320,
       easing: Easing.out(Easing.ease),
-      useNativeDriver: false,
+      useNativeDriver: true, // opacity·translateY만 다룬다
     }).start();
 
     const half = birthday.floatDuration / 2;
@@ -37,13 +37,13 @@ export default function BirthdayModal() {
           toValue: motion.floatOffsetY,
           duration: half,
           easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
         Animated.timing(floatY, {
           toValue: 0,
           duration: half,
           easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
       ])
     );

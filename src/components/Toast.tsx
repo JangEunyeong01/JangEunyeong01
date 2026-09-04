@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, Animated, Easing } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useToastStore } from '../store/useToastStore';
@@ -9,12 +9,17 @@ export default function Toast() {
   const { message, seq } = useToastStore();
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(motion.fadeInOffsetY)).current;
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [visible, setVisible] = React.useState(false);
-  const [text, setText] = React.useState('');
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState('');
 
   useEffect(() => {
     if (!message) return;
+
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+
     setText(message);
     setVisible(true);
     opacity.setValue(0);
@@ -24,27 +29,31 @@ export default function Toast() {
         toValue: 1,
         duration: motion.fadeIn,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
       Animated.timing(translateY, {
         toValue: 0,
         duration: motion.fadeIn,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
     ]).start();
 
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
+    // 사라지는 건 타이머로 확정한다. 애니메이션 완료 콜백에 맡기면
+    // 앱이 백그라운드로 가서 rAF가 멈췄을 때 토스트가 화면에 그대로 남는다.
+    fadeTimer.current = setTimeout(() => {
       Animated.timing(opacity, {
         toValue: 0,
         duration: motion.fadeOut,
-        useNativeDriver: false,
-      }).start(() => setVisible(false));
+        useNativeDriver: true,
+      }).start();
     }, motion.toastVisible);
 
+    hideTimer.current = setTimeout(() => setVisible(false), motion.toastVisible + motion.fadeOut);
+
     return () => {
-      if (timer.current) clearTimeout(timer.current);
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+      if (fadeTimer.current) clearTimeout(fadeTimer.current);
     };
   }, [seq]);
 

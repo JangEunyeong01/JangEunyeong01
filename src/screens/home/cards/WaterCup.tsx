@@ -43,7 +43,7 @@ export default function WaterCup({ progress, percent, onPress }: WaterCupProps) 
         toValue: 1,
         duration: motion.wave,
         easing: Easing.linear,
-        useNativeDriver: false,
+        useNativeDriver: true, // 수면은 translateX만 움직이므로 네이티브 드라이버로 돌린다
       })
     );
     loop.start();
