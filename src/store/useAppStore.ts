@@ -135,6 +135,8 @@ interface AppState {
   onboardingDone: boolean;
   tutorialDone: boolean;
   birthdayShownYear: number | null;
+  /** 드러눕기 모달을 띄운 날짜(dateKey). 하루 한 번만 뜨게 한다. */
+  layDownShownDate: string | null;
   timeSlotOverride: string | null;
 
   setTheme: (t: ThemeMode) => void;
@@ -157,6 +159,7 @@ interface AppState {
   resetOnboarding: () => void;
   setTutorialDone: (v: boolean) => void;
   setBirthdayShownYear: (y: number) => void;
+  setLayDownShownDate: (dateKey: string) => void;
   addWater: (dateKey: string, deltaMl: number) => void;
   addExercise: (dateKey: string, entry: ExerciseEntry) => void;
   removeExercise: (dateKey: string, id: string) => void;
@@ -234,6 +237,7 @@ export const useAppStore = create<AppState>()(
       onboardingDone: false,
       tutorialDone: false,
       birthdayShownYear: null,
+      layDownShownDate: null,
       timeSlotOverride: null,
 
       setTheme: (t) => set({ theme: t }),
@@ -316,6 +320,7 @@ export const useAppStore = create<AppState>()(
         })),
       setTutorialDone: (v) => set({ tutorialDone: v }),
       setBirthdayShownYear: (y) => set({ birthdayShownYear: y }),
+      setLayDownShownDate: (dateKey) => set({ layDownShownDate: dateKey }),
 
       addWater: (dateKey, deltaMl) =>
         set((s) => {

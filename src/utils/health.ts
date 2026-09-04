@@ -67,6 +67,24 @@ export function sumMealKcal(meals: { 아침: { kcal: number }[]; 점심: { kcal:
   );
 }
 
+/**
+ * README: 운동 기록이 3일 비면 드러눕기 모달을 띄운다.
+ * 기록이 아예 없는 날(= dailyRecords에 키가 없는 날)도 공백으로 센다.
+ */
+export function hasNoExerciseForDays(
+  records: Record<string, { exercises: unknown[] }>,
+  days: number,
+  today: Date = new Date()
+): boolean {
+  for (let i = 0; i < days; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    if ((records[key]?.exercises.length ?? 0) > 0) return false;
+  }
+  return true;
+}
+
 const BASE_BURN = 320;
 
 export function getBurnedKcal(exercises: { kcal: number }[]): number {

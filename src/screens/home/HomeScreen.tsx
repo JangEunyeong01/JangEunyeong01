@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, View, Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
@@ -11,7 +11,7 @@ import StepsCard from './cards/StepsCard';
 import ExerciseCard from './cards/ExerciseCard';
 import WeekCard from './cards/WeekCard';
 import PeriodCard from './cards/PeriodCard';
-import LayDownBanner from './LayDownBanner';
+import LayDownModal from './LayDownModal';
 import CardOrderSheet from './CardOrderSheet';
 import BirthdayBanner from './BirthdayBanner';
 import { useAppStore, CardId } from '../../store/useAppStore';
@@ -19,6 +19,7 @@ import { useCardOrderSheetStore } from '../../store/useCardOrderSheetStore';
 import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
 import { useTutorialStore, type TutorialTargetId } from '../../store/useTutorialStore';
 import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
+import { hasNoExerciseForDays } from '../../utils/health';
 
 // B 히어로(확정 기본안): 물·걸음만 반폭 2열, 나머지는 전폭.
 const HALF_WIDTH_CARDS = new Set<CardId>(['water', 'steps']);
@@ -39,7 +40,6 @@ export default function HomeScreen() {
   const cardHidden = useAppStore((s) => s.cardHidden);
   const periodOn = useAppStore((s) => s.periodOn);
   const seedMockToday = useAppStore((s) => s.seedMockToday);
-  const record = useAppStore((s) => s.dailyRecords[dateKey()]);
   const profile = useAppStore((s) => s.profile);
   const setBirthdayShownYear = useAppStore((s) => s.setBirthdayShownYear);
   const sheetVisible = useCardOrderSheetStore((s) => s.open);
@@ -52,6 +52,10 @@ export default function HomeScreen() {
   const tutorialStep = useTutorialStore((s) => s.step);
   const tutorialDone = useAppStore((s) => s.tutorialDone);
   const setTutorialDone = useAppStore((s) => s.setTutorialDone);
+  const dailyRecords = useAppStore((s) => s.dailyRecords);
+  const layDownShownDate = useAppStore((s) => s.layDownShownDate);
+  const setLayDownShownDate = useAppStore((s) => s.setLayDownShownDate);
+  const [layDownOpen, setLayDownOpen] = useState(false);
 
   // 튜토리얼 하이라이트 프레임이 가리킬 실제 화면 좌표. onLayout의 좌표는 부모 기준이라
   // 스크롤 오프셋이 빠지므로 measureInWindow로 절대 좌표를 받는다.
@@ -77,6 +81,17 @@ export default function HomeScreen() {
     seedMockToday(dateKey());
   }, []);
 
+  // README: 운동 기록이 3일 비면 드러눕기 모달을 띄운다. 하루 한 번까지만.
+  // 튜토리얼과 겹치지 않게 튜토리얼이 끝난 뒤에만 확인한다.
+  useEffect(() => {
+    if (!tutorialDone || tutorialOpen) return;
+    const today = dateKey();
+    if (layDownShownDate === today) return;
+    if (!hasNoExerciseForDays(dailyRecords, 3)) return;
+    setLayDownOpen(true);
+    setLayDownShownDate(today);
+  }, [tutorialDone, tutorialOpen, dailyRecords, layDownShownDate]);
+
   // 온보딩을 막 끝낸 사용자에게 한 번만 보여준다. 이후에는 설정에서 다시 볼 수 있다.
   useEffect(() => {
     if (tutorialDone) return;
@@ -88,7 +103,6 @@ export default function HomeScreen() {
   }, [tutorialDone]);
 
   const visibleCards = cardOrder.filter((id) => !cardHidden.includes(id) && (id !== 'period' || periodOn));
-  const noExerciseToday = (record?.exercises?.length ?? 0) === 0;
 
   /** 한 카드가 어떤 튜토리얼 단계의 대상인지. 첫 카드는 "카드 순서" 단계가 가리킨다. */
   const targetIdFor = (cardId: CardId): TutorialTargetId | null => {
@@ -143,10 +157,10 @@ export default function HomeScreen() {
           })}
         </Pressable>
 
-        {noExerciseToday && <LayDownBanner />}
       </ScrollView>
 
       <CardOrderSheet visible={sheetVisible} onClose={hideSheet} />
+      <LayDownModal visible={layDownOpen} onClose={() => setLayDownOpen(false)} />
     </ScreenBackground>
   );
 }
