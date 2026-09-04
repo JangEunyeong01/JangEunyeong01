@@ -6,7 +6,7 @@ import GlassCard from '../../components/GlassCard';
 import Badge from '../../components/Badge';
 import DetailHeader from '../detail/DetailHeader';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, semantic, typography } from '../../theme/tokens';
+import { alpha, brand, semantic, typography, weight } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { dateKey } from '../../utils/timeOfDay';
 import { sumMealKcal } from '../../utils/health';
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   cardTitle: typography.sectionTitle,
   avgKcal: {
     fontSize: 26,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -1,
     marginTop: 10,
   },

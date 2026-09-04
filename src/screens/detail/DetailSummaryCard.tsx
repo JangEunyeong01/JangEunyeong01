@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import ProgressBar from '../../components/ProgressBar';
 import { useTheme } from '../../theme/useTheme';
-import { typography } from '../../theme/tokens';
+import { typography, weight } from '../../theme/tokens';
 
 interface DetailSummaryCardProps {
   value: number;
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   bigNum: {
     fontSize: 27,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -1,
   },
   unit: typography.unit,

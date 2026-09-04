@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import TextField from '../../components/TextField';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, radius, selection, typography } from '../../theme/tokens';
+import { alpha, brand, radius, selection, typography, weight } from '../../theme/tokens';
 import { useToastStore } from '../../store/useToastStore';
 
 interface TagPickerProps {
@@ -59,7 +59,7 @@ export default function TagPicker({ tags, selected, onToggle, onClear, placehold
                   style={[styles.tag, { borderColor: on ? selection.border : colors.stroke }]}
                 >
                   <View style={[styles.tagInner, { backgroundColor: on ? selection.bg : colors.card }]}>
-                    <Text style={[styles.tagText, { color: colors.txt, fontWeight: on ? '700' : '500' }]} numberOfLines={1}>
+                    <Text style={[styles.tagText, { color: colors.txt }, weight(on ? 700 : 500)]} numberOfLines={1}>
                       {tag}
                     </Text>
                   </View>

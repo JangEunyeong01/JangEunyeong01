@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import GlassCard from '../../../components/GlassCard';
 import { useTheme } from '../../../theme/useTheme';
-import { periodBadgeGradient, typography, white } from '../../../theme/tokens';
+import { periodBadgeGradient, typography, weight, white } from '../../../theme/tokens';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { getCycleDayNumber, getDaysUntilFertile } from '../../../utils/periodCycle';
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   sub: typography.bodySm,
   chevron: {
     fontSize: 20,
-    fontWeight: '400',
+    ...weight(400),
   },
 });

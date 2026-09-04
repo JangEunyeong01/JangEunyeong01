@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/useTheme';
-import { accentGradient, timeSlots, typography } from '../../theme/tokens';
+import { accentGradient, timeSlots, typography, weight } from '../../theme/tokens';
 import { getTimeSlot } from '../../utils/timeOfDay';
 
 export default function HomeHeader() {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 17,
-    fontWeight: '700',
+    ...weight(700),
   },
   right: {
     flexDirection: 'row',

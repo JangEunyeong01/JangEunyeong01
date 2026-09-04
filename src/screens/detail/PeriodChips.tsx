@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from '../../theme/useTheme';
-import { radius, selection, typography } from '../../theme/tokens';
+import { radius, selection, typography, weight } from '../../theme/tokens';
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -36,7 +36,7 @@ export default function PeriodChips({ value, onChange }: PeriodChipsProps) {
               },
             ]}
           >
-            <Text style={[styles.label, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{o.label}</Text>
+            <Text style={[styles.label, { color: colors.txt }, weight(on ? 700 : 500)]}>{o.label}</Text>
           </Pressable>
         );
       })}

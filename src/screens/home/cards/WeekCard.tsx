@@ -6,7 +6,7 @@ import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { sumMealKcal, getBurnedKcal } from '../../../utils/health';
 import { MOCK_INTAKE_PAST6, MOCK_BURN_PAST6, getWeekDayLabels } from '../mockData';
-import { typography } from '../../../theme/tokens';
+import { typography, weight } from '../../../theme/tokens';
 
 const MAX_KCAL = 2000;
 const CHART_HEIGHT = 70;
@@ -42,7 +42,7 @@ export default function WeekCard() {
                 <View style={[styles.bar, { height: intakeH, backgroundColor: brand.blue }]} />
                 <View style={[styles.bar, { height: burnH, backgroundColor: brand.mint }]} />
               </View>
-              <Text style={[styles.dayLabel, { color: isToday ? colors.txt : colors.sub, fontWeight: isToday ? '700' : '500' }]}>{label}</Text>
+              <Text style={[styles.dayLabel, { color: isToday ? colors.txt : colors.sub }, weight(isToday ? 700 : 500)]}>{label}</Text>
             </View>
           );
         })}

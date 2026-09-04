@@ -12,7 +12,7 @@ import { dateKey } from '../../../utils/timeOfDay';
 import { getWaterStageSpec } from '../../../utils/health';
 import { waterStageNames } from '../../../copy/persona';
 import { useToastStore } from '../../../store/useToastStore';
-import { typography } from '../../../theme/tokens';
+import { typography, weight } from '../../../theme/tokens';
 
 export default function WaterCard() {
   const navigation = useNavigation<any>();
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   bigNum: {
     fontSize: 24,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -0.9,
   },
   goalNum: typography.unit,

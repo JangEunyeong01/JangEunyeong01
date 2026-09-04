@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
-import { brand, typography } from '../../theme/tokens';
+import { brand, typography, weight } from '../../theme/tokens';
 import { calcNutrition, getNutritionComment, type RecipeLine } from '../../data/ingredients';
 import { useAppStore } from '../../store/useAppStore';
 
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   title: typography.sectionTitle,
   totalKcal: {
     fontSize: 28,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -1,
     marginTop: 12,
   },

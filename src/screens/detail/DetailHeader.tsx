@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/useTheme';
-import { typography } from '../../theme/tokens';
+import { typography, weight } from '../../theme/tokens';
 
 interface DetailHeaderProps {
   title: string;
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     fontSize: 15,
-    fontWeight: '600',
+    ...weight(600),
   },
 });

@@ -6,7 +6,7 @@ import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
-import { alpha, brand, typography } from '../../theme/tokens';
+import { alpha, brand, typography, weight } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { useToastStore } from '../../store/useToastStore';
 import { dateKey } from '../../utils/timeOfDay';
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 18,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -0.6,
   },
   statLabel: typography.caption,

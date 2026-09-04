@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { useTheme } from '../theme/useTheme';
-import { radius, selection, typography } from '../theme/tokens';
+import { radius, selection, typography, weight } from '../theme/tokens';
 
 type ChipSize = 'sm' | 'md' | 'lg' | 'field';
 
@@ -56,7 +56,8 @@ export default function SelectChip({
       <Text
         style={[
           size === 'sm' ? typography.label : typography.value,
-          { color: colors.txt, fontWeight: selected ? '700' : '500' },
+          { color: colors.txt },
+          weight(selected ? 700 : 500),
         ]}
         numberOfLines={1}
       >

@@ -8,7 +8,7 @@ import { dateKey } from '../../../utils/timeOfDay';
 import { getKcalStatus, kcalStatusColor, kcalStatusLabel, sumMealKcal, getBurnedKcal } from '../../../utils/health';
 import { personaCopy } from '../../../copy/persona';
 import { FITTO_FACE } from '../../../theme/assets';
-import { alpha, typography } from '../../../theme/tokens';
+import { alpha, typography, weight } from '../../../theme/tokens';
 
 export default function KcalCard() {
   const { colors } = useTheme();
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   bigNum: {
     fontSize: 26,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -1,
   },
   goalNum: typography.unit,

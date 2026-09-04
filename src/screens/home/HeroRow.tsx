@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../theme/useTheme';
-import { timeSlots, typography } from '../../theme/tokens';
+import { timeSlots, typography, weight } from '../../theme/tokens';
 import { getTimeSlot } from '../../utils/timeOfDay';
 import { useAppStore } from '../../store/useAppStore';
 import { dateKey } from '../../utils/timeOfDay';
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   meta: typography.label,
   greeting: {
     fontSize: 16.5,
-    fontWeight: '700',
+    ...weight(700),
     lineHeight: 16.5 * 1.42,
   },
 });

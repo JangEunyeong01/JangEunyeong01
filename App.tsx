@@ -11,6 +11,8 @@ import FoodSearchSheet from './src/screens/diet/FoodSearchSheet';
 import BirthdayModal from './src/screens/home/BirthdayModal';
 import TutorialOverlay from './src/components/TutorialOverlay';
 import { useTheme } from './src/theme/useTheme';
+import { useFittoFonts } from './src/theme/fonts';
+import { lightColors } from './src/theme/tokens';
 
 function AppShell() {
   const { mode } = useTheme();
@@ -36,10 +38,14 @@ function AppShell() {
 }
 
 export default function App() {
+  // Pretendard가 올라오기 전에 그리면 시스템 폰트로 한 번 그려졌다가 바뀌면서
+  // 글자 폭이 튄다. 로딩될 때까지 배경색만 깔아둔다.
+  const fontsReady = useFittoFonts();
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <AppShell />
+        {fontsReady ? <AppShell /> : <View style={{ flex: 1, backgroundColor: lightColors.bg }} />}
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

@@ -3,6 +3,7 @@
 // 현재는 README의 폴백 규칙(각 플랫폼 한글 시스템 폰트)에 따라 시스템 기본 폰트를 사용한다.
 
 import type { TextStyle } from 'react-native';
+import { FONT_FAMILY, type FontWeightKey } from './fonts';
 
 export const lightColors = {
   bg: '#F4F8FA',
@@ -174,6 +175,19 @@ export const timeSlots: Record<TimeSlot, { color: string; name: string; greeting
 export const tabularNums: TextStyle['fontVariant'] = ['tabular-nums'];
 
 /**
+ * 굵기 한 단계를 스타일 조각으로 만든다.
+ *
+ * Pretendard는 굵기별로 파일이 나뉘어 있어서 fontWeight만 바꿔서는 두께가 안 변한다.
+ * 반드시 fontFamily를 함께 바꿔야 한다. fontWeight를 같이 남기는 이유는
+ * 폰트 로딩이 실패했을 때 시스템 폰트가 대신 굵어지게 하기 위해서다.
+ *
+ * 굵기를 상황에 따라 바꾸는 곳(선택된 칩, 오늘 요일 등)에서도 이걸 펼쳐 쓴다.
+ */
+export function weight(w: FontWeightKey) {
+  return { fontWeight: String(w) as '400' | '500' | '600' | '700', fontFamily: FONT_FAMILY[w] };
+}
+
+/**
  * 텍스트 역할표. 화면에서 fontSize를 직접 쓰지 말고 여기서 골라 쓴다.
  *
  * 예전에는 화면마다 숫자를 직접 박아서 11/11.5/12/12.5/13/13.5/14가 뒤섞였고,
@@ -182,50 +196,50 @@ export const tabularNums: TextStyle['fontVariant'] = ['tabular-nums'];
  */
 export const typography = {
   // 화면 제목 (README 지정)
-  screenTitle: { fontSize: 20, fontWeight: '700' as const, letterSpacing: -0.6 },
-  subScreenTitle: { fontSize: 18, fontWeight: '700' as const, letterSpacing: -0.5 },
-  onboardingTitle: { fontSize: 25, fontWeight: '700' as const, letterSpacing: -0.7, lineHeight: 25 * 1.32 },
+  screenTitle: { fontSize: 20, ...weight(700), letterSpacing: -0.6 },
+  subScreenTitle: { fontSize: 18, ...weight(700), letterSpacing: -0.5 },
+  onboardingTitle: { fontSize: 25, ...weight(700), letterSpacing: -0.7, lineHeight: 25 * 1.32 },
 
   // 수치. 카드별 크기는 README가 정해두어 각 화면에서 fontSize만 덮어쓴다.
-  bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: tabularNums },
-  midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: tabularNums },
+  bigNumber: { fontSize: 27, ...weight(700), letterSpacing: -1.05, fontVariant: tabularNums },
+  midNumber: { fontSize: 23, ...weight(700), letterSpacing: -0.9, fontVariant: tabularNums },
 
   /** 홈 카드 제목 (README 12.5/700). */
-  cardTitle: { fontSize: 12.5, fontWeight: '700' as const },
+  cardTitle: { fontSize: 12.5, ...weight(700) },
   /** README가 픽셀을 지정하지 않은 화면들의 카드·섹션 제목. */
-  sectionTitle: { fontSize: 13, fontWeight: '700' as const },
+  sectionTitle: { fontSize: 13, ...weight(700) },
   /** 목록 행의 이름. */
-  rowLabel: { fontSize: 13, fontWeight: '600' as const },
+  rowLabel: { fontSize: 13, ...weight(600) },
   /** 입력 위 라벨, 칩 글씨 같은 작은 라벨. */
-  label: { fontSize: 11.5, fontWeight: '600' as const },
+  label: { fontSize: 11.5, ...weight(600) },
   /** 표에서 강조되는 값. */
-  value: { fontSize: 12.5, fontWeight: '700' as const },
+  value: { fontSize: 12.5, ...weight(700) },
   /** 단위·보조 수치. */
-  unit: { fontSize: 12.5, fontWeight: '600' as const },
+  unit: { fontSize: 12.5, ...weight(600) },
 
   /** 설명 문단. */
-  body: { fontSize: 12.5, fontWeight: '500' as const, lineHeight: 12.5 * 1.55 },
+  body: { fontSize: 12.5, ...weight(500), lineHeight: 12.5 * 1.55 },
   /** 좁은 자리의 설명. */
-  bodySm: { fontSize: 11.5, fontWeight: '500' as const, lineHeight: 11.5 * 1.5 },
+  bodySm: { fontSize: 11.5, ...weight(500), lineHeight: 11.5 * 1.5 },
   /** 캡션·메타 정보. */
-  caption: { fontSize: 11, fontWeight: '500' as const },
+  caption: { fontSize: 11, ...weight(500) },
   /** 차트 축 라벨, 카드 하단 캡션처럼 더 작은 자리. */
-  captionSm: { fontSize: 10.5, fontWeight: '500' as const },
+  captionSm: { fontSize: 10.5, ...weight(500) },
   /** 범례·요일 머리글처럼 아주 좁은 자리. */
-  micro: { fontSize: 9.5, fontWeight: '600' as const },
+  micro: { fontSize: 9.5, ...weight(600) },
   /** 시트·모달 제목. */
-  sheetTitle: { fontSize: 16, fontWeight: '700' as const },
+  sheetTitle: { fontSize: 16, ...weight(700) },
   /** 강조되는 항목 이름(닉네임, 빈 상태 제목). */
-  itemTitle: { fontSize: 14.5, fontWeight: '700' as const },
+  itemTitle: { fontSize: 14.5, ...weight(700) },
   /** V2 같은 작은 배지. */
-  badge: { fontSize: 10, fontWeight: '700' as const },
+  badge: { fontSize: 10, ...weight(700) },
 
   // 입력·버튼
-  input: { fontSize: 13.5, fontWeight: '500' as const },
-  buttonLabel: { fontSize: 15, fontWeight: '700' as const },
-  buttonLabelSm: { fontSize: 13, fontWeight: '700' as const },
+  input: { fontSize: 13.5, ...weight(500) },
+  buttonLabel: { fontSize: 15, ...weight(700) },
+  buttonLabelSm: { fontSize: 13, ...weight(700) },
 
-  sectionLabel: { fontSize: 11, fontWeight: '700' as const, letterSpacing: 0.8, textTransform: 'uppercase' as const },
+  sectionLabel: { fontSize: 11, ...weight(700), letterSpacing: 0.8, textTransform: 'uppercase' as const },
 };
 
 export const spacing = {

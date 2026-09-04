@@ -8,7 +8,7 @@ import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { MOCK_STEPS_PAST6, getWeekDayLabels } from '../mockData';
-import { typography } from '../../../theme/tokens';
+import { typography, weight } from '../../../theme/tokens';
 
 const BAR_MAX_HEIGHT = 34;
 
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   bigNum: {
     fontSize: 22,
-    fontWeight: '700',
+    ...weight(700),
     letterSpacing: -0.8,
   },
   goalNum: typography.unit,

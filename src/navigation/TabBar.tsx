@@ -7,7 +7,7 @@ import { StackActions } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/useTheme';
 import { useQuickLogSheetStore } from '../store/useQuickLogSheetStore';
-import { primaryButtonShadow, radius, tabBarShadowColor, white } from '../theme/tokens';
+import { primaryButtonShadow, radius, tabBarShadowColor, weight, white } from '../theme/tokens';
 
 const TAB_LABELS: Record<string, string> = {
   Home: '홈',
@@ -50,12 +50,12 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
         {focused ? (
           <LinearGradient colors={primaryGradient} style={styles.tabActiveBg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
             <View style={[styles.dot, { backgroundColor: white }]} />
-            <Text style={[styles.label, { color: white, fontWeight: '700' }]}>{label}</Text>
+            <Text style={[styles.label, { color: white }, weight(700)]}>{label}</Text>
           </LinearGradient>
         ) : (
           <View style={styles.tabInactiveBg}>
             <View style={[styles.dot, { backgroundColor: colors.sub, opacity: 0.5 }]} />
-            <Text style={[styles.label, { color: colors.sub, fontWeight: '500' }]}>{label}</Text>
+            <Text style={[styles.label, { color: colors.sub }, weight(500)]}>{label}</Text>
           </View>
         )}
       </Pressable>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   fabPlus: {
     color: white,
     fontSize: 26,
-    fontWeight: '700',
+    ...weight(700),
     lineHeight: 28,
   },
 });
