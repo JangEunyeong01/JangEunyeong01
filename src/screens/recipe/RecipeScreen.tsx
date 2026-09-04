@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, TextInput, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
 import SelectChip from '../../components/SelectChip';
+import TextField from '../../components/TextField';
 import DetailHeader from '../detail/DetailHeader';
 import NutritionCard from './NutritionCard';
 import { useTheme } from '../../theme/useTheme';
@@ -138,12 +139,12 @@ export default function RecipeScreen() {
           </View>
         </Pressable>
 
-        <TextInput
+        <TextField
+          onBackground
           value={name}
           onChangeText={setName}
           placeholder="레시피 이름"
-          placeholderTextColor={colors.sub}
-          style={[styles.nameInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+          style={styles.nameInput}
         />
 
         <GlassCard style={styles.card}>
@@ -161,13 +162,13 @@ export default function RecipeScreen() {
           </View>
 
           <View style={styles.addRow}>
-            <TextInput
+            <TextField
+              size="sm"
               value={grams}
               onChangeText={(t) => setGrams(t.replace(/[^0-9]/g, ''))}
               placeholder="g"
-              placeholderTextColor={colors.sub}
               keyboardType="numeric"
-              style={[styles.gramInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+              style={styles.gramInput}
             />
             <PrimaryButton small label="재료 추가 (g)" onPress={addLine} style={styles.addBtn} />
           </View>
@@ -178,45 +179,41 @@ export default function RecipeScreen() {
 
           {customOpen && (
             <View style={styles.customForm}>
-              <TextInput
-                value={cName}
-                onChangeText={setCName}
-                placeholder="재료명"
-                placeholderTextColor={colors.sub}
-                style={[styles.customInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
-              />
-              <TextInput
+              <TextField size="sm" value={cName} onChangeText={setCName} placeholder="재료명" />
+              <TextField
+                size="sm"
                 value={cKcal}
                 onChangeText={(t) => setCKcal(t.replace(/[^0-9.]/g, ''))}
                 placeholder="100g당 kcal (필수)"
-                placeholderTextColor={colors.sub}
                 keyboardType="numeric"
-                style={[styles.customInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
               />
               <View style={styles.macroInputRow}>
-                <TextInput
+                <TextField
+                  size="sm"
                   value={cCarbs}
                   onChangeText={(t) => setCCarbs(t.replace(/[^0-9.]/g, ''))}
                   placeholder="탄 g"
-                  placeholderTextColor={colors.sub}
                   keyboardType="numeric"
-                  style={[styles.customInput, styles.macroInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+                  center
+                  style={styles.macroInput}
                 />
-                <TextInput
+                <TextField
+                  size="sm"
                   value={cProtein}
                   onChangeText={(t) => setCProtein(t.replace(/[^0-9.]/g, ''))}
                   placeholder="단 g"
-                  placeholderTextColor={colors.sub}
                   keyboardType="numeric"
-                  style={[styles.customInput, styles.macroInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+                  center
+                  style={styles.macroInput}
                 />
-                <TextInput
+                <TextField
+                  size="sm"
                   value={cFat}
                   onChangeText={(t) => setCFat(t.replace(/[^0-9.]/g, ''))}
                   placeholder="지 g"
-                  placeholderTextColor={colors.sub}
                   keyboardType="numeric"
-                  style={[styles.customInput, styles.macroInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+                  center
+                  style={styles.macroInput}
                 />
               </View>
               <PrimaryButton small label="이 재료로 추가" onPress={addCustom} />
@@ -304,11 +301,6 @@ const styles = StyleSheet.create({
   },
   photoText: typography.unit,
   nameInput: {
-    ...typography.input,
-    height: 44,
-    borderRadius: 15,
-    borderWidth: 1,
-    paddingHorizontal: 14,
     marginBottom: 12,
   },
   chipWrap: {
@@ -323,12 +315,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   gramInput: {
-    ...typography.input,
     width: 96,
-    height: 42,
-    borderRadius: 13,
-    borderWidth: 1,
-    paddingHorizontal: 12,
     textAlign: 'center',
   },
   addBtn: {
@@ -348,20 +335,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
     gap: 8,
   },
-  customInput: {
-    ...typography.input,
-    height: 42,
-    borderRadius: 13,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-  },
   macroInputRow: {
     flexDirection: 'row',
     gap: 8,
   },
   macroInput: {
     flex: 1,
-    textAlign: 'center',
   },
   lineList: {
     marginTop: 10,

@@ -2,6 +2,8 @@
 // Pretendard Variable 폰트 파일이 준비되면 fonts.ts에서 로드해 fontFamily를 교체한다.
 // 현재는 README의 폴백 규칙(각 플랫폼 한글 시스템 폰트)에 따라 시스템 기본 폰트를 사용한다.
 
+import type { TextStyle } from 'react-native';
+
 export const lightColors = {
   bg: '#F4F8FA',
   card: 'rgba(255,255,255,.62)',
@@ -166,6 +168,12 @@ export const timeSlots: Record<TimeSlot, { color: string; name: string; greeting
 };
 
 /**
+ * 숫자가 바뀔 때 자릿수가 흔들리지 않게 고정폭 숫자를 쓴다.
+ * `as const`로 두면 readonly라 StyleSheet에 넣을 수 없어서 타입을 명시한다.
+ */
+const TABULAR: TextStyle['fontVariant'] = ['tabular-nums'];
+
+/**
  * 텍스트 역할표. 화면에서 fontSize를 직접 쓰지 말고 여기서 골라 쓴다.
  *
  * 예전에는 화면마다 숫자를 직접 박아서 11/11.5/12/12.5/13/13.5/14가 뒤섞였고,
@@ -179,8 +187,8 @@ export const typography = {
   onboardingTitle: { fontSize: 25, fontWeight: '700' as const, letterSpacing: -0.7, lineHeight: 25 * 1.32 },
 
   // 수치. 카드별 크기는 README가 정해두어 각 화면에서 fontSize만 덮어쓴다.
-  bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: ['tabular-nums'] as const },
-  midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: ['tabular-nums'] as const },
+  bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: TABULAR },
+  midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: TABULAR },
 
   /** 홈 카드 제목 (README 12.5/700). */
   cardTitle: { fontSize: 12.5, fontWeight: '700' as const },

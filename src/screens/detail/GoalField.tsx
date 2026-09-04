@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import TextField from '../../components/TextField';
 import { useTheme } from '../../theme/useTheme';
 import { typography } from '../../theme/tokens';
 
@@ -34,13 +35,13 @@ export default function GoalField({ title, value, min, max, unit, onCommit }: Go
     <GlassCard style={styles.card}>
       <Text style={[styles.title, { color: colors.txt }]}>{title}</Text>
       <View style={styles.row}>
-        <TextInput
+        <TextField
           value={text}
           onChangeText={(t) => setText(t.replace(/[^0-9]/g, ''))}
           onEndEditing={commit}
           onBlur={commit}
           keyboardType="numeric"
-          style={[styles.input, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+          style={styles.input}
         />
         <Text style={[styles.unit, { color: colors.sub }]}>{unit}</Text>
       </View>
@@ -64,12 +65,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
+    // 목표 숫자는 이 카드의 주인공이라 입력 안 글자만 크게 쓴다.
     ...typography.buttonLabel,
     flex: 1,
-    height: 46,
-    borderRadius: 15,
-    borderWidth: 1,
-    paddingHorizontal: 14,
   },
   unit: typography.rowLabel,
   range: {

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
 import SelectChip from '../../components/SelectChip';
+import TextField from '../../components/TextField';
 import { useTheme } from '../../theme/useTheme';
 import { typography } from '../../theme/tokens';
 
@@ -45,13 +46,13 @@ export default function CupSizeField({ value, onChange }: CupSizeFieldProps) {
 
       {showCustom && (
         <View style={styles.customRow}>
-          <TextInput
+          <TextField
+            size="sm"
             value={draft}
             onChangeText={(t) => setDraft(t.replace(/[^0-9]/g, ''))}
             placeholder={`현재 ${value}ml`}
-            placeholderTextColor={colors.sub}
             keyboardType="numeric"
-            style={[styles.input, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+            style={styles.input}
           />
           <PrimaryButton small label="설정" onPress={commitCustom} style={styles.setBtn} />
         </View>
@@ -77,12 +78,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
-    ...typography.input,
     flex: 1,
-    height: 42,
-    borderRadius: 13,
-    borderWidth: 1,
-    paddingHorizontal: 12,
   },
   setBtn: {
     width: 72,

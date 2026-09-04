@@ -7,6 +7,7 @@ import DetailHeader from '../detail/DetailHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import FittoCharacter from '../../components/FittoCharacter';
 import SelectChip from '../../components/SelectChip';
+import TextField from '../../components/TextField';
 import { useTheme } from '../../theme/useTheme';
 import { selection, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
@@ -213,14 +214,14 @@ function TimeField({
   return (
     <View style={styles.timeCol}>
       <Text style={[styles.timeLabel, { color: colors.sub }]}>{label}</Text>
-      <TextInput
+      <TextField
+        size="sm"
         value={text}
         onChangeText={setText}
         onEndEditing={commit}
         onBlur={commit}
         placeholder="22:30"
-        placeholderTextColor={colors.sub}
-        style={[styles.timeInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+        center
       />
     </View>
   );
@@ -270,14 +271,6 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   timeLabel: typography.label,
-  timeInput: {
-    ...typography.input,
-    height: 42,
-    borderRadius: 13,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    textAlign: 'center',
-  },
   previewRow: {
     flexDirection: 'row',
     alignItems: 'center',

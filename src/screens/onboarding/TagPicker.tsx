@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, Platform } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
+import TextField from '../../components/TextField';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, radius, selection, typography } from '../../theme/tokens';
 import { useToastStore } from '../../store/useToastStore';
@@ -25,6 +25,10 @@ export default function TagPicker({ tags, selected, onToggle, onClear, placehold
   const { colors, mode } = useTheme();
   const showToast = useToastStore((s) => s.show);
   const [draft, setDraft] = useState('');
+
+  // 그리드에 있는 태그는 위에서 이미 선택 표시가 되므로 아래에 또 나열하지 않는다.
+  // 여기 남는 건 목록에 없어서 직접 적은 값들뿐이다.
+  const customValues = selected.filter((v) => !tags.includes(v));
 
   const addCustom = () => {
     const value = draft.trim();
@@ -68,32 +72,26 @@ export default function TagPicker({ tags, selected, onToggle, onClear, placehold
 
       <Text style={[styles.sectionLabel, { color: colors.sub }]}>직접 입력</Text>
       <View style={styles.inputRow}>
-        <TextInput
+        <TextField
+          onBackground
           value={draft}
           onChangeText={setDraft}
           onSubmitEditing={addCustom}
           placeholder={placeholder}
-          placeholderTextColor={colors.sub}
           returnKeyType="done"
-          style={[styles.input, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+          style={styles.input}
         />
-        <Pressable onPress={addCustom}>
-          <LinearGradient
-            colors={[brand.mint, brand.blue]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.addBtn}
-          >
-            <Text style={styles.addLabel}>추가</Text>
-          </LinearGradient>
+        {/* 화면의 주요 액션은 하단 "다음"이다. 여기까지 그라데이션을 쓰면 CTA가 둘로 보여서 아웃라인으로 낮췄다. */}
+        <Pressable onPress={addCustom} style={[styles.addBtn, { borderColor: colors.stroke, backgroundColor: colors.card }]}>
+          <Text style={[styles.addLabel, { color: colors.txt }]}>추가</Text>
         </Pressable>
       </View>
 
-      {selected.length > 0 && (
+      {customValues.length > 0 && (
         <>
-          <Text style={[styles.sectionLabel, { color: colors.sub }]}>선택된 항목</Text>
+          <Text style={[styles.sectionLabel, { color: colors.sub }]}>직접 입력한 항목</Text>
           <View style={styles.chipWrap}>
-            {selected.map((item) => (
+            {customValues.map((item) => (
               <Pressable
                 key={item}
                 onPress={() => onToggle(item)}
@@ -158,24 +156,17 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   input: {
-    ...typography.input,
     flex: 1,
-    height: 46,
-    borderRadius: 15,
-    borderWidth: 1,
-    paddingHorizontal: 14,
   },
   addBtn: {
     width: 66,
     height: 46,
     borderRadius: 15,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addLabel: {
-    ...typography.buttonLabelSm,
-    color: '#fff',
-  },
+  addLabel: typography.buttonLabelSm,
   chipWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -193,8 +184,10 @@ const styles = StyleSheet.create({
   chipText: typography.unit,
   chipX: typography.input,
   noneWrap: {
-    marginTop: 16,
-    alignSelf: 'flex-start',
+    // 이 단계를 건너뛰는 유일한 방법이라 글자 높이만큼만 눌리면 안 된다.
+    marginTop: 8,
+    paddingVertical: 12,
+    alignSelf: 'center',
   },
   noneText: {
     ...typography.body,

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
+import TextField from '../../components/TextField';
 import DetailHeader from '../detail/DetailHeader';
 import SegmentedControl from '../../components/SegmentedControl';
 import OptionRow from '../onboarding/OptionRow';
@@ -63,37 +64,35 @@ export default function ProfileScreen() {
 
         <GlassCard style={styles.card}>
           <Text style={[styles.label, { color: colors.sub }]}>닉네임</Text>
-          <TextInput
+          <TextField
             value={nickname}
             onChangeText={setNickname}
             onEndEditing={() => setProfile({ nickname: nickname.trim() || profile.nickname })}
             onBlur={() => setProfile({ nickname: nickname.trim() || profile.nickname })}
             placeholder="피또가 부를 이름"
-            placeholderTextColor={colors.sub}
-            style={[styles.input, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
           />
 
           <Text style={[styles.label, { color: colors.sub, marginTop: 14 }]}>생일</Text>
           <View style={styles.birthRow}>
-            <TextInput
+            <TextField
               value={birthMonth}
               onChangeText={(t) => setBirthMonth(t.replace(/[^0-9]/g, ''))}
               onEndEditing={commitBirthMonth}
               onBlur={commitBirthMonth}
               placeholder="월"
-              placeholderTextColor={colors.sub}
               keyboardType="numeric"
-              style={[styles.input, styles.birthInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+              center
+              style={styles.birthInput}
             />
-            <TextInput
+            <TextField
               value={birthDay}
               onChangeText={(t) => setBirthDay(t.replace(/[^0-9]/g, ''))}
               onEndEditing={commitBirthDay}
               onBlur={commitBirthDay}
               placeholder="일"
-              placeholderTextColor={colors.sub}
               keyboardType="numeric"
-              style={[styles.input, styles.birthInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+              center
+              style={styles.birthInput}
             />
           </View>
 
@@ -196,13 +195,13 @@ function NumField({
   return (
     <View style={styles.numCol}>
       <Text style={[styles.numLabel, { color: colors.sub }]}>{label}</Text>
-      <TextInput
+      <TextField
         value={value}
         onChangeText={(t) => onChangeText(t.replace(/[^0-9]/g, ''))}
         onEndEditing={onCommit}
         onBlur={onCommit}
         keyboardType="numeric"
-        style={[styles.input, styles.numInput, { borderColor: colors.stroke, backgroundColor: colors.card, color: colors.txt }]}
+        center
       />
     </View>
   );
@@ -226,20 +225,12 @@ const styles = StyleSheet.create({
     ...typography.label,
     marginBottom: 8,
   },
-  input: {
-    ...typography.input,
-    height: 46,
-    borderRadius: 15,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-  },
   birthRow: {
     flexDirection: 'row',
     gap: 8,
   },
   birthInput: {
     flex: 1,
-    textAlign: 'center',
   },
   numRow: {
     flexDirection: 'row',
@@ -250,8 +241,4 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   numLabel: typography.label,
-  numInput: {
-    height: 46,
-    textAlign: 'center',
-  },
 });

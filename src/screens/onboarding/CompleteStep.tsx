@@ -97,11 +97,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   cardLabel: typography.label,
-  cardValue: {
-    fontSize: 27,
-    fontWeight: '700',
-    letterSpacing: -1,
-  },
+  cardValue: typography.bigNumber,
   cardCaption: typography.captionSm,
   summary: {
     borderRadius: 18,

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useTheme } from '../../theme/useTheme';
-import { brand, radius, selection } from '../../theme/tokens';
+import { brand, radius, selection, typography } from '../../theme/tokens';
 
 interface OptionRowProps {
   title: string;
@@ -68,14 +68,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
-  title: {
-    fontSize: 14.5,
-    fontWeight: '700',
-  },
-  desc: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
+  title: typography.itemTitle,
+  desc: typography.bodySm,
   marker: {
     width: 20,
     height: 20,
