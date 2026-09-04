@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from '../theme/useTheme';
-import { selection, radius } from '../theme/tokens';
+import { selection, radius, typography } from '../theme/tokens';
 
 interface SegmentedControlProps<T extends string> {
   options: { value: T; label: string }[];
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontSize: 12.5,
+    fontSize: typography.value.fontSize,
   },
 });

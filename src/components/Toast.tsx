@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, Animated, Easing } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useToastStore } from '../store/useToastStore';
-import { motion, overlay, radius, spacing, white } from '../theme/tokens';
+import { motion, overlay, radius, spacing, typography, white } from '../theme/tokens';
 
 // README: left/right 16, bottom 88, padding 13/15, r16, 어두운 반투명+blur(10), 흰 글씨 12.5/700, fin, 1.9초 자동 소멸
 export default function Toast() {
@@ -86,9 +86,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   text: {
+    ...typography.value,
     color: white,
-    fontSize: 12.5,
-    fontWeight: '700',
     textAlign: 'center',
   },
 });

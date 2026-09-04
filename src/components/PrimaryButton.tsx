@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, StyleSheet, StyleProp, ViewStyle, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/useTheme';
-import { white } from '../theme/tokens';
+import { typography, white } from '../theme/tokens';
 
 interface PrimaryButtonProps {
   label: string;
@@ -49,7 +49,9 @@ export default function PrimaryButton({ label, onPress, style, disabled, small, 
         {loading ? (
           <ActivityIndicator color={inactive ? colors.sub : white} />
         ) : (
-          <Text style={[styles.label, { fontSize: small ? 13 : 15, color: inactive ? colors.sub : white }]}>{label}</Text>
+          <Text style={[small ? typography.buttonLabelSm : typography.buttonLabel, { color: inactive ? colors.sub : white }]}>
+            {label}
+          </Text>
         )}
       </LinearGradient>
     </Pressable>
@@ -61,8 +63,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  label: {
-    fontWeight: '700',
   },
 });

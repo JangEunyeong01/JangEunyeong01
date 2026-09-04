@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, useWindowDimensions } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { alpha, brand, radius, white } from '../theme/tokens';
+import { alpha, brand, radius, typography, white } from '../theme/tokens';
 import { useTutorialStore, TUTORIAL_STEPS } from '../store/useTutorialStore';
 
 const DIM = 'rgba(16,26,36,0.62)';
@@ -145,20 +145,17 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   stepCount: {
+    ...typography.badge,
     color: alpha(white, 0.6),
-    fontSize: 10.5,
-    fontWeight: '700',
   },
   title: {
+    ...typography.buttonLabel,
     color: white,
-    fontSize: 15,
-    fontWeight: '700',
     marginTop: 6,
   },
   body: {
+    ...typography.body,
     color: alpha(white, 0.78),
-    fontSize: 12.5,
-    lineHeight: 12.5 * 1.55,
     marginTop: 8,
   },
   buttonRow: {
@@ -176,9 +173,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   skipLabel: {
+    ...typography.unit,
     color: alpha(white, 0.7),
-    fontSize: 12.5,
-    fontWeight: '600',
   },
   nextBtn: {
     height: 38,
@@ -188,8 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nextLabel: {
+    ...typography.buttonLabelSm,
     color: white,
-    fontSize: 13,
-    fontWeight: '700',
   },
 });

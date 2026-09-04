@@ -165,16 +165,50 @@ export const timeSlots: Record<TimeSlot, { color: string; name: string; greeting
   night: { color: '#6B5B95', name: '밤', greeting: '늦은 밤' },
 };
 
+/**
+ * 텍스트 역할표. 화면에서 fontSize를 직접 쓰지 말고 여기서 골라 쓴다.
+ *
+ * 예전에는 화면마다 숫자를 직접 박아서 11/11.5/12/12.5/13/13.5/14가 뒤섞였고,
+ * 같은 역할인데 0.5px씩 달라 보이는 게 UI가 어긋나 보이는 주된 원인이었다.
+ * README가 픽셀을 지정한 것(화면 제목·홈 카드·큰 수치)은 그 값을 그대로 지킨다.
+ */
 export const typography = {
+  // 화면 제목 (README 지정)
   screenTitle: { fontSize: 20, fontWeight: '700' as const, letterSpacing: -0.6 },
   subScreenTitle: { fontSize: 18, fontWeight: '700' as const, letterSpacing: -0.5 },
   onboardingTitle: { fontSize: 25, fontWeight: '700' as const, letterSpacing: -0.7, lineHeight: 25 * 1.32 },
+
+  // 수치. 카드별 크기는 README가 정해두어 각 화면에서 fontSize만 덮어쓴다.
   bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: ['tabular-nums'] as const },
   midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: ['tabular-nums'] as const },
+
+  /** 홈 카드 제목 (README 12.5/700). */
   cardTitle: { fontSize: 12.5, fontWeight: '700' as const },
-  cardLabel: { fontSize: 11.5, fontWeight: '600' as const },
-  body: { fontSize: 13, fontWeight: '600' as const },
+  /** README가 픽셀을 지정하지 않은 화면들의 카드·섹션 제목. */
+  sectionTitle: { fontSize: 13, fontWeight: '700' as const },
+  /** 목록 행의 이름. */
+  rowLabel: { fontSize: 13, fontWeight: '600' as const },
+  /** 입력 위 라벨, 칩 글씨 같은 작은 라벨. */
+  label: { fontSize: 11.5, fontWeight: '600' as const },
+  /** 표에서 강조되는 값. */
+  value: { fontSize: 12.5, fontWeight: '700' as const },
+  /** 단위·보조 수치. */
+  unit: { fontSize: 12.5, fontWeight: '600' as const },
+
+  /** 설명 문단. */
+  body: { fontSize: 12.5, fontWeight: '500' as const, lineHeight: 12.5 * 1.55 },
+  /** 좁은 자리의 설명. */
+  bodySm: { fontSize: 11.5, fontWeight: '500' as const, lineHeight: 11.5 * 1.5 },
+  /** 캡션·메타 정보. */
   caption: { fontSize: 11, fontWeight: '500' as const },
+  /** V2 같은 작은 배지. */
+  badge: { fontSize: 10, fontWeight: '700' as const },
+
+  // 입력·버튼
+  input: { fontSize: 13.5, fontWeight: '500' as const },
+  buttonLabel: { fontSize: 15, fontWeight: '700' as const },
+  buttonLabelSm: { fontSize: 13, fontWeight: '700' as const },
+
   sectionLabel: { fontSize: 11, fontWeight: '700' as const, letterSpacing: 0.8, textTransform: 'uppercase' as const },
 };
 
