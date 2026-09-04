@@ -16,7 +16,13 @@ export default function RecommendCard() {
 
   // 못 먹는 음식에 걸리는 항목은 추천에서 뺀다.
   const meals = RECOMMENDED_MEALS.filter((m) => !findAllergyHit(m, avoid));
-  const badge = avoid.length > 0 ? `${avoid.join('·')} 제외` : '전체 추천';
+
+  // 배지에는 실제로 걸러낸 태그만 적는다. 사용자가 등록한 항목을 전부 나열하면
+  // 추천 음식과 무관한 것까지 "제외"라고 표시돼 실제 동작과 어긋난다.
+  const excluded = [
+    ...new Set(RECOMMENDED_MEALS.map((m) => findAllergyHit(m, avoid)).filter((t): t is string => !!t)),
+  ];
+  const badge = excluded.length > 0 ? `${excluded.join('·')} 제외` : '전체 추천';
 
   return (
     <GlassCard style={styles.card}>

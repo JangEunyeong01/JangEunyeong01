@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
@@ -36,17 +36,23 @@ export default function RecipeScreen() {
   const [cProtein, setCProtein] = useState('');
   const [cFat, setCFat] = useState('');
 
-  // 내장 재료 + 사용자가 직접 넣은 재료를 같은 칩 목록으로 합친다.
-  const allIngredients: Ingredient[] = [
-    ...INGREDIENTS,
-    ...customIngredients.map((c) => ({
-      name: c.name,
-      kcal100: c.kcal100,
-      carbs100: c.carbs100,
-      protein100: c.protein100,
-      fat100: c.fat100,
-    })),
-  ];
+  // 내장 재료 + 직접 넣은 재료를 한 목록으로 합친다.
+  // 이름이 겹치면 사용자가 넣은 값이 이깁니다 — 안 그러면 칩이 두 개 생기고,
+  // 이름으로 찾을 때 앞쪽 내장값이 잡혀서 직접 입력한 수치가 무시된다.
+  const allIngredients: Ingredient[] = useMemo(() => {
+    const byName = new Map<string, Ingredient>();
+    for (const ing of INGREDIENTS) byName.set(ing.name, ing);
+    for (const c of customIngredients) {
+      byName.set(c.name, {
+        name: c.name,
+        kcal100: c.kcal100,
+        carbs100: c.carbs100,
+        protein100: c.protein100,
+        fat100: c.fat100,
+      });
+    }
+    return [...byName.values()];
+  }, [customIngredients]);
 
   const addLine = () => {
     const g = parseInt(grams, 10);
