@@ -18,7 +18,6 @@ import { useAppStore, CardId } from '../../store/useAppStore';
 import { useCardOrderSheetStore } from '../../store/useCardOrderSheetStore';
 import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
 import { useTutorialStore, type TutorialTargetId } from '../../store/useTutorialStore';
-import TutorialOverlay from '../../components/TutorialOverlay';
 import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
 
 // B 히어로(확정 기본안): 물·걸음만 반폭 2열, 나머지는 전폭.
@@ -56,24 +55,14 @@ export default function HomeScreen() {
 
   // 튜토리얼 하이라이트 프레임이 가리킬 실제 화면 좌표. onLayout의 좌표는 부모 기준이라
   // 스크롤 오프셋이 빠지므로 measureInWindow로 절대 좌표를 받는다.
-  const kcalRef = useRef<View>(null);
-  const waterRef = useRef<View>(null);
-  const gridRef = useRef<View>(null);
+  const slotRefs = useRef<Partial<Record<CardId, View | null>>>({});
 
-  const measureTarget = (ref: React.RefObject<View | null>, id: TutorialTargetId) => {
-    ref.current?.measureInWindow((x, y, width, height) => {
+  const measureCard = (cardId: CardId, targetId: TutorialTargetId) => {
+    slotRefs.current[cardId]?.measureInWindow((x, y, width, height) => {
       // 웹에서는 레이아웃 직후 0이 잡히는 경우가 있어 유효한 값일 때만 등록한다.
-      if (width > 0 && height > 0) setTutorialTarget(id, { x, y, width, height });
+      if (width > 0 && height > 0) setTutorialTarget(targetId, { x, y, width, height });
     });
   };
-
-  // 튜토리얼이 열리는 시점의 스크롤 위치 기준으로 다시 재야 프레임이 카드에 정확히 붙는다.
-  useEffect(() => {
-    if (!tutorialOpen) return;
-    measureTarget(kcalRef, 'kcal');
-    measureTarget(waterRef, 'water');
-    measureTarget(gridRef, 'grid');
-  }, [tutorialOpen, tutorialStep]);
 
   // 배너는 생일 당일 내내 떠 있고 몇 번이든 다시 열 수 있다.
   // birthdayShownYear는 올해 축하를 이미 전달했다는 기록으로, 배너 노출을 막지는 않는다.
@@ -101,6 +90,25 @@ export default function HomeScreen() {
   const visibleCards = cardOrder.filter((id) => !cardHidden.includes(id) && (id !== 'period' || periodOn));
   const noExerciseToday = (record?.exercises?.length ?? 0) === 0;
 
+  /** 한 카드가 어떤 튜토리얼 단계의 대상인지. 첫 카드는 "카드 순서" 단계가 가리킨다. */
+  const targetIdFor = (cardId: CardId): TutorialTargetId | null => {
+    if (cardId === 'kcal') return 'kcal';
+    if (cardId === 'water') return 'water';
+    return null;
+  };
+
+  const measureAllTargets = () => {
+    measureCard('kcal', 'kcal');
+    measureCard('water', 'water');
+    if (visibleCards[0]) measureCard(visibleCards[0], 'firstCard');
+  };
+
+  // 튜토리얼이 열리는 시점의 스크롤 위치 기준으로 다시 재야 프레임이 카드에 정확히 붙는다.
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    measureAllTargets();
+  }, [tutorialOpen, tutorialStep]);
+
   return (
     <ScreenBackground>
       <ScrollView
@@ -112,23 +120,22 @@ export default function HomeScreen() {
         {isBirthday && <BirthdayBanner name={profile.nickname} onPress={openBirthday} />}
         <HeroRow />
 
-        <Pressable
-          onLongPress={showSheet}
-          delayLongPress={550}
-          style={styles.grid}
-          ref={gridRef}
-          onLayout={() => measureTarget(gridRef, 'grid')}
-        >
-          {visibleCards.map((id) => {
+        <Pressable onLongPress={showSheet} delayLongPress={550} style={styles.grid}>
+          {visibleCards.map((id, index) => {
             const Card = CARD_COMPONENTS[id];
             const half = HALF_WIDTH_CARDS.has(id);
-            const tutorialRef = id === 'kcal' ? kcalRef : id === 'water' ? waterRef : null;
             return (
               <View
                 key={id}
                 style={half ? styles.slotHalf : styles.slotFull}
-                ref={tutorialRef}
-                onLayout={tutorialRef ? () => measureTarget(tutorialRef, id as TutorialTargetId) : undefined}
+                ref={(node) => {
+                  slotRefs.current[id] = node;
+                }}
+                onLayout={() => {
+                  const target = targetIdFor(id);
+                  if (target) measureCard(id, target);
+                  if (index === 0) measureCard(id, 'firstCard');
+                }}
               >
                 <Card />
               </View>
@@ -140,7 +147,6 @@ export default function HomeScreen() {
       </ScrollView>
 
       <CardOrderSheet visible={sheetVisible} onClose={hideSheet} />
-      <TutorialOverlay />
     </ScreenBackground>
   );
 }

@@ -9,6 +9,7 @@ import Toast from './src/components/Toast';
 import QuickLogSheet from './src/components/QuickLogSheet';
 import FoodSearchSheet from './src/screens/diet/FoodSearchSheet';
 import BirthdayModal from './src/screens/home/BirthdayModal';
+import TutorialOverlay from './src/components/TutorialOverlay';
 import { useTheme } from './src/theme/useTheme';
 
 function AppShell() {
@@ -25,6 +26,9 @@ function AppShell() {
         </View>
       </NavigationContainer>
       <BirthdayModal />
+      {/* 튜토리얼은 탭바까지 덮어야 해서 NavigationContainer 바깥에 둔다.
+          홈 화면 안에 두면 탭바가 딤 위로 올라와 튜토리얼 중에 다른 탭으로 나갈 수 있었다. */}
+      <TutorialOverlay />
       <Toast />
       <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
     </>

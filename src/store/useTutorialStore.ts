@@ -7,8 +7,11 @@ export interface TargetRect {
   height: number;
 }
 
-/** 각 단계가 가리키는 홈 화면 요소. HomeScreen에서 measureInWindow로 좌표를 등록한다. */
-export type TutorialTargetId = 'kcal' | 'water' | 'grid';
+/**
+ * 각 단계가 가리키는 홈 화면 요소. HomeScreen에서 measureInWindow로 좌표를 등록한다.
+ * firstCard는 "카드 순서" 단계용 — 그리드 전체를 가리키면 프레임이 화면 밖으로 한참 넘친다.
+ */
+export type TutorialTargetId = 'kcal' | 'water' | 'firstCard';
 
 export const TUTORIAL_STEPS: { target: TutorialTargetId; title: string; body: string }[] = [
   {
@@ -22,7 +25,7 @@ export const TUTORIAL_STEPS: { target: TutorialTargetId; title: string; body: st
     body: '+250ml만 눌러주세요. 목표에 가까워지면 피또가 촉촉해져요.',
   },
   {
-    target: 'grid',
+    target: 'firstCard',
     title: '카드는 원하는 순서로',
     body: '길게 눌러 카드를 옮기면 나에게 맞는 홈 화면이 돼요.',
   },

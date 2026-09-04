@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, useWindowDimensions } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { alpha, brand, radius, white } from '../theme/tokens';
@@ -11,8 +11,13 @@ const TOOLTIP_GAP = 12;
 // README 12장: 딤 + 대상 카드 하이라이트 프레임(fpulse) + 아래 어두운 툴팁 카드.
 export default function TutorialOverlay() {
   const { open, step, targets, next, close } = useTutorialStore();
-  const { height: screenH } = useWindowDimensions();
+  const { height: windowH } = useWindowDimensions();
   const pulse = useRef(new Animated.Value(0)).current;
+
+  // NavigationContainer 바깥에 마운트돼 있어 useWindowDimensions가 0을 주는 경우가 있다.
+  // 오버레이가 실제로 차지한 높이를 우선 쓰고, 없을 때만 창 높이로 넘어간다.
+  const [measuredH, setMeasuredH] = useState(0);
+  const screenH = measuredH || windowH;
 
   useEffect(() => {
     if (!open) return;
@@ -29,8 +34,19 @@ export default function TutorialOverlay() {
   if (!open) return null;
 
   const current = TUTORIAL_STEPS[step];
-  const rect = targets[current.target];
+  const raw = targets[current.target];
   const isLast = step === TUTORIAL_STEPS.length - 1;
+
+  // 대상이 화면보다 크거나 아래로 걸쳐 있으면 프레임이 잘려 보이므로 화면 안으로 가둔다.
+  // 높이를 아직 모르면(0) 자르지 않고 원래 좌표를 그대로 쓴다.
+  const rect =
+    raw && screenH > 0
+      ? (() => {
+          const top = Math.max(0, raw.y);
+          const bottom = Math.min(screenH, raw.y + raw.height);
+          return { ...raw, y: top, height: Math.max(0, bottom - top) };
+        })()
+      : raw;
 
   // 대상 아래에 툴팁을 두되, 화면 아래로 넘치면 대상 위로 올린다.
   const tooltipTop = rect ? rect.y + rect.height + TOOLTIP_GAP : screenH / 2;
@@ -39,7 +55,7 @@ export default function TutorialOverlay() {
   const frameOpacity = pulse.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1] });
 
   return (
-    <View style={styles.overlay}>
+    <View style={styles.overlay} onLayout={(e) => setMeasuredH(e.nativeEvent.layout.height)}>
       {/* 딤은 탭을 먹어서 뒤 화면이 눌리지 않게 한다. */}
       <Pressable style={[styles.dim, { backgroundColor: DIM }]} onPress={() => {}} />
 
