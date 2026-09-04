@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { StackActions } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/useTheme';
 import { useQuickLogSheetStore } from '../store/useQuickLogSheetStore';
@@ -31,9 +32,17 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
 
     const onPress = () => {
       const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-      if (!focused && !event.defaultPrevented) {
-        navigation.navigate(route.name);
+      if (event.defaultPrevented) return;
+
+      if (focused) {
+        // 각 탭이 스택을 가지므로, 활성 탭을 다시 누르면 그 탭의 첫 화면으로 돌아간다.
+        // 이게 없으면 물 상세 같은 서브 화면에서 탭을 눌러도 빠져나오지 못한다.
+        // popToTop은 탭 라우트가 아니라 그 안의 스택 내비게이터로 보내야 한다.
+        const nestedKey = (route.state as { key?: string } | undefined)?.key;
+        if (nestedKey) navigation.dispatch({ ...StackActions.popToTop(), target: nestedKey });
+        return;
       }
+      navigation.navigate(route.name);
     };
 
     return (
