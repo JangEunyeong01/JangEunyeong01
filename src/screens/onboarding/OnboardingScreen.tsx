@@ -114,6 +114,20 @@ export default function OnboardingScreen() {
     return true;
   };
 
+  /**
+   * 버튼 색만 바꾸기 위한 판정. validate()와 조건이 같지만 토스트를 띄우지 않는다.
+   * 눌렀을 때 왜 못 넘어가는지 알려줘야 해서 버튼 자체를 막지는 않는다.
+   */
+  const canProceed = (): boolean => {
+    if (step === 1) {
+      return !!obInfo.name.trim() && !!obInfo.height.trim() && !!obInfo.weight.trim() && !checkRange(obInfo);
+    }
+    if (step === 2) return !!obPick.activity;
+    if (step === 3) return !!obPick.goal;
+    if (step === 7) return !!obPick.persona;
+    return true;
+  };
+
   const handleNext = () => {
     if (!validate()) return;
     if (step < TOTAL_STEPS - 1) {
@@ -226,7 +240,7 @@ export default function OnboardingScreen() {
                 <Text style={[styles.prevLabel, { color: colors.txt }]}>이전</Text>
               </Pressable>
             )}
-            <PrimaryButton label={ctaLabel} onPress={handleNext} style={styles.nextButton} />
+            <PrimaryButton label={ctaLabel} onPress={handleNext} inactive={!canProceed()} style={styles.nextButton} />
           </View>
         </View>
       </KeyboardAvoidingView>
