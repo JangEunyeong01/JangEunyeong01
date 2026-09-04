@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/useTheme';
-import { useAppStore, CardId } from '../../store/useAppStore';
+import { useAppStore, CardId, ESSENTIAL_CARDS } from '../../store/useAppStore';
 import PrimaryButton from '../../components/PrimaryButton';
 import { overlay } from '../../theme/tokens';
 
@@ -69,9 +69,15 @@ export default function CardOrderSheet({ visible, onClose }: CardOrderSheetProps
                   <Pressable onPress={() => move(index, 1)} disabled={index === cardOrder.length - 1} style={styles.iconBtn}>
                     <Text style={[styles.iconText, { color: index === cardOrder.length - 1 ? colors.line : colors.txt }]}>↓</Text>
                   </Pressable>
-                  <Pressable onPress={() => toggleHidden(id)} style={[styles.toggleBtn, { borderColor: colors.line }]}>
-                    <Text style={[styles.toggleText, { color: colors.txt }]}>{hidden ? '표시' : '숨김'}</Text>
-                  </Pressable>
+                  {ESSENTIAL_CARDS.includes(id) ? (
+                    <View style={[styles.toggleBtn, styles.essentialBtn, { borderColor: colors.line }]}>
+                      <Text style={[styles.toggleText, { color: colors.sub }]}>항상 표시</Text>
+                    </View>
+                  ) : (
+                    <Pressable onPress={() => toggleHidden(id)} style={[styles.toggleBtn, { borderColor: colors.line }]}>
+                      <Text style={[styles.toggleText, { color: colors.txt }]}>{hidden ? '표시' : '숨김'}</Text>
+                    </Pressable>
+                  )}
                 </View>
               </View>
             );
@@ -159,6 +165,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginLeft: 4,
+  },
+  essentialBtn: {
+    // 누를 수 없는 상태라는 걸 눌리는 버튼과 구분해서 보여준다.
+    borderStyle: 'dashed',
   },
   toggleText: {
     fontSize: 11.5,

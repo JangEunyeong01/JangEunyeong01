@@ -12,6 +12,12 @@ export type CardId = 'kcal' | 'water' | 'act' | 'steps' | 'ex' | 'week' | 'perio
 // B 히어로 순서: 칼로리 전폭 → 물·걸음 반폭 2열 → 활동 → 운동 → 주간 → 생리.
 export const DEFAULT_CARD_ORDER: CardId[] = ['kcal', 'water', 'steps', 'act', 'ex', 'week', 'period'];
 
+/**
+ * 숨길 수 없는 기본 카드. 전부 숨겨서 홈이 텅 비는 걸 막는다.
+ * 순서는 바꿀 수 있고 숨기기만 제한한다.
+ */
+export const ESSENTIAL_CARDS: CardId[] = ['kcal', 'steps'];
+
 export interface Profile {
   nickname: string;
   birthdayMonth: number | null;
@@ -250,7 +256,8 @@ export const useAppStore = create<AppState>()(
           return { dailyRecords: { ...s.dailyRecords, [dateKey]: { ...rec, periodSymptoms: next } } };
         }),
       setCardOrder: (order) => set({ cardOrder: order }),
-      setCardHidden: (hidden) => set({ cardHidden: hidden }),
+      // 기본 카드는 어떤 경로로 들어와도 숨김 목록에 들어가지 않게 걸러낸다.
+      setCardHidden: (hidden) => set({ cardHidden: hidden.filter((id) => !ESSENTIAL_CARDS.includes(id)) }),
       resetCardOrder: () => set({ cardOrder: [...DEFAULT_CARD_ORDER], cardHidden: [] }),
       setObInfo: (patch) => set((s) => ({ obInfo: { ...s.obInfo, ...patch } })),
       // 선택 배열을 통째로 받으면 리렌더 전에 두 번 누를 때 앞선 선택이 덮어써진다.
@@ -407,8 +414,13 @@ export const useAppStore = create<AppState>()(
       },
       // 이미 저장된 상태에는 기본값 변경이 자동 반영되지 않아 버전별로 옮겨준다.
       migrate: (persisted: unknown, version: number) => {
-        const state = persisted as { profile?: Profile; cardOrder?: CardId[] } | undefined;
+        const state = persisted as { profile?: Profile; cardOrder?: CardId[]; cardHidden?: CardId[] } | undefined;
         if (!state) return state as unknown as AppState;
+
+        // 기본 카드를 숨김 목록에 넣어둔 채로 저장된 상태가 있을 수 있어 걸러낸다.
+        if (state.cardHidden) {
+          state.cardHidden = state.cardHidden.filter((id) => !ESSENTIAL_CARDS.includes(id));
+        }
 
         // v1: 사용자가 직접 바꾼 적 없는 초기 닉네임만 새 기본값으로.
         if (version < 1 && state.profile?.nickname === '피또 친구') {
