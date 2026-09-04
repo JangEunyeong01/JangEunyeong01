@@ -49,6 +49,35 @@ const DESCRIPTIONS: (string | null)[] = [
   null,
 ];
 
+/**
+ * 콘텐츠가 짧은 단계에서 남는 아래 공간을 채우는 피또 한마디.
+ * 화면에 이미 적힌 안내를 되풀이하지 않고 말을 거는 톤으로만 쓴다.
+ * 0단계는 큰 캐릭터가, 8단계는 인사말 옆 얼굴이 이미 있어서 비워둔다.
+ */
+const STEP_COMMENTS: (string | null)[] = [
+  null,
+  '정확할수록 목표를 잘 잡아드릴 수 있어요.',
+  '무리한 목표보다 지킬 수 있는 쪽이 좋아요.',
+  '목표는 나중에 언제든 바꿀 수 있어요.',
+  '알려주시면 추천할 때 조심할게요.',
+  '좋아하는 걸 알면 추천이 즐거워져요.',
+  '한 번만 알려주시면 계속 기억할게요.',
+  '말투는 설정에서 언제든 바꿀 수 있어요.',
+  null,
+];
+
+const DESC_LINE_H = 19;
+
+/**
+ * 헤더가 가장 커지는 경우(단계 라벨 + 제목 두 줄 + 설명 한 줄)의 높이.
+ * 어느 단계든 이만큼을 차지하게 해서 본문 시작 위치를 고정한다.
+ */
+const STEP_LABEL_LINE_H = 16;
+const HEADER_MIN_H = STEP_LABEL_LINE_H + 8 + typography.onboardingTitle.lineHeight * 2 + 10 + DESC_LINE_H;
+
+/** 피또 한마디 블록이 들어갈 최소 여백. 이보다 좁으면 끼워 넣지 않는다. */
+const COMMENT_MIN_ROOM = 120;
+
 /** 범위를 벗어난 첫 항목의 안내 문구를 돌려준다. 다 정상이면 null. */
 function checkRange(info: { age: string; height: string; weight: string }): string | null {
   const checks: { value: string; limit: { min: number; max: number }; label: string; unit: string }[] = [
@@ -81,6 +110,14 @@ export default function OnboardingScreen() {
   const completeOnboarding = useAppStore((s) => s.completeOnboarding);
 
   const [step, setStep] = useState(0);
+
+  // 남는 아래 공간을 재서 피또 한마디를 넣을지 정한다.
+  // 한마디 블록은 측정 대상(headerH+bodyH) 바깥에 그리므로 측정이 자기 자신에 영향받지 않는다.
+  const [scrollH, setScrollH] = useState(0);
+  const [contentH, setContentH] = useState(0);
+  const room = scrollH - contentH;
+  const comment = STEP_COMMENTS[step];
+  const showComment = !!comment && room >= COMMENT_MIN_ROOM;
 
   // README 유효성 검사: 통과하지 못하면 토스트를 띄우고 다음 단계로 넘어가지 않는다.
   const validate = (): boolean => {
@@ -149,90 +186,114 @@ export default function OnboardingScreen() {
         <View style={[styles.root, { paddingTop: insets.top + 26, paddingBottom: insets.bottom + 30 }]}>
           <ProgressDots total={TOTAL_STEPS} current={step} />
 
-          <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-            <Text style={[styles.stepLabel, { color: colors.sub }]}>{STEP_LABELS[step]}</Text>
-            <Text style={[typography.onboardingTitle, { color: colors.txt, marginTop: 8 }]}>{TITLES[step]}</Text>
-            {DESCRIPTIONS[step] && (
-              <Text style={[styles.desc, { color: colors.sub }]}>{DESCRIPTIONS[step]}</Text>
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            onLayout={(e) => setScrollH(e.nativeEvent.layout.height)}
+          >
+            <View onLayout={(e) => setContentH(e.nativeEvent.layout.height)}>
+              {/*
+                제목 줄 수와 설명 유무가 단계마다 달라도 본문은 늘 같은 높이에서 시작한다.
+                남는 자리는 아래가 아니라 위에 두어(flex-end) 제목이 본문에서 떨어지지 않게 한다.
+              */}
+              <View style={styles.header}>
+                <Text style={[styles.stepLabel, { color: colors.txt }]}>{STEP_LABELS[step]}</Text>
+                <Text style={[typography.onboardingTitle, styles.title, { color: colors.txt }]}>{TITLES[step]}</Text>
+                {!!DESCRIPTIONS[step] && (
+                  <Text style={[styles.desc, { color: colors.sub }]}>{DESCRIPTIONS[step]}</Text>
+                )}
+              </View>
+
+              <View style={styles.body}>
+                {step === 1 && <BasicInfoForm value={obInfo} onChange={setObInfo} />}
+
+                {step === 2 &&
+                  ACTIVITY_OPTIONS.map((o) => (
+                    <OptionRow
+                      key={o.label}
+                      title={o.label}
+                      desc={o.desc}
+                      selected={obPick.activity === o.label}
+                      onPress={() => setObPick({ activity: o.label })}
+                    />
+                  ))}
+
+                {step === 3 &&
+                  GOAL_OPTIONS.map((o) => (
+                    <OptionRow
+                      key={o.label}
+                      title={o.label}
+                      desc={o.desc}
+                      selected={obPick.goal === o.label}
+                      onPress={() => setObPick({ goal: o.label })}
+                    />
+                  ))}
+
+                {step === 4 && (
+                  <TagPicker
+                    tags={HEALTH_TAGS}
+                    selected={obTags.health}
+                    onToggle={(v) => toggleObTag('health', v)}
+                    onClear={() => clearObTags('health')}
+                    placeholder="기타 질환을 입력하세요"
+                    noneLabel="해당사항 없음"
+                  />
+                )}
+
+                {step === 5 && (
+                  <TagPicker
+                    tags={TASTE_TAGS}
+                    selected={obTags.taste}
+                    onToggle={(v) => toggleObTag('taste', v)}
+                    onClear={() => clearObTags('taste')}
+                    placeholder="다른 종류를 입력하세요"
+                    noneLabel="가리는 것 없음"
+                  />
+                )}
+
+                {step === 6 && (
+                  <TagPicker
+                    tags={AVOID_TAGS}
+                    selected={obTags.avoid}
+                    onToggle={(v) => toggleObTag('avoid', v)}
+                    onClear={() => clearObTags('avoid')}
+                    placeholder="기타 음식을 입력하세요"
+                    noneLabel="해당사항 없음"
+                  />
+                )}
+
+                {step === 7 &&
+                  PERSONA_OPTIONS.map((o) => (
+                    <OptionRow
+                      key={o.key}
+                      title={o.label}
+                      desc={o.desc}
+                      selected={obPick.persona === o.key}
+                      onPress={() => setObPick({ persona: o.key })}
+                    />
+                  ))}
+
+                {step === 8 && <CompleteStep />}
+              </View>
+            </View>
+
+            {/*
+              인트로 캐릭터와 피또 한마디는 남은 높이(room)를 통째로 받아 그 안에서 중앙에 선다.
+              측정 대상 밖에 그려야 자기 크기가 room 계산에 되먹임되지 않는다.
+            */}
+            {step === 0 && room > 0 && (
+              <View style={[styles.centerFill, { height: room }]}>
+                <FittoCharacter current={2} goal={5} size={172} glowSize={210} />
+              </View>
             )}
 
-            <View style={styles.body}>
-              {step === 0 && (
-                <View style={styles.characterWrap}>
-                  <FittoCharacter current={2} goal={5} size={172} glowSize={210} />
-                </View>
-              )}
-
-              {step === 1 && <BasicInfoForm value={obInfo} onChange={setObInfo} />}
-
-              {step === 2 &&
-                ACTIVITY_OPTIONS.map((o) => (
-                  <OptionRow
-                    key={o.label}
-                    title={o.label}
-                    desc={o.desc}
-                    selected={obPick.activity === o.label}
-                    onPress={() => setObPick({ activity: o.label })}
-                  />
-                ))}
-
-              {step === 3 &&
-                GOAL_OPTIONS.map((o) => (
-                  <OptionRow
-                    key={o.label}
-                    title={o.label}
-                    desc={o.desc}
-                    selected={obPick.goal === o.label}
-                    onPress={() => setObPick({ goal: o.label })}
-                  />
-                ))}
-
-              {step === 4 && (
-                <TagPicker
-                  tags={HEALTH_TAGS}
-                  selected={obTags.health}
-                  onToggle={(v) => toggleObTag('health', v)}
-                  onClear={() => clearObTags('health')}
-                  placeholder="기타 질환을 입력하세요"
-                  noneLabel="해당사항 없음"
-                />
-              )}
-
-              {step === 5 && (
-                <TagPicker
-                  tags={TASTE_TAGS}
-                  selected={obTags.taste}
-                  onToggle={(v) => toggleObTag('taste', v)}
-                  onClear={() => clearObTags('taste')}
-                  placeholder="다른 종류를 입력하세요"
-                  noneLabel="가리는 것 없음"
-                />
-              )}
-
-              {step === 6 && (
-                <TagPicker
-                  tags={AVOID_TAGS}
-                  selected={obTags.avoid}
-                  onToggle={(v) => toggleObTag('avoid', v)}
-                  onClear={() => clearObTags('avoid')}
-                  placeholder="기타 음식을 입력하세요"
-                  noneLabel="해당사항 없음"
-                />
-              )}
-
-              {step === 7 &&
-                PERSONA_OPTIONS.map((o) => (
-                  <OptionRow
-                    key={o.key}
-                    title={o.label}
-                    desc={o.desc}
-                    selected={obPick.persona === o.key}
-                    onPress={() => setObPick({ persona: o.key })}
-                  />
-                ))}
-
-              {step === 8 && <CompleteStep />}
-            </View>
+            {showComment && (
+              <View style={[styles.centerFill, { height: room }]}>
+                <FittoCharacter current={3} goal={5} size={56} variant="face" glowSize={68} />
+                <Text style={[styles.commentText, { color: colors.sub }]}>{comment}</Text>
+              </View>
+            )}
           </ScrollView>
 
           <View style={styles.buttonRow}>
@@ -264,17 +325,31 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 20,
   },
-  stepLabel: typography.label,
+  header: {
+    minHeight: HEADER_MIN_H,
+    justifyContent: 'flex-end',
+  },
+  // 진행 상황을 알려주는 유일한 텍스트라 sub 색으로는 너무 흐렸다. 자간과 굵기로 위계를 준다.
+  stepLabel: typography.sectionLabel,
+  title: {
+    marginTop: 8,
+  },
   desc: {
     ...typography.input,
+    lineHeight: DESC_LINE_H,
     marginTop: 10,
   },
   body: {
     marginTop: 20,
   },
-  characterWrap: {
+  commentText: {
+    ...typography.bodySm,
+    textAlign: 'center',
+  },
+  centerFill: {
     alignItems: 'center',
-    marginVertical: 28,
+    justifyContent: 'center',
+    gap: 10,
   },
   buttonRow: {
     flexDirection: 'row',
