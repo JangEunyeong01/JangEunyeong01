@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ScrollView, View, Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
@@ -17,6 +17,8 @@ import BirthdayBanner from './BirthdayBanner';
 import { useAppStore, CardId } from '../../store/useAppStore';
 import { useCardOrderSheetStore } from '../../store/useCardOrderSheetStore';
 import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
+import { useTutorialStore, type TutorialTargetId } from '../../store/useTutorialStore';
+import TutorialOverlay from '../../components/TutorialOverlay';
 import { dateKey, isBirthdayToday } from '../../utils/timeOfDay';
 
 // B 히어로(확정 기본안): 물·걸음만 반폭 2열, 나머지는 전폭.
@@ -45,6 +47,33 @@ export default function HomeScreen() {
   const showSheet = useCardOrderSheetStore((s) => s.show);
   const hideSheet = useCardOrderSheetStore((s) => s.hide);
   const showBirthday = useBirthdayModalStore((s) => s.show);
+  const setTutorialTarget = useTutorialStore((s) => s.setTarget);
+  const startTutorial = useTutorialStore((s) => s.start);
+  const tutorialOpen = useTutorialStore((s) => s.open);
+  const tutorialStep = useTutorialStore((s) => s.step);
+  const tutorialDone = useAppStore((s) => s.tutorialDone);
+  const setTutorialDone = useAppStore((s) => s.setTutorialDone);
+
+  // 튜토리얼 하이라이트 프레임이 가리킬 실제 화면 좌표. onLayout의 좌표는 부모 기준이라
+  // 스크롤 오프셋이 빠지므로 measureInWindow로 절대 좌표를 받는다.
+  const kcalRef = useRef<View>(null);
+  const waterRef = useRef<View>(null);
+  const gridRef = useRef<View>(null);
+
+  const measureTarget = (ref: React.RefObject<View | null>, id: TutorialTargetId) => {
+    ref.current?.measureInWindow((x, y, width, height) => {
+      // 웹에서는 레이아웃 직후 0이 잡히는 경우가 있어 유효한 값일 때만 등록한다.
+      if (width > 0 && height > 0) setTutorialTarget(id, { x, y, width, height });
+    });
+  };
+
+  // 튜토리얼이 열리는 시점의 스크롤 위치 기준으로 다시 재야 프레임이 카드에 정확히 붙는다.
+  useEffect(() => {
+    if (!tutorialOpen) return;
+    measureTarget(kcalRef, 'kcal');
+    measureTarget(waterRef, 'water');
+    measureTarget(gridRef, 'grid');
+  }, [tutorialOpen, tutorialStep]);
 
   // 배너는 생일 당일 내내 떠 있고 몇 번이든 다시 열 수 있다.
   // birthdayShownYear는 올해 축하를 이미 전달했다는 기록으로, 배너 노출을 막지는 않는다.
@@ -58,6 +87,16 @@ export default function HomeScreen() {
   useEffect(() => {
     seedMockToday(dateKey());
   }, []);
+
+  // 온보딩을 막 끝낸 사용자에게 한 번만 보여준다. 이후에는 설정에서 다시 볼 수 있다.
+  useEffect(() => {
+    if (tutorialDone) return;
+    const timer = setTimeout(() => {
+      startTutorial();
+      setTutorialDone(true);
+    }, 600); // 카드 레이아웃 측정이 끝난 뒤 띄운다.
+    return () => clearTimeout(timer);
+  }, [tutorialDone]);
 
   const visibleCards = cardOrder.filter((id) => !cardHidden.includes(id) && (id !== 'period' || periodOn));
   const noExerciseToday = (record?.exercises?.length ?? 0) === 0;
@@ -73,12 +112,24 @@ export default function HomeScreen() {
         {isBirthday && <BirthdayBanner name={profile.nickname} onPress={openBirthday} />}
         <HeroRow />
 
-        <Pressable onLongPress={showSheet} delayLongPress={550} style={styles.grid}>
+        <Pressable
+          onLongPress={showSheet}
+          delayLongPress={550}
+          style={styles.grid}
+          ref={gridRef}
+          onLayout={() => measureTarget(gridRef, 'grid')}
+        >
           {visibleCards.map((id) => {
             const Card = CARD_COMPONENTS[id];
             const half = HALF_WIDTH_CARDS.has(id);
+            const tutorialRef = id === 'kcal' ? kcalRef : id === 'water' ? waterRef : null;
             return (
-              <View key={id} style={half ? styles.slotHalf : styles.slotFull}>
+              <View
+                key={id}
+                style={half ? styles.slotHalf : styles.slotFull}
+                ref={tutorialRef}
+                onLayout={tutorialRef ? () => measureTarget(tutorialRef, id as TutorialTargetId) : undefined}
+              >
                 <Card />
               </View>
             );
@@ -89,6 +140,7 @@ export default function HomeScreen() {
       </ScrollView>
 
       <CardOrderSheet visible={sheetVisible} onClose={hideSheet} />
+      <TutorialOverlay />
     </ScreenBackground>
   );
 }

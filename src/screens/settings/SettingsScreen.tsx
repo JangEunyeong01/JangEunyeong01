@@ -12,6 +12,7 @@ import { useTheme } from '../../theme/useTheme';
 import { useAppStore, ThemeMode } from '../../store/useAppStore';
 import { useCardOrderSheetStore } from '../../store/useCardOrderSheetStore';
 import { useBirthdayModalStore } from '../../store/useBirthdayModalStore';
+import { useTutorialStore } from '../../store/useTutorialStore';
 import { useToastStore } from '../../store/useToastStore';
 import { PERSONA_OPTIONS } from '../onboarding/onboardingData';
 
@@ -38,6 +39,7 @@ export default function SettingsScreen() {
 
   const showCardOrderSheet = useCardOrderSheetStore((s) => s.show);
   const showBirthdayModal = useBirthdayModalStore((s) => s.show);
+  const startTutorial = useTutorialStore((s) => s.start);
   const showToast = useToastStore((s) => s.show);
 
   const personaDesc = PERSONA_OPTIONS.find((p) => p.key === persona)?.desc ?? '';
@@ -106,7 +108,11 @@ export default function SettingsScreen() {
           <NavRow
             label="튜토리얼 다시 보기"
             actionLabel="실행"
-            onPress={() => showToast('다음 단계에서 구현될 화면이에요')}
+            onPress={() => {
+              // 튜토리얼은 홈 카드를 가리키므로 홈으로 보낸 뒤 띄운다.
+              navigation.navigate('Home');
+              startTutorial();
+            }}
             colors={colors}
           />
           <Divider colors={colors} />
