@@ -171,7 +171,7 @@ export const timeSlots: Record<TimeSlot, { color: string; name: string; greeting
  * 숫자가 바뀔 때 자릿수가 흔들리지 않게 고정폭 숫자를 쓴다.
  * `as const`로 두면 readonly라 StyleSheet에 넣을 수 없어서 타입을 명시한다.
  */
-const TABULAR: TextStyle['fontVariant'] = ['tabular-nums'];
+export const tabularNums: TextStyle['fontVariant'] = ['tabular-nums'];
 
 /**
  * 텍스트 역할표. 화면에서 fontSize를 직접 쓰지 말고 여기서 골라 쓴다.
@@ -187,8 +187,8 @@ export const typography = {
   onboardingTitle: { fontSize: 25, fontWeight: '700' as const, letterSpacing: -0.7, lineHeight: 25 * 1.32 },
 
   // 수치. 카드별 크기는 README가 정해두어 각 화면에서 fontSize만 덮어쓴다.
-  bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: TABULAR },
-  midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: TABULAR },
+  bigNumber: { fontSize: 27, fontWeight: '700' as const, letterSpacing: -1.05, fontVariant: tabularNums },
+  midNumber: { fontSize: 23, fontWeight: '700' as const, letterSpacing: -0.9, fontVariant: tabularNums },
 
   /** 홈 카드 제목 (README 12.5/700). */
   cardTitle: { fontSize: 12.5, fontWeight: '700' as const },

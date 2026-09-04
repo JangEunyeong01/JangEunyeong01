@@ -23,7 +23,19 @@ export default function CompleteStep() {
   });
 
   const name = obInfo.name.trim() || '피또 친구';
+
+  // 위 카드의 목표 칼로리·BMR이 어떤 값에서 나왔는지 보여준다.
+  // 입력 원본이 아니라 calculateGoals가 실제로 쓴 값이라, 비워뒀거나 범위를 벗어나
+  // 기본값·잘린 값으로 계산됐을 때도 화면 숫자와 어긋나지 않는다.
+  const body = [
+    obInfo.gender,
+    `${result.age}세`,
+    `${result.height}cm`,
+    `${result.weight}kg`,
+  ].filter(Boolean).join(' · ');
+
   const summaryRows = [
+    { label: '신체 정보', values: [body], empty: '' },
     { label: '건강 상태', values: obTags.health, empty: '해당사항 없음' },
     { label: '식단 취향', values: obTags.taste, empty: '가리지 않음' },
     { label: '제외 음식', values: obTags.avoid, empty: '없음' },

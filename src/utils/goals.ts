@@ -56,7 +56,13 @@ export interface GoalResult {
   tdee: number;
   kcal: number;
   water: number;
+  /**
+   * 계산에 실제로 쓰인 값들. 빈 입력은 기본값으로, 범위를 벗어난 값은 잘린 뒤라
+   * 화면에 근거를 보여줄 때 입력 원본이 아니라 이쪽을 써야 숫자와 어긋나지 않는다.
+   */
   weight: number;
+  age: number;
+  height: number;
 }
 
 function num(value: string | number, fallback: number): number {
@@ -84,5 +90,5 @@ export function calculateGoals(input: GoalInput): GoalResult {
   const rawWater = Math.round((weight * 33) / 50) * 50;
   const water = clamp(rawWater, WATER_GOAL_LIMITS.min, WATER_GOAL_LIMITS.max);
 
-  return { bmr, tdee, kcal, water, weight };
+  return { bmr, tdee, kcal, water, weight, age, height };
 }

@@ -5,7 +5,7 @@ import ScreenBackground from '../../components/ScreenBackground';
 import FittoCharacter from '../../components/FittoCharacter';
 import PrimaryButton from '../../components/PrimaryButton';
 import OptionRow from './OptionRow';
-import ProgressDots from './ProgressDots';
+import OnboardingProgress from './OnboardingProgress';
 import TagPicker from './TagPicker';
 import BasicInfoForm from './BasicInfoForm';
 import CompleteStep from './CompleteStep';
@@ -75,8 +75,15 @@ const DESC_LINE_H = 19;
 const STEP_LABEL_LINE_H = 16;
 const HEADER_MIN_H = STEP_LABEL_LINE_H + 8 + typography.onboardingTitle.lineHeight * 2 + 10 + DESC_LINE_H;
 
-/** 피또 한마디 블록이 들어갈 최소 여백. 이보다 좁으면 끼워 넣지 않는다. */
-const COMMENT_MIN_ROOM = 120;
+const COMMENT_FACE_SIZE = 56;
+const COMMENT_GAP = 10;
+/** 얼굴 + 간격 + 한 줄. 임계값을 눈대중 상수로 두면 상단 높이가 조금만 바뀌어도 경계에서 깜빡인다. */
+const COMMENT_BLOCK_H = COMMENT_FACE_SIZE + COMMENT_GAP + 17;
+/** 위아래로 숨 쉴 자리까지 나오는 단계에만 끼워 넣는다. */
+const COMMENT_MIN_ROOM = COMMENT_BLOCK_H + 16;
+
+/** STEP_LABELS가 번호를 붙이는 단계 수. 첫 인트로와 마지막 완료 화면은 번호가 없다. */
+const NUMBERED_STEPS = TOTAL_STEPS - 2;
 
 /** 범위를 벗어난 첫 항목의 안내 문구를 돌려준다. 다 정상이면 null. */
 function checkRange(info: { age: string; height: string; weight: string }): string | null {
@@ -111,11 +118,14 @@ export default function OnboardingScreen() {
 
   const [step, setStep] = useState(0);
 
-  // 남는 아래 공간을 재서 피또 한마디를 넣을지 정한다.
-  // 한마디 블록은 측정 대상(headerH+bodyH) 바깥에 그리므로 측정이 자기 자신에 영향받지 않는다.
+  /**
+   * 헤더+본문이 쓰고 남은 아래 공간(room)을 재서 인트로 캐릭터와 피또 한마디를 앉힌다.
+   * 두 블록은 측정 대상 바깥에 그리므로 자기 크기가 측정에 되먹임되지 않는다.
+   */
   const [scrollH, setScrollH] = useState(0);
-  const [contentH, setContentH] = useState(0);
-  const room = scrollH - contentH;
+  // 어느 단계를 잰 값인지 함께 들고 있어야, 측정 전 한 프레임에 이전 단계 높이로 잘못 그리지 않는다.
+  const [measured, setMeasured] = useState({ step: -1, height: 0 });
+  const room = measured.step === step ? scrollH - measured.height : 0;
   const comment = STEP_COMMENTS[step];
   const showComment = !!comment && room >= COMMENT_MIN_ROOM;
 
@@ -184,7 +194,11 @@ export default function OnboardingScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={[styles.root, { paddingTop: insets.top + 26, paddingBottom: insets.bottom + 30 }]}>
-          <ProgressDots total={TOTAL_STEPS} current={step} />
+          <OnboardingProgress
+            progress={(step + 1) / TOTAL_STEPS}
+            stepNumber={step >= 1 && step <= NUMBERED_STEPS ? step : undefined}
+            stepTotal={NUMBERED_STEPS}
+          />
 
           <ScrollView
             style={styles.scroll}
@@ -192,7 +206,12 @@ export default function OnboardingScreen() {
             showsVerticalScrollIndicator={false}
             onLayout={(e) => setScrollH(e.nativeEvent.layout.height)}
           >
-            <View onLayout={(e) => setContentH(e.nativeEvent.layout.height)}>
+            {/*
+              key로 단계마다 새로 마운트시킨다. onLayout은 높이가 "바뀔 때"만 불리는데
+              5·6단계처럼 콘텐츠 높이가 우연히 같으면 측정이 갱신되지 않기 때문이다.
+              (ref.measure()로도 되지만 그쪽은 rAF에 걸려 화면이 멈춘 동안 값이 늦게 온다.)
+            */}
+            <View key={step} onLayout={(e) => setMeasured({ step, height: e.nativeEvent.layout.height })}>
               {/*
                 제목 줄 수와 설명 유무가 단계마다 달라도 본문은 늘 같은 높이에서 시작한다.
                 남는 자리는 아래가 아니라 위에 두어(flex-end) 제목이 본문에서 떨어지지 않게 한다.
@@ -290,7 +309,7 @@ export default function OnboardingScreen() {
 
             {showComment && (
               <View style={[styles.centerFill, { height: room }]}>
-                <FittoCharacter current={3} goal={5} size={56} variant="face" glowSize={68} />
+                <FittoCharacter current={3} goal={5} size={COMMENT_FACE_SIZE} variant="face" glowSize={68} />
                 <Text style={[styles.commentText, { color: colors.sub }]}>{comment}</Text>
               </View>
             )}
@@ -349,7 +368,7 @@ const styles = StyleSheet.create({
   centerFill: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
+    gap: COMMENT_GAP,
   },
   buttonRow: {
     flexDirection: 'row',
