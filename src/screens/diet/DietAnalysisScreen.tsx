@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
+import Badge from '../../components/Badge';
 import DetailHeader from '../detail/DetailHeader';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, semantic, typography } from '../../theme/tokens';
@@ -71,12 +72,11 @@ export default function DietAnalysisScreen() {
                   <View style={styles.macroHeader}>
                     <Text style={[styles.macroLabel, { color: colors.txt }]}>{r.label}</Text>
                     <Text style={[styles.macroRec, { color: colors.sub }]}>권장 {r.rec}%</Text>
-                    <View style={[styles.diffBadge, { backgroundColor: alpha(statusColor[status], 0.2) }]}>
-                      <Text style={[styles.diffText, { color: colors.txt }]}>
-                        {diff > 0 ? '+' : ''}
-                        {diff}%p
-                      </Text>
-                    </View>
+                    <Badge
+                      label={`${diff > 0 ? '+' : ''}${diff}%p`}
+                      color={alpha(statusColor[status], 0.2)}
+                      textColor={colors.txt}
+                    />
                     <Text style={[styles.macroCurrent, { color: colors.txt }]}>{r.current}%</Text>
                   </View>
                   <View style={[styles.ratioTrack, { backgroundColor: colors.ink }]}>
@@ -198,12 +198,6 @@ const styles = StyleSheet.create({
     ...typography.caption,
     flex: 1,
   },
-  diffBadge: {
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-    borderRadius: 7,
-  },
-  diffText: typography.badge,
   macroCurrent: {
     ...typography.value,
     minWidth: 34,

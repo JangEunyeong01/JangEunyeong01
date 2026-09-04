@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
 import { brand, typography } from '../../theme/tokens';
 import { calcNutrition, getNutritionComment, type RecipeLine } from '../../data/ingredients';
@@ -22,9 +23,7 @@ export default function NutritionCard({ lines }: NutritionCardProps) {
     <GlassCard style={styles.card}>
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: colors.txt }]}>영양 분석</Text>
-        <View style={[styles.badge, { backgroundColor: colors.ink }]}>
-          <Text style={[styles.badgeText, { color: colors.sub }]}>룰 기반 · API 연동 예정</Text>
-        </View>
+        <Badge label="룰 기반 · API 연동 예정" />
       </View>
 
       <Text style={[styles.totalKcal, { color: colors.txt }]}>
@@ -70,12 +69,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: typography.sectionTitle,
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 8,
-  },
-  badgeText: typography.micro,
   totalKcal: {
     fontSize: 28,
     fontWeight: '700',

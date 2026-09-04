@@ -6,8 +6,9 @@ import ScreenBackground from '../../components/ScreenBackground';
 import DetailHeader from '../detail/DetailHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import FittoCharacter from '../../components/FittoCharacter';
+import SelectChip from '../../components/SelectChip';
 import { useTheme } from '../../theme/useTheme';
-import { radius, selection, typography } from '../../theme/tokens';
+import { selection, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
 import { personaCopy, waterStageNames } from '../../copy/persona';
 import { dateKey } from '../../utils/timeOfDay';
@@ -66,7 +67,6 @@ export default function NotificationsScreen() {
               value={alarms.waterEvery}
               onChange={(v) => setAlarms({ waterEvery: v })}
               suffix="시간마다"
-              colors={colors}
             />
           )}
         </GlassCard>
@@ -83,7 +83,6 @@ export default function NotificationsScreen() {
               value={alarms.moveAfter}
               onChange={(v) => setAlarms({ moveAfter: v })}
               suffix="분 이상 앉아 있으면"
-              colors={colors}
             />
           )}
         </GlassCard>
@@ -173,31 +172,23 @@ function ChipRow({
   value,
   onChange,
   suffix,
-  colors,
 }: {
   options: number[];
   value: number;
   onChange: (v: number) => void;
   suffix: string;
-  colors: any;
 }) {
   return (
     <View style={styles.chipWrap}>
-      {options.map((n) => {
-        const on = n === value;
-        return (
-          <Pressable
-            key={n}
-            onPress={() => onChange(n)}
-            style={[styles.chip, { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line }]}
-          >
-            <Text style={[styles.chipLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>
-              {n}
-              {suffix}
-            </Text>
-          </Pressable>
-        );
-      })}
+      {options.map((n) => (
+        <SelectChip
+          key={n}
+          label={`${n}${suffix}`}
+          selected={n === value}
+          onPress={() => onChange(n)}
+          size="sm"
+        />
+      ))}
     </View>
   );
 }
@@ -264,13 +255,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 12,
   },
-  chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-  },
-  chipLabel: typography.bodySm,
   quietRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',

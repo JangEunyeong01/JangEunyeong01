@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
+import SelectChip from '../../components/SelectChip';
 import DetailHeader from '../detail/DetailHeader';
 import NutritionCard from './NutritionCard';
 import { useTheme } from '../../theme/useTheme';
@@ -148,21 +149,15 @@ export default function RecipeScreen() {
         <GlassCard style={styles.card}>
           <Text style={[styles.cardTitle, { color: colors.txt }]}>재료 선택</Text>
           <View style={styles.chipWrap}>
-            {allIngredients.map((ing) => {
-              const on = picked === ing.name;
-              return (
-                <Pressable
-                  key={ing.name}
-                  onPress={() => setPicked(on ? null : ing.name)}
-                  style={[
-                    styles.chip,
-                    { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line },
-                  ]}
-                >
-                  <Text style={[styles.chipLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{ing.name}</Text>
-                </Pressable>
-              );
-            })}
+            {allIngredients.map((ing) => (
+              <SelectChip
+                key={ing.name}
+                label={ing.name}
+                selected={picked === ing.name}
+                onPress={() => setPicked(picked === ing.name ? null : ing.name)}
+                size="sm"
+              />
+            ))}
           </View>
 
           <View style={styles.addRow}>
@@ -322,13 +317,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 12,
   },
-  chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-  },
-  chipLabel: typography.bodySm,
   addRow: {
     flexDirection: 'row',
     gap: 8,

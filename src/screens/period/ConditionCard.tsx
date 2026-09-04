@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import SelectChip from '../../components/SelectChip';
 import { useTheme } from '../../theme/useTheme';
-import { radius, selection, typography } from '../../theme/tokens';
+import { typography } from '../../theme/tokens';
 import { useAppStore, type DailyRecord } from '../../store/useAppStore';
 
 const CONDITIONS: { value: NonNullable<DailyRecord['periodCondition']>; label: string }[] = [
@@ -37,37 +38,28 @@ export default function ConditionCard({ dateKey, label }: ConditionCardProps) {
         {CONDITIONS.map((c) => {
           const on = condition === c.value;
           return (
-            <Pressable
+            <SelectChip
               key={c.value}
+              label={c.label}
+              selected={on}
               onPress={() => setDayCondition(dateKey, on ? undefined : c.value)}
-              style={[
-                styles.conditionBtn,
-                { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line },
-              ]}
-            >
-              <Text style={[styles.conditionLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{c.label}</Text>
-            </Pressable>
+              size="lg"
+              fill
+            />
           );
         })}
       </View>
 
       <Text style={[styles.sectionLabel, { color: colors.sub }]}>증상</Text>
       <View style={styles.symptomWrap}>
-        {SYMPTOMS.map((s) => {
-          const on = symptoms.includes(s);
-          return (
-            <Pressable
-              key={s}
-              onPress={() => toggleDaySymptom(dateKey, s)}
-              style={[
-                styles.symptomChip,
-                { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line },
-              ]}
-            >
-              <Text style={[styles.symptomLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{s}</Text>
-            </Pressable>
-          );
-        })}
+        {SYMPTOMS.map((s) => (
+          <SelectChip
+            key={s}
+            label={s}
+            selected={symptoms.includes(s)}
+            onPress={() => toggleDaySymptom(dateKey, s)}
+          />
+        ))}
       </View>
 
       <View style={[styles.memoBlock, { backgroundColor: colors.card2 }]}>
@@ -93,15 +85,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 12,
   },
-  conditionBtn: {
-    flex: 1,
-    height: 42,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  conditionLabel: typography.input,
   sectionLabel: {
     ...typography.label,
     marginTop: 16,
@@ -112,13 +95,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
   },
-  symptomChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-  },
-  symptomLabel: typography.bodySm,
   memoBlock: {
     borderRadius: 15,
     padding: 12,

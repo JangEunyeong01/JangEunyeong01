@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
+import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, typography } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
@@ -61,9 +62,7 @@ export default function HealthScreen() {
         <GlassCard style={styles.card}>
           <View style={styles.headerRow}>
             <Text style={[styles.cardTitle, { color: colors.txt }]}>오늘의 퍼스널 트레이닝</Text>
-            <View style={[styles.badge, { backgroundColor: colors.ink }]}>
-              <Text style={[styles.badgeText, { color: colors.sub }]}>룰 기반</Text>
-            </View>
+            <Badge label="룰 기반" />
           </View>
           <Text style={[styles.comment, { color: colors.txt }]}>{trainingComment}</Text>
 
@@ -169,12 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 8,
-  },
-  badgeText: typography.badge,
   statRow: {
     flexDirection: 'row',
     marginTop: 14,

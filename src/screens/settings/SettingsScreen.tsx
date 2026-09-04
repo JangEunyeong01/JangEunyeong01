@@ -7,6 +7,7 @@ import { BlurView } from 'expo-blur';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import ToggleSwitch from '../../components/ToggleSwitch';
+import Badge from '../../components/Badge';
 import SegmentedControl from '../../components/SegmentedControl';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore, ThemeMode } from '../../store/useAppStore';
@@ -93,9 +94,7 @@ export default function SettingsScreen() {
           {/* README: 글씨 크기 조절은 V2 예정 기능이라 지금은 눌러도 반응하지 않는 자리만 잡아둔다. */}
           <View style={styles.row}>
             <Text style={[styles.rowLabel, { color: colors.txt }]}>글씨 크기 조절</Text>
-            <View style={[styles.badge, { backgroundColor: colors.ink }]}>
-              <Text style={[styles.badgeText, { color: colors.sub }]}>V2</Text>
-            </View>
+            <Badge label="V2" />
           </View>
         </GlassCard>
 
@@ -130,9 +129,7 @@ export default function SettingsScreen() {
             <View style={styles.rowTextCol}>
               <View style={styles.rowTitleLine}>
                 <Text style={[styles.rowLabel, { color: colors.txt }]}>생일 축하 메시지</Text>
-                <View style={[styles.badge, { backgroundColor: colors.ink }]}>
-                  <Text style={[styles.badgeText, { color: colors.sub }]}>V2</Text>
-                </View>
+                <Badge label="V2" />
               </View>
               <Text style={[styles.rowDesc, { color: colors.sub }]}>생일 당일 홈에서 피또가 깜짝 축하해요</Text>
             </View>
@@ -200,9 +197,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    letterSpacing: -0.6,
+    ...typography.screenTitle,
     marginBottom: 16,
   },
   card: {
@@ -247,12 +242,6 @@ const styles = StyleSheet.create({
   },
   rowLabel: typography.rowLabel,
   rowAction: typography.unit,
-  badge: {
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-    borderRadius: 7,
-  },
-  badgeText: typography.badge,
   rowTextCol: {
     flex: 1,
     gap: 4,

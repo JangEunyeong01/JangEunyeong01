@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import SelectChip from '../../components/SelectChip';
 import { useTheme } from '../../theme/useTheme';
-import { radius, selection, typography } from '../../theme/tokens';
+import { typography } from '../../theme/tokens';
 import { YearMonth, ymAdd, ymFromIndex, ymIndex, ymRangeLabel } from '../../utils/periodMock';
 
 export type MonthPreset = '1m' | '3m' | '6m' | 'custom';
@@ -56,21 +57,16 @@ export default function PeriodBar({
       </View>
 
       <View style={styles.presetRow}>
-        {PRESETS.map((p) => {
-          const on = p.key === preset;
-          return (
-            <Pressable
-              key={p.key}
-              onPress={() => onPresetChange(p.key)}
-              style={[
-                styles.presetChip,
-                { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line },
-              ]}
-            >
-              <Text style={[styles.presetLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{p.label}</Text>
-            </Pressable>
-          );
-        })}
+        {PRESETS.map((p) => (
+          <SelectChip
+            key={p.key}
+            label={p.label}
+            selected={p.key === preset}
+            onPress={() => onPresetChange(p.key)}
+            size="sm"
+            fill
+          />
+        ))}
       </View>
 
       {preset === 'custom' && (
@@ -162,13 +158,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 14,
   },
-  presetChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-  },
-  presetLabel: typography.bodySm,
   customRow: {
     flexDirection: 'row',
     gap: 16,

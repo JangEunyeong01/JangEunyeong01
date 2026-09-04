@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, Pressable, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, overlay, radius, selection, typography } from '../../theme/tokens';
 import { FOODS, findAllergyHit, type Food } from '../../data/foods';
@@ -115,14 +116,11 @@ export default function FoodSearchSheet() {
                 <View style={styles.rowText}>
                   <View style={styles.nameRow}>
                     <Text style={[styles.name, { color: colors.txt }]}>{food.name}</Text>
-                    <View
-                      style={[
-                        styles.badge,
-                        { backgroundColor: hit ? alpha(brand.peach, 0.28) : alpha(brand.mint, 0.28) },
-                      ]}
-                    >
-                      <Text style={[styles.badgeText, { color: colors.txt }]}>{hit ? hit : '가능'}</Text>
-                    </View>
+                    <Badge
+                      label={hit ? hit : '가능'}
+                      color={hit ? alpha(brand.peach, 0.28) : alpha(brand.mint, 0.28)}
+                      textColor={colors.txt}
+                    />
                   </View>
                   <Text style={[styles.meta, { color: colors.sub }]}>
                     {food.amount}
@@ -246,12 +244,6 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   name: typography.rowLabel,
-  badge: {
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-    borderRadius: 8,
-  },
-  badgeText: typography.badge,
   meta: typography.caption,
   kcal: typography.sectionTitle,
   addBtn: {

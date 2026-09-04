@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
+import SelectChip from '../../components/SelectChip';
 import { useTheme } from '../../theme/useTheme';
-import { radius, selection, typography } from '../../theme/tokens';
+import { typography } from '../../theme/tokens';
 
 const PRESETS = [100, 200, 250, 330, 500];
 
@@ -28,33 +29,18 @@ export default function CupSizeField({ value, onChange }: CupSizeFieldProps) {
     <GlassCard style={styles.card}>
       <Text style={[styles.title, { color: colors.txt }]}>1회 컵 용량</Text>
       <View style={styles.chipRow}>
-        {PRESETS.map((size) => {
-          const on = !showCustom && value === size;
-          return (
-            <Pressable
-              key={size}
-              onPress={() => {
-                setShowCustom(false);
-                onChange(size);
-              }}
-              style={[
-                styles.chip,
-                { backgroundColor: on ? selection.bg : colors.card2, borderColor: on ? selection.border : colors.line },
-              ]}
-            >
-              <Text style={[styles.chipLabel, { color: colors.txt, fontWeight: on ? '700' : '500' }]}>{size}ml</Text>
-            </Pressable>
-          );
-        })}
-        <Pressable
-          onPress={() => setShowCustom(true)}
-          style={[
-            styles.chip,
-            { backgroundColor: showCustom ? selection.bg : colors.card2, borderColor: showCustom ? selection.border : colors.line },
-          ]}
-        >
-          <Text style={[styles.chipLabel, { color: colors.txt, fontWeight: showCustom ? '700' : '500' }]}>직접 입력</Text>
-        </Pressable>
+        {PRESETS.map((size) => (
+          <SelectChip
+            key={size}
+            label={`${size}ml`}
+            selected={!showCustom && value === size}
+            onPress={() => {
+              setShowCustom(false);
+              onChange(size);
+            }}
+          />
+        ))}
+        <SelectChip label="직접 입력" selected={showCustom} onPress={() => setShowCustom(true)} />
       </View>
 
       {showCustom && (
@@ -85,13 +71,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
-  chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: radius.chip,
-    borderWidth: 1,
-  },
-  chipLabel: typography.body,
   customRow: {
     flexDirection: 'row',
     gap: 8,

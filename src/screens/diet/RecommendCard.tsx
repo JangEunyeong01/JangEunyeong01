@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import Badge from '../../components/Badge';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, typography } from '../../theme/tokens';
 import { RECOMMENDED_MEALS, findAllergyHit } from '../../data/foods';
@@ -28,11 +29,12 @@ export default function RecommendCard() {
     <GlassCard style={styles.card}>
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: colors.txt }]}>퍼스널 추천 식단</Text>
-        <View style={[styles.badge, { backgroundColor: alpha(brand.lavender, 0.28) }]}>
-          <Text style={[styles.badgeText, { color: colors.txt }]} numberOfLines={1}>
-            {badge}
-          </Text>
-        </View>
+        <Badge
+          label={badge}
+          color={alpha(brand.lavender, 0.28)}
+          textColor={colors.txt}
+          style={styles.badge}
+        />
       </View>
 
       <View style={styles.list}>
@@ -68,12 +70,8 @@ const styles = StyleSheet.create({
   },
   title: typography.sectionTitle,
   badge: {
-    paddingHorizontal: 9,
-    paddingVertical: 4,
-    borderRadius: 9,
     maxWidth: '55%',
   },
-  badgeText: typography.badge,
   list: {
     marginTop: 12,
     gap: 10,
