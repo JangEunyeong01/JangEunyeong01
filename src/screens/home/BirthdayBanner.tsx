@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { birthday, radius, typography } from '../../theme/tokens';
 
@@ -42,7 +43,7 @@ export default function BirthdayBanner({ name, onPress }: BirthdayBannerProps) {
               피또의 축하 메시지 열어보기
             </Text>
           </View>
-          <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
+          <Icon name="chevronRight" size={17} color={colors.sub} />
         </LinearGradient>
       </BlurView>
     </Pressable>
@@ -81,5 +82,4 @@ const styles = StyleSheet.create({
     ...typography.caption,
     marginTop: 2,
   },
-  chevron: typography.input,
 });

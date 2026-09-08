@@ -5,6 +5,7 @@ import { runOnJS } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import GlassCard from '../../../components/GlassCard';
 import PrimaryButton from '../../../components/PrimaryButton';
+import Icon from '../../../components/Icon';
 import WaterCup from './WaterCup';
 import { useTheme } from '../../../theme/useTheme';
 import { useAppStore } from '../../../store/useAppStore';
@@ -48,8 +49,9 @@ export default function WaterCard() {
           <Text style={[styles.label, { color: colors.sub }]}>물 섭취</Text>
           <View style={styles.topRight}>
             <Text style={[styles.stageName, { color: brand.blue }]}>{stage.name}</Text>
-            <Pressable onPress={() => navigation.navigate('WaterDetail')} hitSlop={6}>
-              <Text style={[styles.detailLink, { color: colors.sub }]}>상세 ›</Text>
+            <Pressable onPress={() => navigation.navigate('WaterDetail')} hitSlop={6} style={styles.detailLink}>
+              <Text style={[styles.detailLabel, { color: colors.sub }]}>상세</Text>
+              <Icon name="chevronRight" size={13} color={colors.sub} />
             </Pressable>
           </View>
         </View>
@@ -91,7 +93,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stageName: typography.label,
-  detailLink: typography.label,
+  detailLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 1,
+  },
+  detailLabel: typography.label,
   dragHint: {
     ...typography.caption,
     marginTop: 4,

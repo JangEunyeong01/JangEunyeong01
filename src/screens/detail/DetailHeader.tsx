@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/useTheme';
-import { typography, weight } from '../../theme/tokens';
+import Icon from '../../components/Icon';
 
 interface DetailHeaderProps {
   title: string;
@@ -23,7 +23,7 @@ export default function DetailHeader({ title }: DetailHeaderProps) {
           style={[styles.backBtn, { borderColor: colors.stroke }]}
         >
           <View style={[styles.backInner, { backgroundColor: colors.card }]}>
-            <Text style={[styles.backIcon, { color: colors.txt }]}>‹</Text>
+            <Icon name="chevronLeft" size={18} color={colors.txt} />
           </View>
         </BlurView>
       </Pressable>
@@ -50,9 +50,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  backIcon: {
-    fontSize: 15,
-    ...weight(600),
   },
 });

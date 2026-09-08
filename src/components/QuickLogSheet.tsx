@@ -12,13 +12,14 @@ import { getWaterStageSpec } from '../utils/health';
 import { waterStageNames } from '../copy/persona';
 import { overlay, typography } from '../theme/tokens';
 import { useFoodSearchStore } from '../store/useFoodSearchStore';
+import Icon, { type IconName } from './Icon';
 
 const ACTIONS = [
-  { key: 'water', label: '물 +250ml', icon: '💧' },
-  { key: 'meal', label: '음식 기록', icon: '🍽️' },
-  { key: 'exercise', label: '운동 기록', icon: '🏃' },
-  { key: 'weight', label: '체중 기록', icon: '⚖️' },
-] as const;
+  { key: 'water', label: '물 +250ml', icon: 'water' },
+  { key: 'meal', label: '음식 기록', icon: 'diet' },
+  { key: 'exercise', label: '운동 기록', icon: 'health' },
+  { key: 'weight', label: '체중 기록', icon: 'weight' },
+] as const satisfies readonly { key: string; label: string; icon: IconName }[];
 
 // README: FAB 탭 → 빠른 기록 시트(물 +250ml / 음식 기록 / 운동 기록 / 체중 기록)
 export default function QuickLogSheet() {
@@ -68,7 +69,9 @@ export default function QuickLogSheet() {
             <Text style={[styles.title, { color: colors.txt }]}>빠른 기록</Text>
             {ACTIONS.map((a) => (
               <Pressable key={a.key} onPress={() => handlePress(a.key)} style={({ pressed }) => [styles.row, { borderColor: colors.line, opacity: pressed ? 0.7 : 1 }]}>
-                <Text style={styles.icon}>{a.icon}</Text>
+                <View style={[styles.iconSlot, { backgroundColor: colors.ink }]}>
+                  <Icon name={a.icon} size={18} color={colors.txt} />
+                </View>
                 <Text style={[styles.rowLabel, { color: colors.txt }]}>{a.label}</Text>
               </Pressable>
             ))}
@@ -126,8 +129,13 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  icon: {
-    fontSize: 18,
+  // 이모지를 쓸 땐 글자라 크기가 제각각이었다. 아이콘은 같은 크기 원 안에 넣어 세로선을 맞춘다.
+  iconSlot: {
+    width: 34,
+    height: 34,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   rowLabel: typography.rowLabel,
 });

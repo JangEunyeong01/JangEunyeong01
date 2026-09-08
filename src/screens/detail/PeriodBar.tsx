@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import SelectChip from '../../components/SelectChip';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { typography } from '../../theme/tokens';
 import { YearMonth, ymAdd, ymFromIndex, ymIndex, ymRangeLabel } from '../../utils/periodMock';
@@ -44,7 +45,7 @@ export default function PeriodBar({
     <GlassCard style={styles.card}>
       <View style={styles.navRow}>
         <Pressable onPress={() => onShift(-1)} style={[styles.navBtn, { borderColor: colors.line }]}>
-          <Text style={[styles.navIcon, { color: colors.txt }]}>‹</Text>
+          <Icon name="chevronLeft" size={16} color={colors.txt} />
         </Pressable>
         <Text style={[styles.label, { color: colors.txt }]}>{ymRangeLabel(start, end)}</Text>
         <Pressable
@@ -52,7 +53,7 @@ export default function PeriodBar({
           disabled={atMax}
           style={[styles.navBtn, { borderColor: colors.line, opacity: atMax ? 0.35 : 1 }]}
         >
-          <Text style={[styles.navIcon, { color: colors.txt }]}>›</Text>
+          <Icon name="chevronRight" size={16} color={colors.txt} />
         </Pressable>
       </View>
 
@@ -117,11 +118,11 @@ function MonthStepper({
       <Text style={[styles.stepperLabel, { color: colors.sub }]}>{label}</Text>
       <View style={styles.stepperRow}>
         <Pressable onPress={() => onChange(ymAdd(value, -1))} style={[styles.stepperBtn, { borderColor: colors.line }]}>
-          <Text style={[styles.navIcon, { color: colors.txt }]}>‹</Text>
+          <Icon name="chevronLeft" size={16} color={colors.txt} />
         </Pressable>
         <Text style={[styles.stepperValue, { color: colors.txt }]}>{value.year}.{String(value.month).padStart(2, '0')}</Text>
         <Pressable onPress={() => onChange(ymAdd(value, 1))} style={[styles.stepperBtn, { borderColor: colors.line }]}>
-          <Text style={[styles.navIcon, { color: colors.txt }]}>›</Text>
+          <Icon name="chevronRight" size={16} color={colors.txt} />
         </Pressable>
       </View>
     </View>
@@ -146,7 +147,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  navIcon: typography.rowLabel,
   label: {
     ...typography.itemTitle,
     minWidth: 140,

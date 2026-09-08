@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
 import Badge from '../../components/Badge';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, typography } from '../../theme/tokens';
 import { RECOMMENDED_MEALS, findAllergyHit } from '../../data/foods';
@@ -9,7 +10,7 @@ import { useAppStore } from '../../store/useAppStore';
 
 /**
  * README: 퍼스널 추천 식단 카드. 배지는 온보딩에서 받은 못 먹는 음식 목록을 그대로 보여준다.
- * 썸네일은 대각 스트라이프 플레이스홀더 — 실제 음식 사진으로 교체 대상.
+ * 썸네일은 아이콘 플레이스홀더 — 실제 음식 사진으로 교체 대상.
  */
 export default function RecommendCard() {
   const { colors } = useTheme();
@@ -40,8 +41,9 @@ export default function RecommendCard() {
       <View style={styles.list}>
         {meals.map((m) => (
           <View key={m.id} style={styles.row}>
+            {/* 실제 음식 사진이 준비되면 이 자리를 Image로 바꾼다. */}
             <View style={[styles.thumb, { backgroundColor: colors.ink, borderColor: colors.line }]}>
-              <Text style={[styles.thumbMark, { color: colors.sub }]}>／／</Text>
+              <Icon name="diet" size={20} color={colors.sub} />
             </View>
             <View style={styles.rowText}>
               <Text style={[styles.name, { color: colors.txt }]}>{m.name}</Text>
@@ -89,7 +91,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  thumbMark: typography.bodySm,
   rowText: {
     flex: 1,
     gap: 2,

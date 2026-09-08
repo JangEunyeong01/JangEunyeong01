@@ -8,6 +8,7 @@ import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import Badge from '../../components/Badge';
+import Icon from '../../components/Icon';
 import SegmentedControl from '../../components/SegmentedControl';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore, ThemeMode } from '../../store/useAppStore';
@@ -66,7 +67,7 @@ export default function SettingsScreen() {
                   {goalSummary || '목표를 설정해 주세요'}
                 </Text>
               </View>
-              <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
+              <Icon name="chevronRight" size={17} color={colors.sub} />
             </View>
           </GlassCard>
         </Pressable>
@@ -180,7 +181,11 @@ function NavRow({
   return (
     <Pressable onPress={onPress} style={styles.row}>
       <Text style={[styles.rowLabel, { color: colors.txt }]}>{label}</Text>
-      <Text style={[styles.rowAction, { color: colors.sub }]}>{actionLabel ?? '›'}</Text>
+      {actionLabel ? (
+        <Text style={[styles.rowAction, { color: colors.sub }]}>{actionLabel}</Text>
+      ) : (
+        <Icon name="chevronRight" size={17} color={colors.sub} />
+      )}
     </Pressable>
   );
 }
@@ -219,9 +224,6 @@ const styles = StyleSheet.create({
   },
   nickname: typography.itemTitle,
   goalSummary: typography.bodySm,
-  chevron: {
-    fontSize: 18,
-  },
   cardTitle: typography.sectionTitle,
   gap10: {
     marginTop: 10,

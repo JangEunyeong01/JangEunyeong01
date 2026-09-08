@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View, Text, Pressable, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Badge from '../../components/Badge';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, overlay, radius, selection, typography } from '../../theme/tokens';
 import { FOODS, findAllergyHit, type Food } from '../../data/foods';
@@ -69,7 +70,7 @@ export default function FoodSearchSheet() {
         <View style={[styles.grabber, { backgroundColor: colors.line }]} />
 
         <View style={[styles.searchRow, { borderColor: colors.stroke, backgroundColor: colors.card }]}>
-          <Text style={styles.searchIcon}>🔍</Text>
+          <Icon name="search" size={17} color={colors.sub} />
           <TextInput
             value={query}
             onChangeText={setQuery}
@@ -79,7 +80,7 @@ export default function FoodSearchSheet() {
           />
           {query.length > 0 && (
             <Pressable onPress={() => setQuery('')} style={[styles.clearBtn, { backgroundColor: colors.ink }]}>
-              <Text style={[styles.clearIcon, { color: colors.sub }]}>✕</Text>
+              <Icon name="close" size={13} color={colors.sub} />
             </Pressable>
           )}
         </View>
@@ -190,7 +191,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     gap: 8,
   },
-  searchIcon: typography.input,
   searchInput: {
     ...typography.input,
     flex: 1,
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clearIcon: typography.caption,
   recentRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',

@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import Badge from '../../components/Badge';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, typography, weight } from '../../theme/tokens';
 import { useAppStore } from '../../store/useAppStore';
@@ -100,7 +101,7 @@ export default function HealthScreen() {
                     {e.minutes}분 · {e.kcal}kcal
                   </Text>
                   <Pressable onPress={() => removeExercise(dateKey(), e.id)} hitSlop={8}>
-                    <Text style={[styles.remove, { color: colors.sub }]}>×</Text>
+                    <Icon name="close" size={15} color={colors.sub} />
                   </Pressable>
                 </View>
               ))}
@@ -125,13 +126,13 @@ export default function HealthScreen() {
             <GlassCard style={styles.card}>
               <View style={styles.periodRow}>
                 <View style={[styles.periodBadge, { backgroundColor: alpha(brand.lavender, 0.28) }]}>
-                  <Text style={styles.periodIcon}>🌙</Text>
+                  <Icon name="moon" size={20} color={colors.txt} />
                 </View>
                 <View style={styles.periodText}>
                   <Text style={[styles.cardTitle, { color: colors.txt }]}>생리 주기 상세</Text>
                   <Text style={[styles.periodSub, { color: colors.sub }]}>캘린더와 컨디션 기록 보기</Text>
                 </View>
-                <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
+                <Icon name="chevronRight" size={17} color={colors.sub} />
               </View>
             </GlassCard>
           </Pressable>
@@ -239,10 +240,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   recordDetail: typography.caption,
-  remove: {
-    fontSize: 16,
-    paddingHorizontal: 4,
-  },
   chipRow: {
     flexDirection: 'row',
     gap: 8,
@@ -270,15 +267,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  periodIcon: {
-    fontSize: 18,
-  },
   periodText: {
     flex: 1,
     gap: 2,
   },
   periodSub: typography.bodySm,
-  chevron: {
-    fontSize: 20,
-  },
 });

@@ -6,6 +6,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { StackActions } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/useTheme';
+import Icon, { type IconName } from '../components/Icon';
 import { useQuickLogSheetStore } from '../store/useQuickLogSheetStore';
 import { primaryButtonShadow, radius, tabBarShadowColor, weight, white } from '../theme/tokens';
 
@@ -14,6 +15,13 @@ const TAB_LABELS: Record<string, string> = {
   Diet: '식단',
   Health: '헬스',
   Settings: '설정',
+};
+
+const TAB_ICONS: Record<string, IconName> = {
+  Home: 'home',
+  Diet: 'diet',
+  Health: 'health',
+  Settings: 'settings',
 };
 
 // README 탭바 B안(기본): 홈 · 식단 — [+FAB] — 헬스 · 설정
@@ -29,6 +37,7 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
     const index = state.routes.findIndex((r) => r.key === route.key);
     const focused = state.index === index;
     const label = TAB_LABELS[route.name] ?? route.name;
+    const icon = TAB_ICONS[route.name];
 
     const onPress = () => {
       const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
@@ -49,12 +58,12 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
       <Pressable key={route.key} onPress={onPress} style={styles.tabItem}>
         {focused ? (
           <LinearGradient colors={primaryGradient} style={styles.tabActiveBg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-            <View style={[styles.dot, { backgroundColor: white }]} />
+            <Icon name={icon} size={19} color={white} strokeWidth={2} />
             <Text style={[styles.label, { color: white }, weight(700)]}>{label}</Text>
           </LinearGradient>
         ) : (
           <View style={styles.tabInactiveBg}>
-            <View style={[styles.dot, { backgroundColor: colors.sub, opacity: 0.5 }]} />
+            <Icon name={icon} size={19} color={colors.sub} />
             <Text style={[styles.label, { color: colors.sub }, weight(500)]}>{label}</Text>
           </View>
         )}
@@ -80,7 +89,7 @@ export default function TabBar({ state, navigation }: BottomTabBarProps) {
       </View>
       <Pressable onPress={showSheet} style={styles.fabWrap} hitSlop={8}>
         <LinearGradient colors={primaryGradient} style={styles.fab} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-          <Text style={styles.fabPlus}>+</Text>
+          <Icon name="plus" size={24} color={white} strokeWidth={2.2} />
         </LinearGradient>
       </Pressable>
     </View>
@@ -134,11 +143,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 3,
   },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
   label: {
     fontSize: 11.5,
   },
@@ -162,11 +166,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 20,
     elevation: 6,
-  },
-  fabPlus: {
-    color: white,
-    fontSize: 26,
-    ...weight(700),
-    lineHeight: 28,
   },
 });

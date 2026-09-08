@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import GlassCard from '../../components/GlassCard';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, typography } from '../../theme/tokens';
 import { getMonthGrid, getDayType, type PeriodSettings } from '../../utils/periodCycle';
@@ -25,13 +26,13 @@ export default function PeriodCalendar({ year, month, onShiftMonth, selected, on
     <GlassCard style={styles.card}>
       <View style={styles.navRow}>
         <Pressable onPress={() => onShiftMonth(-1)} style={[styles.navBtn, { borderColor: colors.line }]}>
-          <Text style={[styles.navIcon, { color: colors.txt }]}>‹</Text>
+          <Icon name="chevronLeft" size={16} color={colors.txt} />
         </Pressable>
         <Text style={[styles.monthLabel, { color: colors.txt }]}>
           {year}년 {month}월
         </Text>
         <Pressable onPress={() => onShiftMonth(1)} style={[styles.navBtn, { borderColor: colors.line }]}>
-          <Text style={[styles.navIcon, { color: colors.txt }]}>›</Text>
+          <Icon name="chevronRight" size={16} color={colors.txt} />
         </Pressable>
       </View>
 
@@ -121,7 +122,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  navIcon: typography.rowLabel,
   monthLabel: {
     ...typography.itemTitle,
     minWidth: 100,

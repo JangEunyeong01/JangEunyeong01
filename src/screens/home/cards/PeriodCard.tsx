@@ -3,8 +3,9 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import GlassCard from '../../../components/GlassCard';
+import Icon from '../../../components/Icon';
 import { useTheme } from '../../../theme/useTheme';
-import { periodBadgeGradient, typography, weight, white } from '../../../theme/tokens';
+import { periodBadgeGradient, typography, white } from '../../../theme/tokens';
 import { useAppStore } from '../../../store/useAppStore';
 import { dateKey } from '../../../utils/timeOfDay';
 import { getCycleDayNumber, getDaysUntilFertile } from '../../../utils/periodCycle';
@@ -35,7 +36,7 @@ export default function PeriodCard() {
             <Text style={[styles.title, { color: colors.txt }]}>생리 주기</Text>
             <Text style={[styles.sub, { color: colors.sub }]}>{subtitle}</Text>
           </View>
-          <Text style={[styles.chevron, { color: colors.sub }]}>›</Text>
+          <Icon name="chevronRight" size={17} color={colors.sub} />
         </View>
       </GlassCard>
     </Pressable>
@@ -65,8 +66,4 @@ const styles = StyleSheet.create({
   },
   title: typography.sectionTitle,
   sub: typography.bodySm,
-  chevron: {
-    fontSize: 20,
-    ...weight(400),
-  },
 });

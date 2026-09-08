@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import TextField from '../../components/TextField';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { alpha, brand, radius, selection, typography, weight } from '../../theme/tokens';
 import { useToastStore } from '../../store/useToastStore';
@@ -98,7 +99,7 @@ export default function TagPicker({ tags, selected, onToggle, onClear, placehold
                 style={[styles.chip, { backgroundColor: selection.bg, borderColor: alpha(brand.blue, 0.7) }]}
               >
                 <Text style={[styles.chipText, { color: colors.txt }]}>{item}</Text>
-                <Text style={[styles.chipX, { color: colors.sub }]}>×</Text>
+                <Icon name="close" size={13} color={colors.sub} />
               </Pressable>
             ))}
           </View>
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chipText: typography.unit,
-  chipX: typography.input,
   noneWrap: {
     // 이 단계를 건너뛰는 유일한 방법이라 글자 높이만큼만 눌리면 안 된다.
     marginTop: 8,

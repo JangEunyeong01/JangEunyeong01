@@ -5,6 +5,7 @@ import ScreenBackground from '../../components/ScreenBackground';
 import GlassCard from '../../components/GlassCard';
 import PrimaryButton from '../../components/PrimaryButton';
 import SelectChip from '../../components/SelectChip';
+import Icon from '../../components/Icon';
 import TextField from '../../components/TextField';
 import DetailHeader from '../detail/DetailHeader';
 import NutritionCard from './NutritionCard';
@@ -231,7 +232,7 @@ export default function RecipeScreen() {
                   <Text style={[styles.lineGram, { color: colors.sub }]}>{l.grams}g</Text>
                   <Text style={[styles.lineKcal, { color: colors.txt }]}>{Math.round((l.kcal100 * l.grams) / 100)}</Text>
                   <Pressable onPress={() => setLines((prev) => prev.filter((_, idx) => idx !== i))} hitSlop={8}>
-                    <Text style={[styles.remove, { color: colors.sub }]}>×</Text>
+                    <Icon name="close" size={15} color={colors.sub} />
                   </Pressable>
                 </View>
               ))}

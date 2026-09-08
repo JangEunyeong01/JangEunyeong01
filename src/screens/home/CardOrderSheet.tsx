@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/useTheme';
 import { useAppStore, CardId, ESSENTIAL_CARDS } from '../../store/useAppStore';
 import PrimaryButton from '../../components/PrimaryButton';
+import Icon from '../../components/Icon';
 import { overlay, typography } from '../../theme/tokens';
 
 interface CardOrderSheetProps {
@@ -64,10 +65,10 @@ export default function CardOrderSheet({ visible, onClose }: CardOrderSheetProps
                 <Text style={[styles.rowLabel, { color: hidden ? colors.sub : colors.txt }]}>{CARD_LABELS[id]}</Text>
                 <View style={styles.rowActions}>
                   <Pressable onPress={() => move(index, -1)} disabled={index === 0} style={styles.iconBtn}>
-                    <Text style={[styles.iconText, { color: index === 0 ? colors.line : colors.txt }]}>↑</Text>
+                    <Icon name="arrowUp" size={16} color={index === 0 ? colors.line : colors.txt} />
                   </Pressable>
                   <Pressable onPress={() => move(index, 1)} disabled={index === cardOrder.length - 1} style={styles.iconBtn}>
-                    <Text style={[styles.iconText, { color: index === cardOrder.length - 1 ? colors.line : colors.txt }]}>↓</Text>
+                    <Icon name="arrowDown" size={16} color={index === cardOrder.length - 1 ? colors.line : colors.txt} />
                   </Pressable>
                   {ESSENTIAL_CARDS.includes(id) ? (
                     <View style={[styles.toggleBtn, styles.essentialBtn, { borderColor: colors.line }]}>
@@ -151,7 +152,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconText: typography.buttonLabel,
   toggleBtn: {
     paddingVertical: 6,
     paddingHorizontal: 10,

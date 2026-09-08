@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
+import Icon from '../../components/Icon';
 import { useTheme } from '../../theme/useTheme';
 import { accentGradient, timeSlots, typography, weight } from '../../theme/tokens';
 import { getTimeSlot } from '../../utils/timeOfDay';
@@ -30,7 +31,7 @@ export default function HomeHeader() {
             style={[styles.settingsBtn, { borderColor: colors.stroke }]}
           >
             <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.card2 }]} />
-            <Text style={styles.settingsIcon}>⚙</Text>
+            <Icon name="settings" size={18} color={colors.txt} />
           </BlurView>
         </Pressable>
       </View>
@@ -78,8 +79,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-  },
-  settingsIcon: {
-    fontSize: 16,
   },
 });
